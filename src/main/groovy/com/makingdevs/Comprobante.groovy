@@ -17,9 +17,6 @@ class Comprobante{
 	Receptor receptor 
 	List<Concepto> conceptos=[] 
 	Impuesto impuesto
-	Complemento complemento
-
-
-
-
+	TimbreFiscalDigital timbreFiscalDigital
+	//Complemento complemento
 }
