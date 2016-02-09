@@ -1,6 +1,6 @@
 package com.makingdevs
 class Concepto{
-	Integer cantidad
+	Float cantidad
 	String unidad
 	String noIdentificacion
 	String descripcion

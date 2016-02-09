@@ -32,12 +32,30 @@ class Main{
         println(it.valorUnitario)
       }
       */
+
       
-      def lecturaXML=new ParseXML()
-      def timbreFiscalDigital=new TimbreFiscalDigital()
+      def parseXML=new ParseXML()
       def comprobante=new Comprobante()
-      comprobante=lecturaXML.readFile("/Users/makingdevs/workspace/lectura_xml/1ORO9612152X9-FAOROABA000000005041.xml")
-      print comprobante.timbreFiscalDigital.uuid
-      //LecturaXML.getFilesXML("/Users/makingdevs/workspace/lectura_xml/")
-    }
+      //comprobante=parseXML.readFile("/Users/makingdevs/workspace/lectura_xml/1ORO9612152X9-FAOROABA000000005041.xml")
+      List<String> filesXML=parseXML.getFilesXML("/Users/makingdevs/workspace/lectura_xml/")
+      List<Comprobante> comprobantes=[]
+      filesXML.each{file->
+        println file
+        comprobantes.add(parseXML.readFile(file))
+      }
+
+      comprobantes.each{
+        println it.fecha
+      }
+      /*
+      comprobante.timbreFiscalDigital.getProperties().each{
+        println it
+      }
+      println "\n"
+
+      comprobante.impuesto.getProperties().each{
+        println it
+      }
+      */
+  }
 }
