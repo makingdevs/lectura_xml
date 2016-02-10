@@ -1,4 +1,4 @@
 package com.makingdevs
 class RegimenFiscal{
-	String regimen
+  String regimen
 }
