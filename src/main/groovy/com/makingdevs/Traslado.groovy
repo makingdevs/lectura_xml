@@ -1,6 +1,6 @@
 package com.makingdevs
 class Traslado{
-	String impuesto
-	Float tasa
-	BigDecimal importe
+  String impuesto
+  Float tasa
+  BigDecimal importe
 }
