@@ -27,6 +27,8 @@ class ParseXML{
     def lugarExpedicion=new Direccion()
     def domicilioFiscal=new Direccion()
     def direccionReceptor=new Direccion()
+    def estadoDeCuentaBancario=new EstadoDeCuentaBancario()
+    def addenda=new Addenda()
 
     def file= new File(path).getText() 
     def xml = new XmlSlurper().parseText(file).declareNamespace(
@@ -63,7 +65,7 @@ class ParseXML{
     }
 
     xml.children().each{nodo->
-      //println ("Informacion: "+nodo.name()+nodo.children()*.name()+"\n")
+      println ("Informacion: "+nodo.name()+nodo.children()*.name()+nodo.children().children()*.name()+"\n")
       if (nodo!=null) {
 
         nodo.attributes().each{atributosNodo->
@@ -212,6 +214,23 @@ class ParseXML{
                       timbreFiscalDigital[atributo]=elemento.getValue()
                     }
                     comprobante.timbreFiscalDigital=timbreFiscalDigital
+                  }
+                }
+              }
+            }
+          }
+
+          if (detalle*.name().join("").equalsIgnoreCase("EstadoDeCuentaBancario")){
+            String atributo
+            detalle*.attributes().each{atributos->             
+              atributos.each{elemento->
+                estadoDeCuentaBancario.getProperties().each{propiedad->
+                  atributo=propiedad.getKey()
+                  if(elemento.getKey().equalsIgnoreCase(propiedad.getKey())){
+                    println elemento.getValue()
+                    estadoDeCuentaBancario[atributo]=elemento.getValue()
+                    addenda.estadoDeCuentaBancario=estadoDeCuentaBancario
+                    comprobante.addenda=addenda
                   }
                 }
               }
