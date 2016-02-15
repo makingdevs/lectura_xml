@@ -16,7 +16,7 @@ class Main{
         " "+factura.total+" "+factura.conceptos.descripcion+
         factura.receptor.nombre
       factura.addenda.estadoDeCuentaBancario.getProperties().each{valor->
-        println valor
+        println valor.getValue()
       }   
     }
 
