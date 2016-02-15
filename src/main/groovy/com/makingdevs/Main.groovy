@@ -15,10 +15,9 @@ class Main{
       println "Factura informacion: "+factura.serie+" "+factura.subTotal+
         " "+factura.total+" "+factura.conceptos.descripcion+
         factura.receptor.nombre
-      factura.addenda.estadoDeCuentaBancario.getProperties().each{valor->
-        println valor.getValue()
-      }   
+         
+      println "Addenda: "+factura.addenda.estadoDeCuentaBancario.movimientoECB.descripcion
     }
-
+    
   }
 }
