@@ -22,4 +22,5 @@ class Comprobante{
   List<Concepto> conceptos=[] 
   Impuesto impuesto
   TimbreFiscalDigital timbreFiscalDigital
+  Addenda addenda
 }
