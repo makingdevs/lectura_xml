@@ -29,6 +29,7 @@ class ParseXML{
     def direccionReceptor=new Direccion()
     def estadoDeCuentaBancario=new EstadoDeCuentaBancario()
     def addenda=new Addenda()
+    
 
     def file= new File(path).getText() 
     def xml = new XmlSlurper().parseText(file).declareNamespace(
@@ -65,7 +66,7 @@ class ParseXML{
     }
 
     xml.children().each{nodo->
-      println ("Informacion: "+nodo.name()+nodo.children()*.name()+nodo.children().children()*.name()+"\n")
+      //println ("Informacion: "+nodo.name()+nodo.children()*.name()+nodo.children().children()*.name()+nodo.children().children().children()*.name()+"\n")
       if (nodo!=null) {
 
         nodo.attributes().each{atributosNodo->
@@ -222,12 +223,12 @@ class ParseXML{
 
           if (detalle*.name().join("").equalsIgnoreCase("EstadoDeCuentaBancario")){
             String atributo
+
             detalle*.attributes().each{atributos->             
               atributos.each{elemento->
                 estadoDeCuentaBancario.getProperties().each{propiedad->
                   atributo=propiedad.getKey()
                   if(elemento.getKey().equalsIgnoreCase(propiedad.getKey())){
-                    println elemento.getValue()
                     estadoDeCuentaBancario[atributo]=elemento.getValue()
                     addenda.estadoDeCuentaBancario=estadoDeCuentaBancario
                     comprobante.addenda=addenda
@@ -235,8 +236,33 @@ class ParseXML{
                 }
               }
             }
+            detalle.children().children()*.attributes().each{atributos->
+              def movimientoECB=new MovimientoECB()
+              atributos.each{elemento->
+                movimientoECB.getProperties().each{propiedad->
+                  atributo=propiedad.getKey()
+                  if(elemento.getKey().equalsIgnoreCase(propiedad.getKey())){
+                    if(atributo.equalsIgnoreCase("importe")){
+                      movimientoECB[atributo]=new BigDecimal(elemento.getValue())
+                    }
+                    else if(atributo.equalsIgnoreCase("saldoInicial")){
+                      movimientoECB[atributo]=new BigDecimal(elemento.getValue())
+                    }
+                    else if(atributo.equalsIgnoreCase("saldoAlCorte")){
+                      movimientoECB[atributo]=new BigDecimal(elemento.getValue())
+                    }
+                    else if(atributo.equalsIgnoreCase("fecha")){
+                      movimientoECB[atributo]=Date.parse( "yyyy-MM-dd", elemento.getValue())
+                    }
+                    else{
+                      movimientoECB[atributo]=elemento.getValue()
+                    }
+                  }
+                }
+              }
+              estadoDeCuentaBancario.movimientoECB.add(movimientoECB)
+            }
           }
-          
           else{}
         }   
       }
