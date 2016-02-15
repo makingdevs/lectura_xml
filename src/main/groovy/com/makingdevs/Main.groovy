@@ -17,6 +17,8 @@ class Main{
         factura.receptor.nombre
          
       println "Addenda: "+factura.addenda.estadoDeCuentaBancario.movimientoECB.descripcion
+
+      print "Traslado: "+factura.impuesto.traslado.impuesto
     }
     
   }
