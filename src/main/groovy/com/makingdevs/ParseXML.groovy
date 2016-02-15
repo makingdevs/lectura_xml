@@ -187,17 +187,25 @@ class ParseXML{
           }
 
           if (detalle*.name().join("")=="Traslados"){
-            //println "Traslados "+detalle*.children()
             String atributo
-            detalle*.attributes().each{atributos->             
+            detalle.children()*.attributes().each{atributos->             
               atributos.each{elemento->
                 traslado.getProperties().each{propiedad->
                   atributo=propiedad.getKey()
                   if(elemento.getKey().equalsIgnoreCase(propiedad.getKey())){
-                    traslado[atributo]=elemento.getValue()
+                    if(atributo.equalsIgnoreCase("tasa")){
+                      traslado[atributo]=new Float(elemento.getValue())
+                    }
+                    else if(atributo.equalsIgnoreCase("importe")){
+                      traslado[atributo]=new BigDecimal(elemento.getValue())
+                    }
+                    else{
+                      traslado[atributo]=elemento.getValue()
+                    }
                   }
                 }
               }
+              comprobante.impuesto.traslado.add(traslado)
             }
           }
 
