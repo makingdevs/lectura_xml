@@ -5,7 +5,7 @@ class Main{
     def parseXML=new ParseXML()
     def comprobante=new Comprobante()
     
-    List<String> filesXML=parseXML.getFilesXML("/Users/makingdevs/workspace/lectura_xml/")
+    List<String> filesXML=parseXML.getFilesXML("C:\\Users\\PhenomII\\Documents\\home_work")
     List<Comprobante> comprobantes=[]
       filesXML.each{file->
         comprobantes.add(parseXML.readFile(file))
@@ -14,7 +14,10 @@ class Main{
     comprobantes.each{factura->
       println "Factura informacion: "+factura.serie+" "+factura.subTotal+
         " "+factura.total+" "+factura.conceptos.descripcion+
-        factura.receptor.nombre    
+        factura.receptor.nombre
+      factura.addenda.estadoDeCuentaBancario.getProperties().each{valor->
+        println valor
+      }   
     }
 
   }
