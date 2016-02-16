@@ -96,7 +96,16 @@ class CreateWorkbook{
                     movimiento.each{descripcion->
                       if(!descripcion.getKey().equalsIgnoreCase("class")){
                         c = r.createCell(cellnum++)
-                        c.setCellValue(descripcion.getValue().toString())
+                        if(descripcion.getKey().equalsIgnoreCase("importe") || 
+                          descripcion.getKey().equalsIgnoreCase("saldoInicial") ||
+                          descripcion.getKey().equalsIgnoreCase("saldoAlCorte")){
+                          c.setCellType(XSSFCell.CELL_TYPE_NUMERIC)
+                          c.setCellValue(descripcion.getValue())
+                        }
+                        else{
+                          c.setCellValue(descripcion.getValue().toString())  
+                        }
+                        
                       }
                     }
                   
