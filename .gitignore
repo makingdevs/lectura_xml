@@ -1,8 +1,8 @@
 .gradle
 build/
 .DS_Store
-.xlsx
-.class
+*.xlsx
+**/.class
 # Ignore Gradle GUI config
 gradle-app.setting
 
