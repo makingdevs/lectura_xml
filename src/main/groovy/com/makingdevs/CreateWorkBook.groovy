@@ -16,10 +16,10 @@ class CreateWorkbook{
     def parseXML=new ParseXML()
     def comprobante=new Comprobante()
 
-    List<String> filesXML=parseXML.getFilesXML("/Users/makingdevs/Downloads/12_Diciembre")
+    List<String> filesXML=parseXML.getFilesXML("/Users/makingdevs/workspace/facturas")
     List<Comprobante> comprobantes=[]
     filesXML.each{f->
-      //comprobantes.add(parseXML.readFile(file))
+      comprobantes.add(parseXML.readFile(f))
       parseXML.readFile(f)
       println f
     }
@@ -29,12 +29,29 @@ class CreateWorkbook{
     comprobantes.each{factura->
       Row r = sheet.createRow(row++)
       if(row==1){
-        factura.getProperties().each{atributo->
-          if(!atributo.getKey().equalsIgnoreCase("class")){
-            Cell c = r.createCell(cellnum++)
-            c.setCellValue(atributo.getKey().toString().capitalize())
-          }
-        }
+        Cell c = r.createCell(cellnum++)
+        c.setCellValue("serie")
+        c = r.createCell(cellnum++)
+        c.setCellValue("fecha")
+        c = r.createCell(cellnum++)
+        c.setCellValue("subtotal")
+        c = r.createCell(cellnum++)
+        c.setCellValue("descuento")
+        c = r.createCell(cellnum++)
+        c.setCellValue("total")
+        c = r.createCell(cellnum++)
+        c.setCellValue("addenda periodo")
+        c = r.createCell(cellnum++)
+        c.setCellValue("sucursal")
+        c = r.createCell(cellnum++)
+        c.setCellValue("numeroCuenta")
+        c = r.createCell(cellnum++)
+        c.setCellValue("nombreCliente")
+        c = r.createCell(cellnum++)
+        c.setCellValue("version")
+        c = r.createCell(cellnum++)
+        c.setCellValue("movimientos")
+        
         cellnum=0
       }
       row=1
@@ -42,38 +59,35 @@ class CreateWorkbook{
 
     comprobantes.each{factura->
       Row r = sheet.createRow(row++)
-      factura.getProperties().each{atributo->
-        if(!atributo.getKey().equalsIgnoreCase("class")){
-          Cell c = r.createCell(cellnum++)
-          if(atributo.getValue()!=null){
-            if(atributo.getKey().equalsIgnoreCase("receptor")){
-              c.setCellValue(atributo.getValue().nombre.toString()) 
-            }
-            else if(atributo.getKey().equalsIgnoreCase("emisor")){
-              c.setCellValue(atributo.getValue().nombre.toString()) 
-            }
-            else if(atributo.getKey().equalsIgnoreCase("timbreFiscalDigital")){
-              c.setCellValue(atributo.getValue().uuid.toString()) 
-            }
-            else if(atributo.getKey().equalsIgnoreCase("impuesto")){
-              c.setCellValue(atributo.getValue().totalImpuestosTrasladado.toString()) 
+      Cell c = r.createCell(cellnum++)
+        c.setCellValue(factura.serie)
+        c = r.createCell(cellnum++)
+        c.setCellValue(factura.fecha.toString())
+        c = r.createCell(cellnum++)
+        c.setCellValue(factura.subTotal)
+        c = r.createCell(cellnum++)
+        c.setCellValue(factura.descuento)
+        c = r.createCell(cellnum++)
+        c.setCellValue(factura.total)
+        
+        factura.addenda.estadoDeCuentaBancario.getProperties().each{detalle->
+          if(!detalle.getKey().equalsIgnoreCase("class")){
+            if(detalle.getKey().equalsIgnoreCase("movimientoECB")){
+              factura.addenda.estadoDeCuentaBancario.movimientoECB.each{movimiento->
+                c = r.createCell(cellnum++)
+                c.setCellValue(movimiento.getProperties().toString())
+              }
             }
             else{
-              c.setCellValue(atributo.getValue().toString())  
-            } 
-          }
-          else{
-            c.setCellValue("")
+              c = r.createCell(cellnum++)
+              c.setCellValue(detalle.getValue().toString())
+            }
           }
         }
-      }
-      cellnum=0
     }
     
     FileOutputStream out = new FileOutputStream(new File("libro_factura.xlsx"))
     workbook.write(out)
     out.close()
-    println("Libro Factura")
-    
   }
 }
