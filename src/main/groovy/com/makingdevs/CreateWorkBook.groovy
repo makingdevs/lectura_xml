@@ -6,7 +6,6 @@ import org.apache.poi.xssf.usermodel.*
 import org.apache.poi.ss.util.*
 import org.apache.poi.ss.usermodel.*
 
-import org.apache.poi.*
 class CreateWorkbook{
   static void main(def args){
     
@@ -30,27 +29,27 @@ class CreateWorkbook{
       Row r = sheet.createRow(row++)
       if(row==1){
         Cell c = r.createCell(cellnum++)
-        c.setCellValue("serie")
+        c.setCellValue("Serie")
         c = r.createCell(cellnum++)
-        c.setCellValue("fecha")
+        c.setCellValue("Fecha")
         c = r.createCell(cellnum++)
-        c.setCellValue("subtotal")
+        c.setCellValue("Subtotal")
         c = r.createCell(cellnum++)
-        c.setCellValue("descuento")
+        c.setCellValue("Descuento")
         c = r.createCell(cellnum++)
-        c.setCellValue("total")
+        c.setCellValue("Total")
         c = r.createCell(cellnum++)
-        c.setCellValue("addenda periodo")
+        c.setCellValue("Addenda periodo")
         c = r.createCell(cellnum++)
-        c.setCellValue("sucursal")
+        c.setCellValue("Sucursal")
         c = r.createCell(cellnum++)
-        c.setCellValue("numeroCuenta")
+        c.setCellValue("NumeroCuenta")
         c = r.createCell(cellnum++)
-        c.setCellValue("nombreCliente")
+        c.setCellValue("NombreCliente")
         c = r.createCell(cellnum++)
-        c.setCellValue("version")
+        c.setCellValue("Version")
         c = r.createCell(cellnum++)
-        c.setCellValue("movimientos")
+        c.setCellValue("Movimientos")
         
         cellnum=0
       }
@@ -73,9 +72,37 @@ class CreateWorkbook{
         factura.addenda.estadoDeCuentaBancario.getProperties().each{detalle->
           if(!detalle.getKey().equalsIgnoreCase("class")){
             if(detalle.getKey().equalsIgnoreCase("movimientoECB")){
-              factura.addenda.estadoDeCuentaBancario.movimientoECB.each{movimiento->
-                c = r.createCell(cellnum++)
-                c.setCellValue(movimiento.getProperties().toString())
+              factura.addenda.estadoDeCuentaBancario.movimientoECB.each{movimientosECB->
+                r = sheet.createRow(row++)
+                c = r.createCell(cellnum)
+                movimientosECB.getProperties().each{movimiento->
+                  if(row==3){
+                    movimiento.each{descripcion->
+                      if(!descripcion.getKey().equalsIgnoreCase("class")){
+                        c = r.createCell(cellnum++)
+                        c.setCellValue(descripcion.getKey().capitalize())
+                      }
+                    }
+                  }
+                }
+              }
+              row=3
+              cellnum=10
+              factura.addenda.estadoDeCuentaBancario.movimientoECB.each{movimientosECB->
+                r = sheet.createRow(row++)
+                c = r.createCell(cellnum)
+                movimientosECB.getProperties().each{movimiento->
+                  
+                    movimiento.each{descripcion->
+                      if(!descripcion.getKey().equalsIgnoreCase("class")){
+                        c = r.createCell(cellnum++)
+                        c.setCellValue(descripcion.getValue().toString())
+                      }
+                    }
+                  
+                  
+                }
+                cellnum=10
               }
             }
             else{
