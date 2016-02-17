@@ -11,7 +11,9 @@ class CreateWorkbook{
     
     XSSFWorkbook workbook = new XSSFWorkbook()
     XSSFSheet sheet=workbook.createSheet("Pagina_1")
-
+    CreationHelper createHelper = workbook.getCreationHelper()
+    CellStyle cellStyle = workbook.createCellStyle()
+    
     def parseXML=new ParseXML()
     def comprobante=new Comprobante()
 
@@ -20,7 +22,6 @@ class CreateWorkbook{
     filesXML.each{f->
       comprobantes.add(parseXML.readFile(f))
       parseXML.readFile(f)
-      println f
     }
     
     int row=0,cellnum=0
@@ -36,6 +37,8 @@ class CreateWorkbook{
         c.setCellValue("Subtotal")
         c = r.createCell(cellnum++)
         c.setCellValue("Descuento")
+        c = r.createCell(cellnum++)
+        c.setCellValue("Impuesto")
         c = r.createCell(cellnum++)
         c.setCellValue("Total")
         c = r.createCell(cellnum++)
@@ -57,15 +60,22 @@ class CreateWorkbook{
     }
 
     comprobantes.each{factura->
+
       Row r = sheet.createRow(row++)
       Cell c = r.createCell(cellnum++)
         c.setCellValue(factura.serie)
         c = r.createCell(cellnum++)
-        c.setCellValue(factura.fecha.toString())
+        
+        cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("dd-MM-YYYY HH:mm"))
+        c.setCellValue(factura.fecha)
+        c.setCellStyle(cellStyle)
+        
         c = r.createCell(cellnum++)
         c.setCellValue(factura.subTotal)
         c = r.createCell(cellnum++)
         c.setCellValue(factura.descuento)
+        c = r.createCell(cellnum++)
+        c.setCellValue(factura.impuesto.totalImpuestosTrasladado)
         c = r.createCell(cellnum++)
         c.setCellValue(factura.total)
         
@@ -87,7 +97,7 @@ class CreateWorkbook{
                 }
               }
               row=3
-              cellnum=10
+              cellnum=11
               factura.addenda.estadoDeCuentaBancario.movimientoECB.each{movimientosECB->
                 r = sheet.createRow(row++)
                 c = r.createCell(cellnum)
@@ -102,6 +112,12 @@ class CreateWorkbook{
                           c.setCellType(XSSFCell.CELL_TYPE_NUMERIC)
                           c.setCellValue(descripcion.getValue())
                         }
+                        else if(descripcion.getKey().equalsIgnoreCase("fecha")){
+                          cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("dd-MM-YYYY HH:mm"))
+                          c.setCellValue(descripcion.getValue())
+                          c.setCellStyle(cellStyle)
+                          
+                        }
                         else{
                           c.setCellValue(descripcion.getValue().toString())  
                         }
@@ -111,7 +127,7 @@ class CreateWorkbook{
                   
                   
                 }
-                cellnum=10
+                cellnum=11
               }
             }
             else{
@@ -122,7 +138,7 @@ class CreateWorkbook{
         }
     }
     
-    FileOutputStream out = new FileOutputStream(new File("libro_factura.xlsx"))
+    FileOutputStream out = new FileOutputStream(new File("libro_factura_movimientos.xlsx"))
     workbook.write(out)
     out.close()
   }
