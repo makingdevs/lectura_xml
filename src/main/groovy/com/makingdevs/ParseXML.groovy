@@ -42,7 +42,7 @@ class ParseXML{
         if(atributoRaiz.getKey().equalsIgnoreCase(propiedadRaiz.getKey())){
           atributo=propiedadRaiz.getKey()
           if(atributo.equalsIgnoreCase("fecha")){
-            comprobante[atributo]=Date.parse( "yyyy-MM-dd", atributoRaiz.getValue())
+            comprobante[atributo]=Date.parse("yyyy-MM-dd'T'HH:mm:ss", atributoRaiz.getValue())
           }
           else if(atributo.equalsIgnoreCase("total")){
             comprobante[atributo]=new BigDecimal(atributoRaiz.getValue())
