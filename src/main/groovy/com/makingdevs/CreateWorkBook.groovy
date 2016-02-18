@@ -105,6 +105,7 @@ class CreateWorkbook{
                     movimiento.each{descripcion->
                       if(!descripcion.getKey().equalsIgnoreCase("class")){
                         c = r.createCell(cellnum++)
+                        c.setCellStyle(headStyle)
                         c.setCellValue(descripcion.getKey().capitalize())
                       }
                     }
