@@ -217,7 +217,7 @@ class ParseXML{
                   atributo=propiedad.getKey()
                   if(elemento.getKey().equalsIgnoreCase(propiedad.getKey())){
                     if(elemento.getKey()=="FechaTimbrado"){
-                      timbreFiscalDigital[atributo]=Date.parse( "yyyy-MM-dd", elemento.getValue())
+                      timbreFiscalDigital[atributo]=Date.parse("yyyy-MM-dd'T'HH:mm:ss", elemento.getValue())
                     }
                     else{
                       timbreFiscalDigital[atributo]=elemento.getValue()
@@ -260,7 +260,7 @@ class ParseXML{
                       movimientoECB[atributo]=new BigDecimal(elemento.getValue())
                     }
                     else if(atributo.equalsIgnoreCase("fecha")){
-                      movimientoECB[atributo]=Date.parse( "yyyy-MM-dd", elemento.getValue())
+                      movimientoECB[atributo]=Date.parse("yyyy-MM-dd'T'HH:mm:ss", elemento.getValue())
                     }
                     else{
                       movimientoECB[atributo]=elemento.getValue()
