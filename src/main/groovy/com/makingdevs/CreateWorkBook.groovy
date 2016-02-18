@@ -12,6 +12,9 @@ class CreateWorkbook{
     invoice.getAllInvoice("/Users/makingdevs/workspace/facturas/12_Diciembre")
     invoice.getAddendaInvoice("/Users/makingdevs/workspace/facturas/11-12-2015_4931730006062697.xml")
   }
+  def detailInvoice(String path){
+    
+  }
 
   def getAddendaInvoice(String path){
     XSSFWorkbook workbook = new XSSFWorkbook()
