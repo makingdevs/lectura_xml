@@ -12,8 +12,12 @@ class CreateWorkbook{
     XSSFWorkbook workbook = new XSSFWorkbook()
     XSSFSheet sheet=workbook.createSheet("Pagina_1")
     CreationHelper createHelper = workbook.getCreationHelper()
-    CellStyle cellStyle = workbook.createCellStyle()
-    
+    XSSFCellStyle dateStyle = workbook.createCellStyle()
+    dateStyle.setDataFormat(createHelper.createDataFormat().getFormat("dd-MM-YYYY HH:mm"))
+    XSSFCellStyle headStyle = workbook.createCellStyle()
+    headStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex())
+    headStyle.setFillPattern(CellStyle.SOLID_FOREGROUND)
+
     def parseXML=new ParseXML()
     def comprobante=new Comprobante()
 
@@ -30,29 +34,40 @@ class CreateWorkbook{
       Row r = sheet.createRow(row++)
       if(row==1){
         Cell c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
         c.setCellValue("Serie")
         c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
         c.setCellValue("Fecha")
         c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
         c.setCellValue("Subtotal")
         c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
         c.setCellValue("Descuento")
         c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
         c.setCellValue("Impuesto")
         c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
         c.setCellValue("Total")
         c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
         c.setCellValue("Addenda periodo")
         c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
         c.setCellValue("Sucursal")
         c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
         c.setCellValue("NumeroCuenta")
         c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
         c.setCellValue("NombreCliente")
+        c.setCellStyle(headStyle)
         c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
         c.setCellValue("Version")
-        c = r.createCell(cellnum++)
-        c.setCellValue("Movimientos")
+        
         
         cellnum=0
       }
@@ -66,9 +81,8 @@ class CreateWorkbook{
         c.setCellValue(factura.serie)
         c = r.createCell(cellnum++)
         
-        cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("dd-MM-YYYY HH:mm"))
         c.setCellValue(factura.fecha)
-        c.setCellStyle(cellStyle)
+        c.setCellStyle(dateStyle)
         
         c = r.createCell(cellnum++)
         c.setCellValue(factura.subTotal)
@@ -83,6 +97,7 @@ class CreateWorkbook{
           if(!detalle.getKey().equalsIgnoreCase("class")){
             if(detalle.getKey().equalsIgnoreCase("movimientoECB")){
               factura.addenda.estadoDeCuentaBancario.movimientoECB.each{movimientosECB->
+                cellnum=0
                 r = sheet.createRow(row++)
                 c = r.createCell(cellnum)
                 movimientosECB.getProperties().each{movimiento->
@@ -97,7 +112,7 @@ class CreateWorkbook{
                 }
               }
               row=3
-              cellnum=11
+              cellnum=0
               factura.addenda.estadoDeCuentaBancario.movimientoECB.each{movimientosECB->
                 r = sheet.createRow(row++)
                 c = r.createCell(cellnum)
@@ -113,9 +128,8 @@ class CreateWorkbook{
                           c.setCellValue(descripcion.getValue())
                         }
                         else if(descripcion.getKey().equalsIgnoreCase("fecha")){
-                          cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("dd-MM-YYYY HH:mm"))
                           c.setCellValue(descripcion.getValue())
-                          c.setCellStyle(cellStyle)
+                          c.setCellStyle(dateStyle)
                           
                         }
                         else{
@@ -127,7 +141,7 @@ class CreateWorkbook{
                   
                   
                 }
-                cellnum=11
+                cellnum=0
               }
             }
             else{
