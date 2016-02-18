@@ -186,13 +186,73 @@ class CreateWorkbook{
     comprobantes.each{factura->
       Row r = sheet.createRow(row++)
       if(row==1){
-        factura.getProperties().each{atributo->
-          if(!atributo.getKey().equalsIgnoreCase("class")){
-            Cell c = r.createCell(cellnum++)
-            c.setCellStyle(headStyle)
-            c.setCellValue(atributo.getKey().toString().capitalize())
-          }
-        }
+        Cell c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
+        c.setCellValue("Fecha")
+        c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
+        c.setCellValue("Subtotal")
+        c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
+        c.setCellValue("Descuento")
+        c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
+        c.setCellValue("Impuesto")
+        c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
+        c.setCellValue("Total")
+        c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
+        c.setCellValue("Emisor")
+        c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
+        c.setCellValue("Receptor")
+        c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
+        c.setCellValue("NoCertificado")
+        c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
+        c.setCellValue("Sello")
+        c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
+        c.setCellValue("Folio")
+        c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
+        c.setCellValue("FormaDePago")
+        c.setCellStyle(headStyle)
+        c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
+        c.setCellValue("Addenda")
+        c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
+        c.setCellValue("LugarExpedicion")
+        c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
+        c.setCellValue("TimbreFiscalDigital")
+        c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
+        c.setCellValue("TipoDeComprobante")
+        c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
+        c.setCellValue("TipoDeCambio")
+        c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
+        c.setCellValue("Serie")
+        c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
+        c.setCellValue("Moneda")
+        c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
+        c.setCellValue("NumCtaPago")
+        c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
+        c.setCellValue("Conceptos")
+        c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
+        c.setCellValue("Certificado")
+        c = r.createCell(cellnum++)
+        c.setCellStyle(headStyle)
+        c.setCellValue("MetodoDePago")
         cellnum=0
       }
       row=1
@@ -200,47 +260,57 @@ class CreateWorkbook{
 
     comprobantes.each{factura->
       Row r = sheet.createRow(row++)
-      factura.getProperties().each{atributo->
-        if(!atributo.getKey().equalsIgnoreCase("class")){
-          Cell c = r.createCell(cellnum++)
-          if(atributo.getValue()!=null){
-            if(atributo.getKey().equalsIgnoreCase("receptor")){
-              c.setCellValue(atributo.getValue().nombre.toString()) 
-            }
-            else if(atributo.getKey().equalsIgnoreCase("emisor")){
-              c.setCellValue(atributo.getValue().nombre.toString()) 
-            }
-            else if(atributo.getKey().equalsIgnoreCase("timbreFiscalDigital")){
-              c.setCellValue(atributo.getValue().uuid.toString()) 
-            }
-            else if(atributo.getKey().equalsIgnoreCase("impuesto")){
-              c.setCellValue(atributo.getValue().totalImpuestosTrasladado.toString()) 
-              c.setCellType(XSSFCell.CELL_TYPE_NUMERIC)
-            }
-            else if(atributo.getKey().equalsIgnoreCase("fecha")){
-              c.setCellValue(atributo.getValue()) 
-              c.setCellStyle(dateStyle)
-            }
-            else if(atributo.getKey().equalsIgnoreCase("descuento") || 
-              atributo.getKey().equalsIgnoreCase("total") ||
-              atributo.getKey().equalsIgnoreCase("subTotal")){
-              c.setCellValue(atributo.getValue()) 
-              c.setCellType(XSSFCell.CELL_TYPE_NUMERIC)
-            }
-            
-                          
-            else{
-              c.setCellValue(atributo.getValue().toString())  
-            } 
-          }
-          else{
-            c.setCellValue("")
-          }
-        }
-      }
+      Cell c = r.createCell(cellnum++)
+      c.setCellStyle(dateStyle)
+      c.setCellValue(factura.fecha)
+      c = r.createCell(cellnum++)
+      c.setCellType(XSSFCell.CELL_TYPE_NUMERIC)
+      c.setCellValue(factura.subTotal)
+      c = r.createCell(cellnum++)
+      c.setCellType(XSSFCell.CELL_TYPE_NUMERIC)
+      c.setCellValue(factura.descuento)
+      c = r.createCell(cellnum++)
+      c.setCellType(XSSFCell.CELL_TYPE_NUMERIC)
+      c.setCellValue(factura.impuesto.totalImpuestosTrasladado)
+      c = r.createCell(cellnum++)
+      c.setCellType(XSSFCell.CELL_TYPE_NUMERIC)
+      c.setCellValue(factura.total)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.emisor.nombre)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.receptor.nombre)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.noCertificado)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.sello)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.folio)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.formaDePago)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.addenda)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.lugarExpedicion)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.timbreFiscalDigital.uuid)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.tipoDeComprobante)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.tipoCambio)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.serie)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.moneda)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.numCtaPago)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.conceptos.toString())
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.certificado)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.metodoDePago)
       cellnum=0
     }
-    
     FileOutputStream out = new FileOutputStream(new File("Libro_Facturas.xlsx"))
     workbook.write(out)
     out.close()
