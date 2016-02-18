@@ -10,7 +10,7 @@ class CreateWorkbook{
   static void main(def args){
     def invoice=new CreateWorkbook()
     invoice.getAllInvoice("/Users/makingdevs/workspace/facturas/12_Diciembre")
-    invoice.getAddendaInvoice("/Users/makingdevs/workspace/facturas")
+    invoice.getAddendaInvoice("/Users/makingdevs/workspace/facturas/11-12-2015_4931730006062697.xml")
   }
 
   def getAddendaInvoice(String path){
@@ -22,16 +22,10 @@ class CreateWorkbook{
     XSSFCellStyle headStyle = workbook.createCellStyle()
     headStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex())
     headStyle.setFillPattern(CellStyle.SOLID_FOREGROUND)
-
+    List<Comprobante> comprobantes=[]
     def parseXML=new ParseXML()
     def comprobante=new Comprobante()
-
-    List<String> filesXML=parseXML.getFilesXML(path)
-    List<Comprobante> comprobantes=[]
-    filesXML.each{f->
-      comprobantes.add(parseXML.readFile(f))
-      parseXML.readFile(f)
-    }
+    comprobantes.add(parseXML.readFile(path))
     
     int row=0,cellnum=0
 
@@ -142,8 +136,6 @@ class CreateWorkbook{
                         
                       }
                     }
-                  
-                  
                 }
                 cellnum=0
               }
@@ -178,7 +170,6 @@ class CreateWorkbook{
     List<Comprobante> comprobantes=[]
     filesXML.each{f->
       comprobantes.add(parseXML.readFile(f))
-      parseXML.readFile(f)
     }
     
     int row=0,cellnum=0
