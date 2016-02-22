@@ -9,9 +9,10 @@ import org.apache.poi.ss.usermodel.*
 class CreateWorkbook{
   static void main(def args){
     def invoice=new CreateWorkbook()
-    invoice.getAllInvoice("/Users/makingdevs/workspace/facturas/12_Diciembre")
-    invoice.getAddendaInvoice("/Users/makingdevs/workspace/facturas/11-12-2015_4931730006062697.xml")
-    invoice.detailInvoice("/Users/makingdevs/workspace/facturas/11-12-2015_4931730006062697.xml")
+    //invoice.getAllInvoice("/Users/makingdevs/workspace/facturas/12_Diciembre")
+    //invoice.getAddendaInvoice("/Users/makingdevs/workspace/facturas/11-12-2015_4931730006062697.xml")
+    // /Users/makingdevs/workspace/facturas/11-12-2015_4931730006062697.xml
+    invoice.detailInvoice("C:\\Users\\PhenomII\\Documents\\home_work\\AOM920820BEA_FAC_FA47b04949-f4a0-4d84-8464-4ded7e4b282e_20151231.xml")
   }
   def detailInvoice(String path){
     XSSFWorkbook workbook = new XSSFWorkbook()
@@ -155,103 +156,166 @@ class CreateWorkbook{
       c.setCellValue(factura.certificado)
       c = r.createCell(cellnum++)
       c.setCellValue(factura.metodoDePago)
+      
+      cellnum=0
+      r = sheet.createRow(row++)
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("Emisor RFC")
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("Nombre")
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("Pais")
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("Municipio")
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("Estado")
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("Codigo Postal")
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("Calle")
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("Regimen")
 
       cellnum=0
-      factura.addenda.estadoDeCuentaBancario.getProperties().each{detalle->
-          if(!detalle.getKey().equalsIgnoreCase("class")){
-            if(detalle.getKey().equalsIgnoreCase("movimientoECB")){
-              factura.addenda.estadoDeCuentaBancario.movimientoECB.each{movimientosECB->
-                cellnum=0
-                r = sheet.createRow(row++)
-                c = r.createCell(cellnum)
-                movimientosECB.getProperties().each{movimiento->
-                  if(row==3){
-                    movimiento.each{descripcion->
-                      if(!descripcion.getKey().equalsIgnoreCase("class")){
-                        c = r.createCell(cellnum++)
-                        c.setCellStyle(headStyle)
-                        c.setCellValue(descripcion.getKey().capitalize())
-                      }
-                    }
-                  }
-                }
-              }
-              row=3
-              cellnum=0
-              factura.addenda.estadoDeCuentaBancario.movimientoECB.each{movimientosECB->
-                r = sheet.createRow(row++)
-                c = r.createCell(cellnum)
-                movimientosECB.getProperties().each{movimiento->
-                  
-                    movimiento.each{descripcion->
-                      if(!descripcion.getKey().equalsIgnoreCase("class")){
-                        c = r.createCell(cellnum++)
-                        if(descripcion.getKey().equalsIgnoreCase("importe") || 
-                          descripcion.getKey().equalsIgnoreCase("saldoInicial") ||
-                          descripcion.getKey().equalsIgnoreCase("saldoAlCorte")){
-                          c.setCellType(XSSFCell.CELL_TYPE_NUMERIC)
-                          c.setCellValue(descripcion.getValue())
-                        }
-                        else if(descripcion.getKey().equalsIgnoreCase("fecha")){
-                          c.setCellValue(descripcion.getValue())
-                          c.setCellStyle(dateStyle)
-                          
-                        }
-                        else{
-                          c.setCellValue(descripcion.getValue().toString())  
-                        }
-                        
-                      }
-                    }
-                }
-                cellnum=0
-              }
-            }
-            else{
-              c = r.createCell(cellnum++)
-              c.setCellValue(detalle.getValue().toString())
-            }
-          }
-        }
+      r = sheet.createRow(row++)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.emisor.rfc)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.emisor.nombre)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.emisor.domicilioFiscal.pais)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.emisor.domicilioFiscal.municipio)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.emisor.domicilioFiscal.estado)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.emisor.domicilioFiscal.codigoPostal)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.emisor.domicilioFiscal.calle)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.emisor.regimen.regimen)
 
+      cellnum=0
+      r = sheet.createRow(row++)
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("Receptor RFC")
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("Nombre")
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("Pais")
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("Municipio")
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("Estado")
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("Codigo Postal")
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("Calle")
+
+      cellnum=0
+      r = sheet.createRow(row++)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.receptor.rfc)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.receptor.nombre)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.receptor.direccionReceptor.pais)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.receptor.direccionReceptor.municipio)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.receptor.direccionReceptor.estado)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.receptor.direccionReceptor.codigoPostal)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.receptor.direccionReceptor.calle)
+      
+      cellnum=0
+      r = sheet.createRow(row++)
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("Cantidad")
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("Unidad")
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("NoIdentificacion")
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("Descripcion")
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("ValorUnitario")
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("Importe")
+
+      factura.conceptos.each{detalle->
         cellnum=0
         r = sheet.createRow(row++)
         c = r.createCell(cellnum++)
-        c.setCellStyle(headStyle)
-        c.setCellValue("Cantidad")
-        c = r.createCell(cellnum++)
-        c.setCellStyle(headStyle)
-        c.setCellValue("Unidad")
-        c = r.createCell(cellnum++)
-        c.setCellStyle(headStyle)
-        c.setCellValue("NoIdentificacion")
-        c = r.createCell(cellnum++)
-        c.setCellStyle(headStyle)
-        c.setCellValue("Descripcion")
-        c = r.createCell(cellnum++)
-        c.setCellStyle(headStyle)
-        c.setCellValue("ValorUnitario")
-        c = r.createCell(cellnum++)
-        c.setCellStyle(headStyle)
-        c.setCellValue("Importe")
 
-        factura.conceptos.each{detalle->
-          cellnum=0
-          r = sheet.createRow(row++)
-          c = r.createCell(cellnum++)
-          
-          c.setCellValue(detalle.cantidad)
-          c = r.createCell(cellnum++)
-          c.setCellValue(detalle.unidad)
-          c = r.createCell(cellnum++)
-          c.setCellValue(detalle.noIdentificacion)
-          c = r.createCell(cellnum++)
-          c.setCellValue(detalle.descripcion)
-          c = r.createCell(cellnum++)
-          c.setCellValue(detalle.valorUnitario)
-          c = r.createCell(cellnum++)
-          c.setCellValue(detalle.importe)
-        }
+        c.setCellValue(detalle.cantidad)
+        c = r.createCell(cellnum++)
+        c.setCellValue(detalle.unidad)
+        c = r.createCell(cellnum++)
+        c.setCellValue(detalle.noIdentificacion)
+        c = r.createCell(cellnum++)
+        c.setCellValue(detalle.descripcion)
+        c = r.createCell(cellnum++)
+        c.setCellValue(detalle.valorUnitario)
+        c = r.createCell(cellnum++)
+        c.setCellValue(detalle.importe)
+      }
+
+      cellnum=0
+      r = sheet.createRow(row++)
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("Total Impuestos Trasladados")
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("Traslado importe")
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("Traslado Tasa")
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("Traslado Impuesto")
+/*
+      cellnum=0
+      r = sheet.createRow(row++)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.receptor.rfc)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.receptor.nombre)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.receptor.direccionReceptor.pais)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.receptor.direccionReceptor.municipio)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.receptor.direccionReceptor.estado)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.receptor.direccionReceptor.codigoPostal)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.receptor.direccionReceptor.calle)
+      */
+
     }
 
     FileOutputStream out = new FileOutputStream(new File("Libro_Factura_Detalle.xlsx"))
