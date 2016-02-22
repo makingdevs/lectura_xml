@@ -1,5 +1,7 @@
 package com.makingdevs.accounting
 
+import com.makingdevs.*
+
 class AccountManager {
   List<File> searchInvoicesInLocation(String location){
     List<File> invoices = []
@@ -7,5 +9,9 @@ class AccountManager {
       if(file.name.endsWith(".xml")) invoices.add(file)
     }
     invoices
+  }
+
+  Comprobante obtainVoucherFromInvoice(File invoice){
+    new Comprobante()
   }
 }
