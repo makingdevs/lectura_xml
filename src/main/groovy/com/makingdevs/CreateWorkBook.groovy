@@ -9,10 +9,9 @@ import org.apache.poi.ss.usermodel.*
 class CreateWorkbook{
   static void main(def args){
     def invoice=new CreateWorkbook()
-    //invoice.getAllInvoice("/Users/makingdevs/workspace/facturas/12_Diciembre")
-    //invoice.getAddendaInvoice("/Users/makingdevs/workspace/facturas/11-12-2015_4931730006062697.xml")
-    // /Users/makingdevs/workspace/facturas/11-12-2015_4931730006062697.xml
-    invoice.detailInvoice("C:\\Users\\PhenomII\\Documents\\home_work\\AOM920820BEA_FAC_FA47b04949-f4a0-4d84-8464-4ded7e4b282e_20151231.xml")
+    invoice.getAllInvoice("/Users/makingdevs/workspace/facturas/12_Diciembre")
+    invoice.getAddendaInvoice("/Users/makingdevs/workspace/facturas/11-12-2015_4931730006062697.xml")
+    invoice.detailInvoice("/Users/makingdevs/workspace/facturas/AOM920820BEA_FAC_FA47b04949-f4a0-4d84-8464-4ded7e4b282e_20151231.xml")
   }
   def detailInvoice(String path){
     XSSFWorkbook workbook = new XSSFWorkbook()
@@ -311,9 +310,43 @@ class CreateWorkbook{
         c.setCellValue(detalle.tasa)
         c = r.createCell(cellnum++)
         c.setCellValue(detalle.impuesto)
-        
       }
-      
+
+      cellnum=0
+      r = sheet.createRow(row++)
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("Fecha timbrado")
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("UUID")
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("No Certificado SAT")
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("Sello CFD")
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("Sello SAT")
+      c = r.createCell(cellnum++)
+      c.setCellStyle(headStyle)
+      c.setCellValue("Version")
+
+      cellnum=0
+      r = sheet.createRow(row++)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.timbreFiscalDigital.fechaTimbrado)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.timbreFiscalDigital.uuid)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.timbreFiscalDigital.noCertificadoSAT)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.timbreFiscalDigital.selloCFD)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.timbreFiscalDigital.selloSAT)
+      c = r.createCell(cellnum++)
+      c.setCellValue(factura.timbreFiscalDigital.version)
 
     }
 
