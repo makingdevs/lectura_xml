@@ -29,76 +29,23 @@ class CreateWorkbook{
     
     int row=0,cellnum=0
 
-    comprobantes.each{factura->
+    def titles = ["Fecha","Subtotal","Descuento","Impuesto",
+    "Total","Emisor","Receptor","NoCertificado","Sello","Folio",
+    "FormaDePago","Addenda","LugarExpedicion","TimbreFiscalDigital",
+    "TipoDeComprobante","TipoDeCambio","Serie","Moneda","NumCtaPago",
+    "Conceptos","Certificado","MetodoDePago"]
+
+
+    comprobantes.each{ factura->
       Row r = sheet.createRow(row++)
       if(row==1){
         Cell c = r.createCell(cellnum++)
-        c.setCellStyle(headStyle)
-        c.setCellValue("Fecha")
-        c = r.createCell(cellnum++)
-        c.setCellStyle(headStyle)
-        c.setCellValue("Subtotal")
-        c = r.createCell(cellnum++)
-        c.setCellStyle(headStyle)
-        c.setCellValue("Descuento")
-        c = r.createCell(cellnum++)
-        c.setCellStyle(headStyle)
-        c.setCellValue("Impuesto")
-        c = r.createCell(cellnum++)
-        c.setCellStyle(headStyle)
-        c.setCellValue("Total")
-        c = r.createCell(cellnum++)
-        c.setCellStyle(headStyle)
-        c.setCellValue("Emisor")
-        c = r.createCell(cellnum++)
-        c.setCellStyle(headStyle)
-        c.setCellValue("Receptor")
-        c = r.createCell(cellnum++)
-        c.setCellStyle(headStyle)
-        c.setCellValue("NoCertificado")
-        c = r.createCell(cellnum++)
-        c.setCellStyle(headStyle)
-        c.setCellValue("Sello")
-        c = r.createCell(cellnum++)
-        c.setCellStyle(headStyle)
-        c.setCellValue("Folio")
-        c = r.createCell(cellnum++)
-        c.setCellStyle(headStyle)
-        c.setCellValue("FormaDePago")
-        c.setCellStyle(headStyle)
-        c = r.createCell(cellnum++)
-        c.setCellStyle(headStyle)
-        c.setCellValue("Addenda")
-        c = r.createCell(cellnum++)
-        c.setCellStyle(headStyle)
-        c.setCellValue("LugarExpedicion")
-        c = r.createCell(cellnum++)
-        c.setCellStyle(headStyle)
-        c.setCellValue("TimbreFiscalDigital")
-        c = r.createCell(cellnum++)
-        c.setCellStyle(headStyle)
-        c.setCellValue("TipoDeComprobante")
-        c = r.createCell(cellnum++)
-        c.setCellStyle(headStyle)
-        c.setCellValue("TipoDeCambio")
-        c = r.createCell(cellnum++)
-        c.setCellStyle(headStyle)
-        c.setCellValue("Serie")
-        c = r.createCell(cellnum++)
-        c.setCellStyle(headStyle)
-        c.setCellValue("Moneda")
-        c = r.createCell(cellnum++)
-        c.setCellStyle(headStyle)
-        c.setCellValue("NumCtaPago")
-        c = r.createCell(cellnum++)
-        c.setCellStyle(headStyle)
-        c.setCellValue("Conceptos")
-        c = r.createCell(cellnum++)
-        c.setCellStyle(headStyle)
-        c.setCellValue("Certificado")
-        c = r.createCell(cellnum++)
-        c.setCellStyle(headStyle)
-        c.setCellValue("MetodoDePago")
+        titles.eachWithIndex { t, i ->
+          c.setCellStyle(headStyle)
+          c.setCellValue(t)
+          c = r.createCell(cellnum + i)
+        }
+        
         cellnum=0
       }
       row=1
