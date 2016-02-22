@@ -297,24 +297,23 @@ class CreateWorkbook{
       c = r.createCell(cellnum++)
       c.setCellStyle(headStyle)
       c.setCellValue("Traslado Impuesto")
-/*
+
       cellnum=0
       r = sheet.createRow(row++)
       c = r.createCell(cellnum++)
-      c.setCellValue(factura.receptor.rfc)
-      c = r.createCell(cellnum++)
-      c.setCellValue(factura.receptor.nombre)
-      c = r.createCell(cellnum++)
-      c.setCellValue(factura.receptor.direccionReceptor.pais)
-      c = r.createCell(cellnum++)
-      c.setCellValue(factura.receptor.direccionReceptor.municipio)
-      c = r.createCell(cellnum++)
-      c.setCellValue(factura.receptor.direccionReceptor.estado)
-      c = r.createCell(cellnum++)
-      c.setCellValue(factura.receptor.direccionReceptor.codigoPostal)
-      c = r.createCell(cellnum++)
-      c.setCellValue(factura.receptor.direccionReceptor.calle)
-      */
+      c.setCellValue(factura.impuesto.totalImpuestosTrasladado)
+      factura.impuesto.traslado.each{detalle->
+        cellnum=1
+        r = sheet.createRow(row++)
+        c = r.createCell(cellnum++)
+        c.setCellValue(detalle.importe)
+        c = r.createCell(cellnum++)
+        c.setCellValue(detalle.tasa)
+        c = r.createCell(cellnum++)
+        c.setCellValue(detalle.impuesto)
+        
+      }
+      
 
     }
 
