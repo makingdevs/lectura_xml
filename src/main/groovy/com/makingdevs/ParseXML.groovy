@@ -5,16 +5,6 @@ import static java.util.Calendar.*
 
 class ParseXML{
 
-  List<String> getFilesXML(String path){
-    List<String> listFiles=[]
-    new File(path).eachFile{file -> 
-      if(file.name.endsWith(".xml")){
-        listFiles.add(file.toString())
-      }
-    }
-    return listFiles
-  }
-
 
   Comprobante readFile(String path){
     def timbreFiscalDigital=new TimbreFiscalDigital()
@@ -29,13 +19,13 @@ class ParseXML{
     def direccionReceptor=new Direccion()
     def estadoDeCuentaBancario=new EstadoDeCuentaBancario()
     def addenda=new Addenda()
-    
 
-    def file= new File(path).getText() 
+
+    def file= new File(path).getText()
     def xml = new XmlSlurper().parseText(file).declareNamespace(
       cfdi:"http://www.sat.gob.mx/cfd/3",
       xsi:"http://www.w3.org/2001/XMLSchema-instance")
-    
+
     xml.attributes().each{atributoRaiz->
       String atributo
       comprobante.getProperties().each{propiedadRaiz->
@@ -57,9 +47,9 @@ class ParseXML{
             comprobante[atributo]=Float.parseFloat(atributoRaiz.getValue())
           }
           else{
-            comprobante[atributo]=atributoRaiz.getValue()  
+            comprobante[atributo]=atributoRaiz.getValue()
           }
-          
+
         }
       }
 
@@ -82,21 +72,21 @@ class ParseXML{
           else if(atributosNodo.getKey().equalsIgnoreCase("rfc") && nodo.name().equalsIgnoreCase("Receptor")){
             receptor.rfc=atributosNodo.getValue()
             comprobante.receptor=receptor
-          } 
+          }
           else if(atributosNodo.getKey().equalsIgnoreCase("nombre") && nodo.name().equalsIgnoreCase("Receptor")){
             receptor.nombre=atributosNodo.getValue()
             comprobante.receptor=receptor
-          } 
+          }
           else if(atributosNodo.getKey().equalsIgnoreCase("totalImpuestosTrasladados") && nodo.name().equalsIgnoreCase("Impuestos")){
             impuesto.totalImpuestosTrasladado=new BigDecimal(atributosNodo.getValue())
             comprobante.impuesto=impuesto
-          } 
+          }
 
         }
         nodo.children().each{detalle->
           if (detalle*.name().join("")=="RegimenFiscal"){
             String atributo
-            detalle*.attributes().each{atributos->             
+            detalle*.attributes().each{atributos->
               atributos.each{elemento->
                 regimenFiscal.getProperties().each{propiedad->
                   atributo=propiedad.getKey()
@@ -107,12 +97,12 @@ class ParseXML{
                   }
                 }
               }
-            } 
+            }
           }
 
           if (detalle*.name().join("")=="ExpedidoEn"){
             String atributo
-            detalle*.attributes().each{atributos->             
+            detalle*.attributes().each{atributos->
               atributos.each{elemento->
                 lugarExpedicion.getProperties().each{propiedad->
                   atributo=propiedad.getKey()
@@ -123,12 +113,12 @@ class ParseXML{
                   }
                 }
               }
-            }   
+            }
           }
 
           if (detalle*.name().join("")=="DomicilioFiscal"){
             String atributo
-            detalle*.attributes().each{atributos->             
+            detalle*.attributes().each{atributos->
               atributos.each{elemento->
                 domicilioFiscal.getProperties().each{propiedad->
                   atributo=propiedad.getKey()
@@ -139,12 +129,12 @@ class ParseXML{
                   }
                 }
               }
-            } 
+            }
           }
 
           if (detalle*.name().join("")=="Domicilio"){
             String atributo
-            detalle*.attributes().each{atributos->             
+            detalle*.attributes().each{atributos->
               atributos.each{elemento->
                 direccionReceptor.getProperties().each{propiedad->
                   atributo=propiedad.getKey()
@@ -161,7 +151,7 @@ class ParseXML{
           if (detalle*.name().join("")=="Concepto"){
             String atributo
             Concepto concepto = new Concepto()
-            detalle*.attributes().each{atributos-> 
+            detalle*.attributes().each{atributos->
               atributos.each{elemento->
                 concepto.getProperties().each{propiedad->
                   atributo=elemento.getKey()
@@ -178,7 +168,7 @@ class ParseXML{
                     else{
                       concepto[atributo]=elemento.getValue()
                     }
-                    
+
                   }
                 }
               }
@@ -188,7 +178,7 @@ class ParseXML{
 
           if (detalle*.name().join("")=="Traslados"){
             String atributo
-            detalle.children()*.attributes().each{atributos->             
+            detalle.children()*.attributes().each{atributos->
               atributos.each{elemento->
                 traslado.getProperties().each{propiedad->
                   atributo=propiedad.getKey()
@@ -211,7 +201,7 @@ class ParseXML{
 
           if (detalle*.name().join("")=="TimbreFiscalDigital"){
             String atributo
-            detalle*.attributes().each{atributos->             
+            detalle*.attributes().each{atributos->
               atributos.each{elemento->
                 timbreFiscalDigital.getProperties().each{propiedad->
                   atributo=propiedad.getKey()
@@ -232,7 +222,7 @@ class ParseXML{
           if (detalle*.name().join("").equalsIgnoreCase("EstadoDeCuentaBancario")){
             String atributo
 
-            detalle*.attributes().each{atributos->             
+            detalle*.attributes().each{atributos->
               atributos.each{elemento->
                 estadoDeCuentaBancario.getProperties().each{propiedad->
                   atributo=propiedad.getKey()
@@ -272,7 +262,7 @@ class ParseXML{
             }
           }
           else{}
-        }   
+        }
       }
     }
     return comprobante
