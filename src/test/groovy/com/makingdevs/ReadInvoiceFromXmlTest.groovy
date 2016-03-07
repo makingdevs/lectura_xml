@@ -18,7 +18,7 @@ class ReadInvoiceFromXmlTest extends GroovyTestCase {
 
   void testWhenReadInvoiceAndObtainVoucher(){
     AccountManager manager = new AccountManager()
-    File invoice = new File("${System.getProperty('user.home')}/workspace/LibroExcel_facturas/src/test/resources/factura.xml")
+    File invoice = new File("${System.getProperty('user.home')}/workspace/prosesu/src/test/resources/factura.xml")
     
 
     Comprobante voucher = manager.obtainVoucherFromInvoice(invoice)
@@ -55,14 +55,14 @@ class ReadInvoiceFromXmlTest extends GroovyTestCase {
 
   void testWhenVoucherHasTransmitter(){
     AccountManager manager = new AccountManager()
-    File invoice = new File("${System.getProperty('user.home')}/workspace/LibroExcel_facturas/src/test/resources/factura.xml")
+    File invoice = new File("${System.getProperty('user.home')}/workspace/prosesu/src/test/resources/factura.xml")
     Emisor emisor = manager.obtainTransmitterFromInvoice(invoice)
     assert emisor
   }
 
   void testWhenVoucherHasReceiver(){
     AccountManager manager = new AccountManager()
-    File invoice = new File("${System.getProperty('user.home')}/workspace/LibroExcel_facturas/src/test/resources/factura.xml")
+    File invoice = new File("${System.getProperty('user.home')}/workspace/prosesu/src/test/resources/factura.xml")
     Receptor receptor = manager.obtainReceiverFromInvoice(invoice)
     assert receptor
   }
@@ -70,21 +70,21 @@ class ReadInvoiceFromXmlTest extends GroovyTestCase {
 
   void testWhenVoucherHasConcepts(){
     AccountManager manager = new AccountManager()
-    File invoice = new File("${System.getProperty('user.home')}/workspace/LibroExcel_facturas/src/test/resources/factura.xml")
+    File invoice = new File("${System.getProperty('user.home')}/workspace/prosesu/src/test/resources/factura.xml")
     List<Concepto> conceptos = manager.obtainConceptsFromInvoice(invoice)
     assert conceptos.size > 0
   }
 
   void testWhenVoucherHasTaxes(){
     AccountManager manager = new AccountManager()
-    File invoice = new File("${System.getProperty('user.home')}/workspace/LibroExcel_facturas/src/test/resources/factura.xml")
+    File invoice = new File("${System.getProperty('user.home')}/workspace/prosesu/src/test/resources/factura.xml")
     Impuesto impuesto = manager.obtainTaxesFromInvoice(invoice)
     assert impuesto
   }
 
   void testWhenVoucherHasDigitalTaxStamp(){
     AccountManager manager = new AccountManager()
-    File invoice = new File("${System.getProperty('user.home')}/workspace/LibroExcel_facturas/src/test/resources/factura.xml")
+    File invoice = new File("${System.getProperty('user.home')}/workspace/prosesu/src/test/resources/factura.xml")
     TimbreFiscalDigital timbreFiscalDigital = manager.obtainDigitalTaxStampFromInvoice(invoice)
     assert timbreFiscalDigital
   }
@@ -99,14 +99,14 @@ class ReadInvoiceFromXmlTest extends GroovyTestCase {
   
   void testWhenVoucherHasNotExchangeRate(){
     AccountManager manager = new AccountManager()
-    File invoice = new File("${System.getProperty('user.home')}/workspace/LibroExcel_facturas/src/test/resources/factura.xml")
+    File invoice = new File("${System.getProperty('user.home')}/workspace/prosesu/src/test/resources/factura.xml")
     Comprobante voucher = manager.obtainVoucherFromInvoice(invoice)
     assert voucher.tipoCambio==null
   }
 
   void testWhenVoucherHasExchangeRate(){
     AccountManager manager = new AccountManager()
-    File invoice = new File("${System.getProperty('user.home')}/workspace/LibroExcel_facturas/src/test/resources/factura.xml")
+    File invoice = new File("${System.getProperty('user.home')}/workspace/prosesu/src/test/resources/factura.xml")
     Comprobante voucher = manager.obtainVoucherFromInvoice(invoice)
     //assert voucher.tipoCambio
   }
