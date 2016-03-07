@@ -1,1 +1,1 @@
-include "services:api","services:core"
+include "services:api","services:core","webservices","web"
