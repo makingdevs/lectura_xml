@@ -1,7 +1,7 @@
 package com.makingdevs
 
 class Concepto{
-  Float cantidad
+  BigDecimal cantidad
   String unidad
   String noIdentificacion
   String descripcion
