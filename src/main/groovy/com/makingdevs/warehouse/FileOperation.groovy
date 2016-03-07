@@ -147,8 +147,8 @@ class FileOperation{
     XSSFCellStyle headStyle = workbook.createCellStyle()
     headStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex())
     headStyle.setFillPattern(CellStyle.SOLID_FOREGROUND)
-    Row r 
-    Cell c
+    Row rowSheet 
+    Cell cellSheet
     Integer row=0,cellnum=0
 
     AccountManager manager = new AccountManager()
@@ -164,46 +164,46 @@ class FileOperation{
     
     files.each{factura->
       if(row==0){
-        r=sheet.createRow(row++)
+        rowSheet=sheet.createRow(row++)
         encabezados.each{titulo->
-          c = r.createCell(cellnum++)
-          c.setCellStyle(headStyle)
-          c.setCellValue(titulo)
+          cellSheet = rowSheet.createCell(cellnum++)
+          cellSheet.setCellStyle(headStyle)
+          cellSheet.setCellValue(titulo)
         }
         cellnum=0
       }
       if(row>=1){
-        r=sheet.createRow(row++)
-        c = r.createCell(cellnum++)
-        c.setCellValue(voucher.serie)
-        c = r.createCell(cellnum++)
+        rowSheet=sheet.createRow(row++)
+        cellSheet = rowSheet.createCell(cellnum++)
+        cellSheet.setCellValue(voucher.serie)
+        cellSheet = rowSheet.createCell(cellnum++)
         
-        c.setCellValue(voucher.fecha)
-        c.setCellStyle(dateStyle)
+        cellSheet.setCellValue(voucher.fecha)
+        cellSheet.setCellStyle(dateStyle)
         
-        c = r.createCell(cellnum++)
-        c.setCellValue(voucher.subTotal)
-        c = r.createCell(cellnum++)
-        c.setCellValue(voucher.descuento)
-        c = r.createCell(cellnum++)
-        c.setCellValue(voucher.impuesto.totalImpuestosTrasladado)
-        c = r.createCell(cellnum++)
-        c.setCellValue(voucher.total)
+        cellSheet = rowSheet.createCell(cellnum++)
+        cellSheet.setCellValue(voucher.subTotal)
+        cellSheet = rowSheet.createCell(cellnum++)
+        cellSheet.setCellValue(voucher.descuento)
+        cellSheet = rowSheet.createCell(cellnum++)
+        cellSheet.setCellValue(voucher.impuesto.totalImpuestosTrasladado)
+        cellSheet = rowSheet.createCell(cellnum++)
+        cellSheet.setCellValue(voucher.total)
         
         voucher.addenda.estadoDeCuentaBancario.getProperties().each{detalle->
           if(!detalle.getKey().equalsIgnoreCase("class")){
             if(detalle.getKey().equalsIgnoreCase("movimientoECB")){
               voucher.addenda.estadoDeCuentaBancario.movimientoECB.each{movimientosECB->
                 cellnum=0
-                r = sheet.createRow(row++)
-                c = r.createCell(cellnum)
+                rowSheet = sheet.createRow(row++)
+                cellSheet = rowSheet.createCell(cellnum)
                 movimientosECB.getProperties().each{movimiento->
                   if(row==3){
                     movimiento.each{descripcion->
                       if(!descripcion.getKey().equalsIgnoreCase("class")){
-                        c = r.createCell(cellnum++)
-                        c.setCellStyle(headStyle)
-                        c.setCellValue(descripcion.getKey().capitalize())
+                        cellSheet = rowSheet.createCell(cellnum++)
+                        cellSheet.setCellStyle(headStyle)
+                        cellSheet.setCellValue(descripcion.getKey().capitalize())
                       }
                     }
                   }
@@ -212,26 +212,26 @@ class FileOperation{
               row=3
               cellnum=0
               voucher.addenda.estadoDeCuentaBancario.movimientoECB.each{movimientosECB->
-                r = sheet.createRow(row++)
-                c = r.createCell(cellnum)
+                rowSheet = sheet.createRow(row++)
+                cellSheet = rowSheet.createCell(cellnum)
                 movimientosECB.getProperties().each{movimiento->
                   
                   movimiento.each{descripcion->
                     if(!descripcion.getKey().equalsIgnoreCase("class")){
-                      c = r.createCell(cellnum++)
+                      cellSheet = rowSheet.createCell(cellnum++)
                       if(descripcion.getKey().equalsIgnoreCase("importe") || 
                         descripcion.getKey().equalsIgnoreCase("saldoInicial") ||
                         descripcion.getKey().equalsIgnoreCase("saldoAlCorte")){
-                        c.setCellType(XSSFCell.CELL_TYPE_NUMERIC)
-                        c.setCellValue(descripcion.getValue())
+                        cellSheet.setCellType(XSSFCell.CELL_TYPE_NUMERIC)
+                        cellSheet.setCellValue(descripcion.getValue())
                       }
                       else if(descripcion.getKey().equalsIgnoreCase("fecha")){
-                        c.setCellValue(descripcion.getValue())
-                        c.setCellStyle(dateStyle)
+                        cellSheet.setCellValue(descripcion.getValue())
+                        cellSheet.setCellStyle(dateStyle)
                         
                       }
                       else{
-                        c.setCellValue(descripcion.getValue().toString())  
+                        cellSheet.setCellValue(descripcion.getValue().toString())  
                       }
                       
                     }
@@ -241,8 +241,8 @@ class FileOperation{
               }
             }
             else{
-              c = r.createCell(cellnum++)
-              c.setCellValue(detalle.getValue().toString())
+              cellSheet = rowSheet.createCell(cellnum++)
+              cellSheet.setCellValue(detalle.getValue().toString())
             }
           }
         }
@@ -466,6 +466,7 @@ class FileOperation{
       cellnum=0
       r = sheet.createRow(row++)
       c = r.createCell(cellnum++)
+      c.setCellStyle(dateStyle)
       c.setCellValue(voucher.timbreFiscalDigital.fechaTimbrado)
       c = r.createCell(cellnum++)
       c.setCellValue(voucher.timbreFiscalDigital.uuid)
