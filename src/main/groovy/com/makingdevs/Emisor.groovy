@@ -1,9 +1,8 @@
 package com.makingdevs
 class Emisor{
-
-	String rfc
-	String nombre
-	Direccion domicilioFiscal
-	Direccion lugarExpedicion
-	RegimenFiscal regimen
+  String rfc
+  String nombre
+  Direccion domicilioFiscal
+  Direccion lugarExpedicion
+  RegimenFiscal regimen
 }
