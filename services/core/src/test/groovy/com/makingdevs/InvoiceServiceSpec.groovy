@@ -16,6 +16,23 @@ class InvoiceServiceSpec extends Specification{
       Comprobante voucher=invoiceServiceImpl.obtainVoucherFromInvoice(invoice)
     then:
       voucher
+      voucher
+      voucher.serie
+      voucher.folio
+      voucher.fecha
+      voucher.formaDePago
+      voucher.subTotal
+      voucher.descuento >= 0
+      voucher.moneda
+      voucher.total
+      voucher.metodoDePago
+      voucher.tipoDeComprobante
+      voucher.lugarExpedicion
+      voucher.numCtaPago
+      voucher.noCertificado
+      voucher.certificado
+      voucher.sello
+      
   }
 
 }
