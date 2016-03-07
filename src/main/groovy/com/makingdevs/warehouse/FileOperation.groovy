@@ -97,59 +97,38 @@ class FileOperation{
         cellnum=0
       } 
       if(row>=1){
-        
-        
+        def atributosEspecificos=getItemsMainInvoice()
+        def atributosComplementarios=getItemsComplementaryInvoice()
         rowSheet=sheet.createRow(row++)
-        cellSheet = rowSheet.createCell(cellnum++)
-        cellSheet.setCellStyle(dateStyle)
-        cellSheet.setCellValue(voucher.fecha)
-        cellSheet = rowSheet.createCell(cellnum++)
-        cellSheet.setCellType(XSSFCell.CELL_TYPE_NUMERIC)
-        cellSheet.setCellValue(voucher.subTotal)
-        cellSheet = rowSheet.createCell(cellnum++)
-        cellSheet.setCellType(XSSFCell.CELL_TYPE_NUMERIC)
-        cellSheet.setCellValue(voucher.descuento)
-        cellSheet = rowSheet.createCell(cellnum++)
-        cellSheet.setCellType(XSSFCell.CELL_TYPE_NUMERIC)
-        cellSheet.setCellValue(voucher.impuesto.totalImpuestosTrasladado)
-        cellSheet = rowSheet.createCell(cellnum++)
-        cellSheet.setCellType(XSSFCell.CELL_TYPE_NUMERIC)
-        cellSheet.setCellValue(voucher.total)
-        cellSheet = rowSheet.createCell(cellnum++)
-        cellSheet.setCellValue(voucher.emisor.nombre)
-        cellSheet = rowSheet.createCell(cellnum++)
-        cellSheet.setCellValue(voucher.receptor.nombre)
-        cellSheet = rowSheet.createCell(cellnum++)
-        cellSheet.setCellValue(voucher.noCertificado)
-        cellSheet = rowSheet.createCell(cellnum++)
-        cellSheet.setCellValue(voucher.sello)
-        cellSheet = rowSheet.createCell(cellnum++)
-        cellSheet.setCellValue(voucher.folio)
-        cellSheet = rowSheet.createCell(cellnum++)
-        cellSheet.setCellValue(voucher.formaDePago)
-        cellSheet = rowSheet.createCell(cellnum++)
-        cellSheet.setCellValue(voucher.addenda.toString())
-        cellSheet = rowSheet.createCell(cellnum++)
-        cellSheet.setCellValue(voucher.lugarExpedicion)
-        cellSheet = rowSheet.createCell(cellnum++)
-        cellSheet.setCellValue(voucher.timbreFiscalDigital.uuid)
-        cellSheet = rowSheet.createCell(cellnum++)
-        cellSheet.setCellValue(voucher.tipoDeComprobante)
-        cellSheet = rowSheet.createCell(cellnum++)
-        cellSheet.setCellValue(voucher.tipoCambio)
-        cellSheet = rowSheet.createCell(cellnum++)
-        cellSheet.setCellValue(voucher.serie)
-        cellSheet = rowSheet.createCell(cellnum++)
-        cellSheet.setCellValue(voucher.moneda)
-        cellSheet = rowSheet.createCell(cellnum++)
-        cellSheet.setCellValue(voucher.numCtaPago)
-        cellSheet = rowSheet.createCell(cellnum++)
-        cellSheet.setCellValue(voucher.conceptos.toString())
-        cellSheet = rowSheet.createCell(cellnum++)
-        cellSheet.setCellValue(voucher.certificado)
-        cellSheet = rowSheet.createCell(cellnum++)
-        cellSheet.setCellValue(voucher.metodoDePago)
-        
+        atributosEspecificos.each{atributoFactura->
+          cellSheet = rowSheet.createCell(cellnum++)
+          if(atributoFactura.equalsIgnoreCase("fecha")){
+            cellSheet.setCellStyle(dateStyle)
+            cellSheet.setCellValue(voucher[atributoFactura])
+          }
+          else if(atributoFactura.equalsIgnoreCase("subTotal")
+            ||atributoFactura.equalsIgnoreCase("descuento")
+            ||atributoFactura.equalsIgnoreCase("total")){
+            cellSheet.setCellType(XSSFCell.CELL_TYPE_NUMERIC)
+            cellSheet.setCellValue(voucher[atributoFactura])
+          }
+          else{
+            cellSheet.setCellValue(voucher[atributoFactura].toString())
+          }
+          
+        }
+
+        atributosComplementarios.each{atributoFactura,valorFactura->
+          if(valorFactura.equalsIgnoreCase("totalImpuestosTrasladado")){
+            cellSheet.setCellType(XSSFCell.CELL_TYPE_NUMERIC)
+            cellSheet.setCellValue(voucher[atributoFactura][valorFactura])
+          }
+          else{
+            cellSheet.setCellValue(voucher[atributoFactura][valorFactura])
+          }
+          
+        }
+                
         cellnum=0
       }
     }
