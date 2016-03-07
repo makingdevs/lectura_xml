@@ -294,9 +294,9 @@ class FileOperation{
       rowSheet = sheet.createRow(row++)
       if(row==1){
         encabezados.each{titulo->
-          Cell c = rowSheet.createCell(cellnum++)
-          c.setCellStyle(headStyle)
-          c.setCellValue(titulo)
+          cellSheet = rowSheet.createCell(cellnum++)
+          cellSheet.setCellStyle(headStyle)
+          cellSheet.setCellValue(titulo)
         }
         cellnum=0
       }
@@ -306,54 +306,54 @@ class FileOperation{
       
       rowSheet = sheet.createRow(row++)
       Cell c = rowSheet.createCell(cellnum++)
-      c.setCellStyle(dateStyle)
-      c.setCellValue(voucher.fecha)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellType(XSSFCell.CELL_TYPE_NUMERIC)
-      c.setCellValue(voucher.subTotal)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellType(XSSFCell.CELL_TYPE_NUMERIC)
-      c.setCellValue(voucher.descuento)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellType(XSSFCell.CELL_TYPE_NUMERIC)
-      c.setCellValue(voucher.impuesto.totalImpuestosTrasladado)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellType(XSSFCell.CELL_TYPE_NUMERIC)
-      c.setCellValue(voucher.total)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.emisor.nombre)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.receptor.nombre)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.noCertificado)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.sello)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.folio)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.formaDePago)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.addenda.toString())
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.lugarExpedicion)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.timbreFiscalDigital.uuid)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.tipoDeComprobante)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.tipoCambio)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.serie)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.moneda)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.numCtaPago)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.conceptos.toString())
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.certificado)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.metodoDePago)
+      cellSheet.setCellStyle(dateStyle)
+      cellSheet.setCellValue(voucher.fecha)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellType(XSSFCell.CELL_TYPE_NUMERIC)
+      cellSheet.setCellValue(voucher.subTotal)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellType(XSSFCell.CELL_TYPE_NUMERIC)
+      cellSheet.setCellValue(voucher.descuento)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellType(XSSFCell.CELL_TYPE_NUMERIC)
+      cellSheet.setCellValue(voucher.impuesto.totalImpuestosTrasladado)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellType(XSSFCell.CELL_TYPE_NUMERIC)
+      cellSheet.setCellValue(voucher.total)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.emisor.nombre)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.receptor.nombre)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.noCertificado)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.sello)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.folio)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.formaDePago)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.addenda.toString())
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.lugarExpedicion)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.timbreFiscalDigital.uuid)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.tipoDeComprobante)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.tipoCambio)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.serie)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.moneda)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.numCtaPago)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.conceptos.toString())
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.certificado)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.metodoDePago)
       cellnum=0
 
       cellnum=0
@@ -361,72 +361,72 @@ class FileOperation{
       def encabecadoEmisor=["Emisor RFC","Nombre","Pais","Municipio",
                               "Estado","Codigo Postal","Calle","Regimen"]
       encabecadoEmisor.each{titulo->
-          c = rowSheet.createCell(cellnum++)
-          c.setCellStyle(headStyle)
-          c.setCellValue(titulo)
+          cellSheet = rowSheet.createCell(cellnum++)
+          cellSheet.setCellStyle(headStyle)
+          cellSheet.setCellValue(titulo)
       }
       
       cellnum=0
       rowSheet = sheet.createRow(row++)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.emisor.rfc)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.emisor.nombre)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.emisor.domicilioFiscal.pais)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.emisor.domicilioFiscal.municipio)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.emisor.domicilioFiscal.estado)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.emisor.domicilioFiscal.codigoPostal)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.emisor.domicilioFiscal.calle)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.emisor.regimen.regimen)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.emisor.rfc)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.emisor.nombre)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.emisor.domicilioFiscal.pais)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.emisor.domicilioFiscal.municipio)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.emisor.domicilioFiscal.estado)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.emisor.domicilioFiscal.codigoPostal)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.emisor.domicilioFiscal.calle)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.emisor.regimen.regimen)
 
       cellnum=0
       rowSheet = sheet.createRow(row++)
       def encabecadoReceptor=["Receptor RFC","Nombre","Pais","Municipio",
                               "Estado","Codigo Postal","Calle"]
       encabecadoReceptor.each{titulo->
-          c = rowSheet.createCell(cellnum++)
-          c.setCellStyle(headStyle)
-          c.setCellValue(titulo)
+          cellSheet = rowSheet.createCell(cellnum++)
+          cellSheet.setCellStyle(headStyle)
+          cellSheet.setCellValue(titulo)
       }
       cellnum=0
       rowSheet = sheet.createRow(row++)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.receptor.rfc)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.receptor.nombre)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.receptor.direccionReceptor.pais)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.receptor.direccionReceptor.municipio)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.receptor.direccionReceptor.estado)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.receptor.direccionReceptor.codigoPostal)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.receptor.direccionReceptor.calle)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.receptor.rfc)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.receptor.nombre)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.receptor.direccionReceptor.pais)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.receptor.direccionReceptor.municipio)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.receptor.direccionReceptor.estado)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.receptor.direccionReceptor.codigoPostal)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.receptor.direccionReceptor.calle)
       
       cellnum=0
       rowSheet = sheet.createRow(row++)
       def detalleAtributos=["cantidad","unidad","noIdentificacion",
                             "descripcion","valorUnitario","importe"]
       detalleAtributos.each{titulo->
-          c = rowSheet.createCell(cellnum++)
-          c.setCellStyle(headStyle)
-          c.setCellValue(titulo.capitalize())
+          cellSheet = rowSheet.createCell(cellnum++)
+          cellSheet.setCellStyle(headStyle)
+          cellSheet.setCellValue(titulo.capitalize())
       }
       
       factura.conceptos.each{detalle->
         cellnum=0
         rowSheet = sheet.createRow(row++)
         detalleAtributos.each{atributo->
-          c = rowSheet.createCell(cellnum++)
-          c.setCellValue(detalle[atributo])
+          cellSheet = rowSheet.createCell(cellnum++)
+          cellSheet.setCellValue(detalle[atributo])
         }
       }
 
@@ -435,9 +435,9 @@ class FileOperation{
       def encabecadoTraslado=["Total Impuestos Trasladados","Traslado importe",
                             "Traslado Tasa","Traslado Impuesto"]
       encabecadoTraslado.each{titulo->
-          c = rowSheet.createCell(cellnum++)
-          c.setCellStyle(headStyle)
-          c.setCellValue(titulo)
+          cellSheet = rowSheet.createCell(cellnum++)
+          cellSheet.setCellStyle(headStyle)
+          cellSheet.setCellValue(titulo)
       }
       
       cellnum=0
@@ -447,12 +447,12 @@ class FileOperation{
       voucher.impuesto.traslado.each{detalle->
         cellnum=1
         rowSheet = sheet.createRow(row++)
-        c = rowSheet.createCell(cellnum++)
-        c.setCellValue(detalle.importe)
-        c = rowSheet.createCell(cellnum++)
-        c.setCellValue(detalle.tasa)
-        c = rowSheet.createCell(cellnum++)
-        c.setCellValue(detalle.impuesto)
+        cellSheet = rowSheet.createCell(cellnum++)
+        cellSheet.setCellValue(detalle.importe)
+        cellSheet = rowSheet.createCell(cellnum++)
+        cellSheet.setCellValue(detalle.tasa)
+        cellSheet = rowSheet.createCell(cellnum++)
+        cellSheet.setCellValue(detalle.impuesto)
       }
 
       cellnum=0
@@ -460,26 +460,26 @@ class FileOperation{
       def encabecadoTimbreFiscal=["Fecha timbrado","UUID","No Certificado SAT",
                               "Sello CFD","Sello SAT","Version"]
       encabecadoTimbreFiscal.each{titulo->
-          c = rowSheet.createCell(cellnum++)
-          c.setCellStyle(headStyle)
-          c.setCellValue(titulo)
+          cellSheet = rowSheet.createCell(cellnum++)
+          cellSheet.setCellStyle(headStyle)
+          cellSheet.setCellValue(titulo)
       }
       
       cellnum=0
       rowSheet = sheet.createRow(row++)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellStyle(dateStyle)
-      c.setCellValue(voucher.timbreFiscalDigital.fechaTimbrado)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.timbreFiscalDigital.uuid)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.timbreFiscalDigital.noCertificadoSAT)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.timbreFiscalDigital.selloCFD)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.timbreFiscalDigital.selloSAT)
-      c = rowSheet.createCell(cellnum++)
-      c.setCellValue(voucher.timbreFiscalDigital.version)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellStyle(dateStyle)
+      cellSheet.setCellValue(voucher.timbreFiscalDigital.fechaTimbrado)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.timbreFiscalDigital.uuid)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.timbreFiscalDigital.noCertificadoSAT)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.timbreFiscalDigital.selloCFD)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.timbreFiscalDigital.selloSAT)
+      cellSheet = rowSheet.createCell(cellnum++)
+      cellSheet.setCellValue(voucher.timbreFiscalDigital.version)
       
     }
 
