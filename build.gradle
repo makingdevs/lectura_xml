@@ -6,11 +6,15 @@ subprojects{
   }
 
   dependencies{
-  	compile 'org.codehaus.groovy:groovy-all:2.4.5'	
+  	compile 'org.codehaus.groovy:groovy-all:2.4.5'
   }
 }
 
 project(":services:api"){
+
+  dependencies{
+    compile 'org.apache.poi:poi-ooxml:3.13'
+  }
 
 }
 
@@ -25,11 +29,11 @@ project(":services:core"){
 }
 
 project(":webservices"){
-  
+
 }
 
 project(":web"){
-  
+
 }
 
 
