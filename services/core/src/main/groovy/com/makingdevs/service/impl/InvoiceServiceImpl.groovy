@@ -106,7 +106,23 @@ class InvoiceServiceImpl implements InvoiceService{
   }
 
   List<Concepto> obtainConceptsFromInvoice(File invoice){
-
+    def voucher= new Comprobante()
+    List<Concepto> conceptos=[]
+    Concepto concepto
+    def xml = new XmlSlurper().parseText(invoice.getText()).declareNamespace(
+      cfdi:"http://www.sat.gob.mx/cfd/3",
+      xsi:"http://www.w3.org/2001/XMLSchema-instance")
+    xml.Conceptos.Concepto.each{atributo->
+      concepto = new Concepto()
+      concepto.cantidad=Float.parseFloat(atributo.@cantidad.toString())
+      concepto.unidad=atributo.@unidad
+      concepto.noIdentificacion=atributo.@noIdentificacion
+      concepto.descripcion=atributo.@descripcion
+      concepto.valorUnitario=new BigDecimal(atributo.@valorUnitario.toString())
+      concepto.importe=new BigDecimal(atributo.@importe.toString()) 
+      conceptos.add(concepto)
+    }
+    conceptos
   }
 
   Impuesto obtainTaxesFromInvoice(File invoice){
