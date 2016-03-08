@@ -9,7 +9,7 @@ import com.makingdevs.TimbreFiscalDigital
 import com.makingdevs.Addenda
 import com.makingdevs.Direccion
 import com.makingdevs.RegimenFiscal
-
+import com.makingdevs.Traslado
 class InvoiceServiceImpl implements InvoiceService{
   Comprobante obtainVoucherFromInvoice(File invoice){
     def voucher= new Comprobante()
@@ -126,7 +126,25 @@ class InvoiceServiceImpl implements InvoiceService{
   }
 
   Impuesto obtainTaxesFromInvoice(File invoice){
-
+    def voucher= new Comprobante()
+    def impuesto = new Impuesto()
+    Traslado traslado
+    def xml = new XmlSlurper().parseText(invoice.getText()).declareNamespace(
+      cfdi:"http://www.sat.gob.mx/cfd/3",
+      xsi:"http://www.w3.org/2001/XMLSchema-instance")
+    xml.Impuestos.each{atributo->
+      impuesto.totalImpuestosTrasladado=new BigDecimal(atributo.@totalImpuestosTrasladados.toString())
+      voucher.impuesto=impuesto
+    }
+    xml.Impuestos.Traslados.Traslado.each{atributo->
+      traslado=new Traslado()
+      traslado.impuesto=atributo.@impuesto
+      traslado.tasa=Float.parseFloat(atributo.@tasa.toString())
+      traslado.importe=new BigDecimal(atributo.@importe.toString())
+      impuesto.traslado.add(traslado)
+      voucher.impuesto=impuesto
+    }
+    impuesto
   }
 
   TimbreFiscalDigital obtainDigitalTaxStampFromInvoice(File invoice){
