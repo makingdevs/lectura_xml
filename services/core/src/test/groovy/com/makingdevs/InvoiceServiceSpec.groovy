@@ -81,5 +81,16 @@ class InvoiceServiceSpec extends Specification{
       TimbreFiscalDigital timbreFiscalDigital=invoiceServiceImpl.obtainDigitalTaxStampFromInvoice(invoice)
     then:
       timbreFiscalDigital
+      timbreFiscalDigital.uuid=="4004340f-e1ea-4df6-9c97-30d701b01b47"
+  }
+
+  Should "Get addenda from voucher" (){
+    given:
+      File invoice = new File(this.class.classLoader.getResource("factura-addenda.xml").getFile())
+    when:
+      Addenda addenda=invoiceServiceImpl.obtainAddendaFromInvoice(invoice)
+    then:
+      addenda
+      addenda.estadoDeCuentaBancario.periodo =="DEL 2015/11/13 AL 2015/12/13"
   }
 }
