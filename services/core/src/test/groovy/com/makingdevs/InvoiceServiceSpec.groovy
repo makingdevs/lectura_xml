@@ -53,4 +53,13 @@ class InvoiceServiceSpec extends Specification{
       receptor
       receptor.direccionReceptor.calle=="CALZADA ERMITA IZTAPALAPA"
   }
+
+  Should "Get conceptos from voucher" (){
+    given:
+      File invoice = new File(this.class.classLoader.getResource("factura.xml").getFile())
+    when:
+      List<Concepto> conceptos=invoiceServiceImpl.obtainConceptsFromInvoice(invoice)
+    then:
+      conceptos.size > 0
+  }
 }
