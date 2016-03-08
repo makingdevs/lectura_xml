@@ -92,7 +92,6 @@ class ReadInvoiceFromXmlTest extends GroovyTestCase {
   void testWhenVoucherHasAddenda(){
     AccountManager manager = new AccountManager()
     File invoice = new File("${System.getProperty('user.home')}/workspace/facturas/11-12-2015_4931730006062697.xml")
-    
     Addenda addenda = manager.obtainAddendaFromInvoice(invoice)
     assert addenda
   }
