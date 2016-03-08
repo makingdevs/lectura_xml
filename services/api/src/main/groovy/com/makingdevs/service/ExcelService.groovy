@@ -1,15 +1,13 @@
 package com.makingdevs.service
 
-import org.apache.poi.xssf.usermodel.*
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import com.makingdevs.Comprobante
 
 interface ExcelService{
 
-  XSSFWorkbook generateFileExcel()
+  XSSFWorkbook generateExcelWorkbookWithInvoiceDetail(Comprobante invoice)
 
   XSSFWorkbook generateFileExcelWithAllInvoices(List<Comprobante> invoices)
-
-  XSSFWorkbook generateFileExcelWithAddendaInvoice(Comprobante invoice)
 
   XSSFWorkbook generateFileExcelWithDetailInvoice(Comprobante invoice)
 

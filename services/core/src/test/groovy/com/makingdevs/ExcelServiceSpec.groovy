@@ -10,7 +10,7 @@ import com.makingdevs.RegimenFiscal
 import com.makingdevs.service.impl.ExcelServiceImpl
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
-class ExcelserviceSpec extends Specification{
+class ExcelServiceSpec extends Specification{
 
   ExcelServiceImpl excelServiceImpl
 
@@ -54,7 +54,7 @@ class ExcelserviceSpec extends Specification{
                                     fecha:new Date(),
                                     formaDePago:"En una sola exhibición",
                                     subTotal:new BigDecimal(10),
-                                    total:new BigDecimal(11.6)
+                                    total:new BigDecimal(11.6),
                                     metodoDePago:"Tarjeta de Crédito",
                                     tipoDeComprobante:"Ingreso",
                                     lugarExpedicion:"Lugar 1",
@@ -65,7 +65,7 @@ class ExcelserviceSpec extends Specification{
                                     emisor:emisor,
                                     receptor:receptor)
     when:
-      XSSFWorkbook excelWorkbook = excelServiceImpl.generateExcelWorkbookWithInvoiceDetail(comprobante)
+      XSSFWorkbook excelWorkbook = excelServiceImpl.generateExcelWorkbookWithInvoiceDetail(invoice)
     then:
       excelWorkbook
   }
