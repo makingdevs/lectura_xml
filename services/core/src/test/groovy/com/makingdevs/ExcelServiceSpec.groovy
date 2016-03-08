@@ -18,9 +18,8 @@ class ExcelServiceSpec extends Specification{
     excelServiceImpl = new ExcelServiceImpl()
   }
 
-  Should "create an excel file with all the invoices"(){
-    given:"the invoice"
-
+  Should "create an excel workbook with the invoice info"(){
+    given:"the emisor and receptor"
       def emisor = new Emisor(rfc:"JIGE930831RZ1",
                               nombre:"Gamaliel Jiménez",
                               domicilioFiscal:new Direccion(calle:"Chihuahua",
@@ -48,13 +47,19 @@ class ExcelServiceSpec extends Specification{
                                                                   codigoPostal:"06700",
                                                                   noExterior:"230",
                                                                   noInterior:"S/N"))
+    and:"the tax"
+      def tax = new Impuesto(totalImpuestosTrasladado:5.5)
+      def fiscalStamp = new TimbreFiscalDigital(fechaTimbrado:new Date(),
+                                                uuid:"BD6B-BD6B-BD6B-BD6B")
+
+    and:"the invoice"
 
       def invoice = new Comprobante(serie:"TUH",
                                     folio:"1234567",
                                     fecha:new Date(),
                                     formaDePago:"En una sola exhibición",
-                                    subTotal:new BigDecimal(10),
-                                    total:new BigDecimal(11.6),
+                                    subTotal:10,
+                                    total:11.6,
                                     metodoDePago:"Tarjeta de Crédito",
                                     tipoDeComprobante:"Ingreso",
                                     lugarExpedicion:"Lugar 1",
@@ -63,7 +68,9 @@ class ExcelServiceSpec extends Specification{
                                     certificado:"ANBgkqhkiG9w0BAQEFAAOnV0YX",
                                     sello:"5yBSuJJ4kye4",
                                     emisor:emisor,
-                                    receptor:receptor)
+                                    receptor:receptor,
+                                    impuesto:tax,
+                                    timbreFiscalDigital:fiscalStamp)
     when:
       XSSFWorkbook excelWorkbook = excelServiceImpl.generateExcelWorkbookWithInvoiceDetail(invoice)
     then:
