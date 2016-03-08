@@ -35,4 +35,13 @@ class InvoiceServiceSpec extends Specification{
       
   }
 
+  Should "Get receptor from voucher" (){
+    given:
+      File invoice = new File(this.class.classLoader.getResource("factura.xml").getFile())
+    when:
+      Emisor emisor=invoiceServiceImpl.obtainTransmitterFromInvoice(invoice)
+    then:
+      emisor
+  }
+
 }
