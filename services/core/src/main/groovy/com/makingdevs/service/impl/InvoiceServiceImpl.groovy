@@ -10,6 +10,9 @@ import com.makingdevs.Addenda
 import com.makingdevs.Direccion
 import com.makingdevs.RegimenFiscal
 import com.makingdevs.Traslado
+import com.makingdevs.MovimientoECB
+import com.makingdevs.EstadoDeCuentaBancario
+
 class InvoiceServiceImpl implements InvoiceService{
   Comprobante obtainVoucherFromInvoice(File invoice){
     def voucher= new Comprobante()
@@ -167,7 +170,33 @@ class InvoiceServiceImpl implements InvoiceService{
   }
 
   Addenda obtainAddendaFromInvoice(File invoice){
-
+    def voucher= new Comprobante()
+    def addenda=new Addenda()
+    def estadoDeCuentaBancario=new EstadoDeCuentaBancario()
+    def movimientoECB=new MovimientoECB()
+    def xml = new XmlSlurper().parseText(invoice.getText()).declareNamespace(
+      cfdi:"http://www.sat.gob.mx/cfd/3",
+      xsi:"http://www.w3.org/2001/XMLSchema-instance")
+    xml.Addenda.EstadoDeCuentaBancario.each{atributo->
+      estadoDeCuentaBancario.version=atributo.@version
+      estadoDeCuentaBancario.numeroCuenta=atributo.@numeroCuenta
+      estadoDeCuentaBancario.nombreCliente=atributo.@nombreCliente
+      estadoDeCuentaBancario.periodo=atributo.@periodo
+      estadoDeCuentaBancario.sucursal=atributo.@sucursal
+      addenda.estadoDeCuentaBancario=estadoDeCuentaBancario
+      voucher.addenda=addenda
+    }
+    xml.Addenda.EstadoDeCuentaBancario.Movimientos.MovimientoECBFiscal.each{atributo->
+      movimientoECB.fecha=Date.parse("yyyy-MM-dd'T'HH:mm:ss", atributo.@fecha.toString())
+      movimientoECB.referencia=atributo.@referencia
+      movimientoECB.descripcion=atributo.@descripcion
+      movimientoECB.importe=new BigDecimal(atributo.@importe.toString())
+      movimientoECB.moneda=atributo.@moneda
+      movimientoECB.saldoInicial=new BigDecimal(atributo.@saldoInicial.toString())
+      movimientoECB.saldoAlCorte=new BigDecimal(atributo.@saldoAlCorte.toString())
+      addenda.estadoDeCuentaBancario.movimientoECB.add(movimientoECB)
+    }
+    addenda
   }
   
 }
