@@ -5,10 +5,12 @@ import com.makingdevs.Comprobante
 
 interface ExcelService{
 
-  XSSFWorkbook generateExcelWorkbookWithInvoiceDetail(Comprobante invoice)
+  XSSFWorkbook generateExcelWorkbook()
 
-  XSSFWorkbook generateFileExcelWithAllInvoices(List<Comprobante> invoices)
+  void addInvoiceDetailToWorkbook(Comprobante invoice,XSSFWorkbook workbook)
 
-  XSSFWorkbook generateFileExcelWithDetailInvoice(Comprobante invoice)
+  XSSFWorkbook generateWorkbookWithAllInvoices(List<Comprobante> invoices)
+
+  XSSFWorkbook generateFileExcelWithAddendaInvoice(Comprobante invoice)
 
 }
