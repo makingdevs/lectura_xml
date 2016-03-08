@@ -78,7 +78,31 @@ class InvoiceServiceImpl implements InvoiceService{
   }
 
   Receptor obtainReceiverFromInvoice(File invoice){
+    def voucher= new Comprobante()
+    def receptor=new Receptor()
+    def direccionReceptor=new Direccion()
 
+    def xml = new XmlSlurper().parseText(invoice.getText()).declareNamespace(
+      cfdi:"http://www.sat.gob.mx/cfd/3",
+      xsi:"http://www.w3.org/2001/XMLSchema-instance")
+    xml.Receptor.each{atributo->
+      receptor.rfc=atributo.@rfc
+      receptor.nombre=atributo.@nombre
+      voucher.receptor=receptor
+    }
+    xml.Receptor.Domicilio.each{atributo->
+      direccionReceptor.calle=atributo.@calle
+      direccionReceptor.noExterior=atributo.@noExterior
+      direccionReceptor.noInterior=atributo.@noInterior
+      direccionReceptor.colonia=atributo.@colonia
+      direccionReceptor.municipio=atributo.@municipio
+      direccionReceptor.estado=atributo.@estado
+      direccionReceptor.pais=atributo.@pais
+      direccionReceptor.codigoPostal=atributo.@codigoPostal
+      receptor.direccionReceptor=direccionReceptor
+      voucher.receptor=receptor
+    }
+    receptor
   }
 
   List<Concepto> obtainConceptsFromInvoice(File invoice){
