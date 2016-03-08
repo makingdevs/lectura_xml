@@ -35,7 +35,7 @@ class InvoiceServiceSpec extends Specification{
       
   }
 
-  Should "Get receptor from voucher" (){
+  Should "Get emisor from voucher" (){
     given:
       File invoice = new File(this.class.classLoader.getResource("factura.xml").getFile())
     when:
@@ -44,4 +44,13 @@ class InvoiceServiceSpec extends Specification{
       emisor
   }
 
+  Should "Get receptor from voucher" (){
+    given:
+      File invoice = new File(this.class.classLoader.getResource("factura.xml").getFile())
+    when:
+      Receptor receptor=invoiceServiceImpl.obtainReceiverFromInvoice(invoice)
+    then:
+      receptor
+      receptor.direccionReceptor.calle=="CALZADA ERMITA IZTAPALAPA"
+  }
 }
