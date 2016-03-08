@@ -6,16 +6,17 @@ import com.makingdevs.Comprobante
 
 class InvoiceServiceSpec extends Specification{
   InvoiceServiceImpl invoiceServiceImpl
+  
   def setup (){
     invoiceServiceImpl=new InvoiceServiceImpl()
   }
+
   Should "Get the voucher information from file"(){
     given:
       File invoice = new File(this.class.classLoader.getResource("factura.xml").getFile())
     when:
       Comprobante voucher=invoiceServiceImpl.obtainVoucherFromInvoice(invoice)
     then:
-      voucher
       voucher
       voucher.serie
       voucher.folio
@@ -32,7 +33,12 @@ class InvoiceServiceSpec extends Specification{
       voucher.noCertificado
       voucher.certificado
       voucher.sello
-      
+      voucher.emisor.rfc=="SOM101125UEA"
+      voucher.receptor.rfc=="MDE130712JA6"
+      voucher.impuesto
+      voucher.conceptos
+      voucher.timbreFiscalDigital
+      voucher.addenda
   }
 
   Should "Get emisor from voucher" (){
