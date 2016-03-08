@@ -148,7 +148,22 @@ class InvoiceServiceImpl implements InvoiceService{
   }
 
   TimbreFiscalDigital obtainDigitalTaxStampFromInvoice(File invoice){
-
+    def voucher= new Comprobante()
+    def timbreFiscalDigital=new TimbreFiscalDigital()
+    def xml = new XmlSlurper().parseText(invoice.getText()).declareNamespace(
+      cfdi:"http://www.sat.gob.mx/cfd/3",
+      xsi:"http://www.w3.org/2001/XMLSchema-instance")
+    xml.Complemento.TimbreFiscalDigital.each{atributo->
+      
+      timbreFiscalDigital.fechaTimbrado=Date.parse("yyyy-MM-dd'T'HH:mm:ss",atributo.@FechaTimbrado.toString())
+      timbreFiscalDigital.uuid=atributo.@UUID
+      timbreFiscalDigital.noCertificadoSAT=atributo.@noCertificadoSAT
+      timbreFiscalDigital.selloCFD=atributo.@selloCFD
+      timbreFiscalDigital.selloSAT=atributo.@selloSAT
+      timbreFiscalDigital.version=atributo.@version
+      voucher.timbreFiscalDigital=timbreFiscalDigital
+    }
+    timbreFiscalDigital
   }
 
   Addenda obtainAddendaFromInvoice(File invoice){
