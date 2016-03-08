@@ -62,4 +62,15 @@ class InvoiceServiceSpec extends Specification{
     then:
       conceptos.size > 0
   }
+
+  Should "Get impuesto from voucher" (){
+    given:
+      File invoice = new File(this.class.classLoader.getResource("factura.xml").getFile())
+    when:
+      Impuesto impuesto=invoiceServiceImpl.obtainTaxesFromInvoice(invoice)
+    then:
+      impuesto
+      impuesto.totalImpuestosTrasladado==197.420000
+      impuesto.traslado.size>0
+  }
 }
