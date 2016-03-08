@@ -7,5 +7,6 @@ class Direccion{
   String codigoPostal
   String noExterior
   String noInterior
+  String colonia
 
 }
