@@ -73,4 +73,13 @@ class InvoiceServiceSpec extends Specification{
       impuesto.totalImpuestosTrasladado==197.420000
       impuesto.traslado.size>0
   }
+
+  Should "Get timbre fiscal digital from voucher" (){
+    given:
+      File invoice = new File(this.class.classLoader.getResource("factura.xml").getFile())
+    when:
+      TimbreFiscalDigital timbreFiscalDigital=invoiceServiceImpl.obtainDigitalTaxStampFromInvoice(invoice)
+    then:
+      timbreFiscalDigital
+  }
 }
