@@ -45,7 +45,6 @@ class InvoiceServiceImpl implements InvoiceService{
   }
 
   Emisor obtainTransmitterFromInvoice(File invoice){
-    def voucher= new Comprobante()
     def emisor=new Emisor()
     def domicilioFiscal=new Direccion()
     def lugarExpedicion=new Direccion()
@@ -59,7 +58,6 @@ class InvoiceServiceImpl implements InvoiceService{
       emisor.nombre=atributo.@nombre
       regimenFiscal.regimen=atributo.RegimenFiscal.@Regimen
       emisor.regimen=regimenFiscal
-      voucher.emisor=emisor
     }
     xml.ExpedidoEn.each{atributo->
       lugarExpedicion.calle=atributo.@calle
@@ -70,7 +68,6 @@ class InvoiceServiceImpl implements InvoiceService{
       lugarExpedicion.pais=atributo.@pais
       lugarExpedicion.codigoPostal=atributo.@codigoPostal
       emisor.lugarExpedicion=lugarExpedicion
-      voucher.emisor=emisor
     }
     xml.Emisor.DomicilioFiscal.each{atributo->
       domicilioFiscal.calle=atributo.@calle
@@ -82,13 +79,11 @@ class InvoiceServiceImpl implements InvoiceService{
       domicilioFiscal.pais=atributo.@pais
       domicilioFiscal.codigoPostal=atributo.@codigoPostal
       emisor.domicilioFiscal=domicilioFiscal
-      voucher.emisor=emisor
     }
     emisor
   }
 
   Receptor obtainReceiverFromInvoice(File invoice){
-    def voucher= new Comprobante()
     def receptor=new Receptor()
     def direccionReceptor=new Direccion()
 
@@ -98,7 +93,6 @@ class InvoiceServiceImpl implements InvoiceService{
     xml.Receptor.each{atributo->
       receptor.rfc=atributo.@rfc
       receptor.nombre=atributo.@nombre
-      voucher.receptor=receptor
     }
     xml.Receptor.Domicilio.each{atributo->
       direccionReceptor.calle=atributo.@calle
@@ -110,13 +104,11 @@ class InvoiceServiceImpl implements InvoiceService{
       direccionReceptor.pais=atributo.@pais
       direccionReceptor.codigoPostal=atributo.@codigoPostal
       receptor.direccionReceptor=direccionReceptor
-      voucher.receptor=receptor
     }
     receptor
   }
 
   List<Concepto> obtainConceptsFromInvoice(File invoice){
-    def voucher= new Comprobante()
     List<Concepto> conceptos=[]
     Concepto concepto
     def xml = new XmlSlurper().parseText(invoice.getText()).declareNamespace(
@@ -136,7 +128,6 @@ class InvoiceServiceImpl implements InvoiceService{
   }
 
   Impuesto obtainTaxesFromInvoice(File invoice){
-    def voucher= new Comprobante()
     def impuesto = new Impuesto()
     Traslado traslado
     def xml = new XmlSlurper().parseText(invoice.getText()).declareNamespace(
@@ -144,7 +135,6 @@ class InvoiceServiceImpl implements InvoiceService{
       xsi:"http://www.w3.org/2001/XMLSchema-instance")
     xml.Impuestos.each{atributo->
       impuesto.totalImpuestosTrasladado=new BigDecimal(atributo.@totalImpuestosTrasladados.toString())
-      voucher.impuesto=impuesto
     }
     xml.Impuestos.Traslados.Traslado.each{atributo->
       traslado=new Traslado()
@@ -152,32 +142,27 @@ class InvoiceServiceImpl implements InvoiceService{
       traslado.tasa=Float.parseFloat(atributo.@tasa.toString())
       traslado.importe=new BigDecimal(atributo.@importe.toString())
       impuesto.traslado.add(traslado)
-      voucher.impuesto=impuesto
     }
     impuesto
   }
 
   TimbreFiscalDigital obtainDigitalTaxStampFromInvoice(File invoice){
-    def voucher= new Comprobante()
     def timbreFiscalDigital=new TimbreFiscalDigital()
     def xml = new XmlSlurper().parseText(invoice.getText()).declareNamespace(
       cfdi:"http://www.sat.gob.mx/cfd/3",
       xsi:"http://www.w3.org/2001/XMLSchema-instance")
     xml.Complemento.TimbreFiscalDigital.each{atributo->
-      
       timbreFiscalDigital.fechaTimbrado=Date.parse("yyyy-MM-dd'T'HH:mm:ss",atributo.@FechaTimbrado.toString())
       timbreFiscalDigital.uuid=atributo.@UUID
       timbreFiscalDigital.noCertificadoSAT=atributo.@noCertificadoSAT
       timbreFiscalDigital.selloCFD=atributo.@selloCFD
       timbreFiscalDigital.selloSAT=atributo.@selloSAT
       timbreFiscalDigital.version=atributo.@version
-      voucher.timbreFiscalDigital=timbreFiscalDigital
     }
     timbreFiscalDigital
   }
 
   Addenda obtainAddendaFromInvoice(File invoice){
-    def voucher= new Comprobante()
     def addenda=new Addenda()
     def estadoDeCuentaBancario=new EstadoDeCuentaBancario()
     def movimientoECB=new MovimientoECB()
@@ -191,7 +176,6 @@ class InvoiceServiceImpl implements InvoiceService{
       estadoDeCuentaBancario.periodo=atributo.@periodo
       estadoDeCuentaBancario.sucursal=atributo.@sucursal
       addenda.estadoDeCuentaBancario=estadoDeCuentaBancario
-      voucher.addenda=addenda
     }
     xml.Addenda.EstadoDeCuentaBancario.Movimientos.MovimientoECBFiscal.each{atributo->
       movimientoECB.fecha=Date.parse("yyyy-MM-dd'T'HH:mm:ss", atributo.@fecha.toString())
