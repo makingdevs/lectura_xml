@@ -16,6 +16,7 @@ import com.makingdevs.EstadoDeCuentaBancario
 class InvoiceServiceImpl implements InvoiceService{
   Comprobante obtainVoucherFromInvoice(File invoice){
     def voucher= new Comprobante()
+    def invoiceServiceImpl= new InvoiceServiceImpl()
     def xml = new XmlSlurper().parseText(invoice.getText()).declareNamespace(
       cfdi:"http://www.sat.gob.mx/cfd/3",
       xsi:"http://www.w3.org/2001/XMLSchema-instance")
@@ -34,6 +35,12 @@ class InvoiceServiceImpl implements InvoiceService{
         }
       }
     }
+    voucher.emisor = invoiceServiceImpl.obtainTransmitterFromInvoice(invoice)
+    voucher.receptor = invoiceServiceImpl.obtainReceiverFromInvoice(invoice)
+    voucher.conceptos = invoiceServiceImpl.obtainConceptsFromInvoice(invoice)
+    voucher.impuesto = invoiceServiceImpl.obtainTaxesFromInvoice(invoice)
+    voucher.timbreFiscalDigital = invoiceServiceImpl.obtainDigitalTaxStampFromInvoice(invoice)
+    voucher.addenda = invoiceServiceImpl.obtainAddendaFromInvoice(invoice)
     voucher
   }
 
