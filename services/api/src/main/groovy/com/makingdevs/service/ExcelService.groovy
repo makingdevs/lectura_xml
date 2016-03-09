@@ -11,6 +11,6 @@ interface ExcelService{
 
   XSSFWorkbook generateWorkbookWithAllInvoices(List<Comprobante> invoices)
 
-  XSSFWorkbook generateFileExcelWithAddendaInvoice(Comprobante invoice)
+  XSSFWorkbook generateWorkbookWithAddendaInvoice(Comprobante invoice)
 
 }

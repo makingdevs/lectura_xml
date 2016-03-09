@@ -7,6 +7,8 @@ import com.makingdevs.Emisor
 import com.makingdevs.Receptor
 import com.makingdevs.Direccion
 import com.makingdevs.RegimenFiscal
+import com.makingdevs.EstadoDeCuentaBancario
+import com.makingdevs.MovimientoECB
 import com.makingdevs.service.impl.ExcelServiceImpl
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
@@ -36,6 +38,33 @@ class ExcelServiceSpec extends Specification{
       def invoicesWorkbook = excelServiceImpl.generateWorkbookWithAllInvoices(invoices)
     then:
       invoicesWorkbook.getSheetAt(0).getPhysicalNumberOfRows()== 3
+  }
+
+  Should "create an excel workbook with addenda info"(){
+    given:"the invoice"
+      def invoice = createInvoice()
+    and:"the account bank state"
+      def ecbMovements = [new MovimientoECB(fecha:new Date(),
+                                            referencia:"ABCD",
+                                            descripcion:"ABCD",
+                                            importe:400,
+                                            moneda:"Una moneda",
+                                            saldoInicial:400,
+                                            saldoAlCorte:400)]
+
+      def accountBankState = new EstadoDeCuentaBancario(version:0,
+                                                        numeroCuenta:"0123456789",
+                                                        nombreCliente:"Gamaliel Jiménez",
+                                                        periodo:"2016",
+                                                        sucursal:"Sucursal 1",
+                                                        movimientoECB:ecbMovements)
+
+      def addenda = new Addenda(estadoDeCuentaBancario:accountBankState)
+      invoice.addenda = addenda
+    when:
+      def invoiceWorkbook = excelServiceImpl.generateWorkbookWithAddendaInvoice(invoice)
+    then:
+      invoiceWorkbook
   }
 
   private Comprobante createInvoice(){
