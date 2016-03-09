@@ -2,7 +2,10 @@
 build/
 .DS_Store
 *.xlsx
-**/.class
+src/main/groovy/com/makingdevs/com/
+web/bower_components/**
+web/node_modules/**
+
 # Ignore Gradle GUI config
 gradle-app.setting
 
