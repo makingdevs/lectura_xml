@@ -1,6 +1,8 @@
 subprojects{
   apply plugin:'groovy'
-
+  apply plugin: 'war'
+  apply plugin: 'jetty'
+  
   repositories{
     jcenter()
   }
@@ -30,8 +32,12 @@ project(":services:core"){
 }
 
 project(":webservices"){
-
+  dependencies{
+    providedCompile "javax.servlet:servlet-api:2.5"
+  }
+  httpPort = 1234
 }
+
 
 project(":web"){
 
