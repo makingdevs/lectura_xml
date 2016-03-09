@@ -1,7 +1,7 @@
 def method = request.method
 
 if(method.toLowerCase() == 'post'){
-  
+  file=params.file 
 }
 else if(method.toLowerCase() == 'get'){
   
@@ -18,6 +18,7 @@ html.html{
     String msn="Hola!"
     p msn
     p method
+    p file
   }
 }
 
