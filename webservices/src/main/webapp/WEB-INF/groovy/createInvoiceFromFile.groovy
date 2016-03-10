@@ -1,24 +1,6 @@
 def method = request.method
-
-if(method.toLowerCase() == 'post'){
-  file=params.file 
+InputStream inputStream=request.inputStream
+OutputStream outputStream = new FileOutputStream("woorbook.xml")
+while ((byteInput = inputStream.read()) != -1){
+  outputStream.write(byteInput)
 }
-else if(method.toLowerCase() == 'get'){
-  
-}
-
-html.html{
-  head {
-    title 'WebService'
-  }  
-  body {
-    h3   'Bienvenido'
-    def fecha = new Date()
-    p fecha.format("dd MMMM yyyy HH:mm:ss")
-    String msn="Hola!"
-    p msn
-    p method
-    p file
-  }
-}
-
