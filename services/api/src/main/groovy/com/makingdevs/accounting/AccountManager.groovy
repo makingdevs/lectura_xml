@@ -1,4 +1,4 @@
-package com.makingdevs.service
+package com.makingdevs.accounting
 import com.makingdevs.Comprobante
 import com.makingdevs.Emisor
 import com.makingdevs.Receptor
@@ -7,7 +7,7 @@ import com.makingdevs.Impuesto
 import com.makingdevs.TimbreFiscalDigital
 import com.makingdevs.Addenda
 
-interface InvoiceService{
+interface AccountManager{
 
   Comprobante obtainVoucherFromInvoice(File invoice)
 

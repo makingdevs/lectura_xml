@@ -1,5 +1,5 @@
-package com.makingdevs.service.impl
-import com.makingdevs.service.InvoiceService
+package com.makingdevs.accounting.impl
+import com.makingdevs.accounting.AccountManager
 import com.makingdevs.Comprobante
 import com.makingdevs.Emisor
 import com.makingdevs.Receptor
@@ -13,10 +13,11 @@ import com.makingdevs.Traslado
 import com.makingdevs.MovimientoECB
 import com.makingdevs.EstadoDeCuentaBancario
 
-class InvoiceServiceImpl implements InvoiceService{
+class AccountManagerImpl implements AccountManager{
+
   Comprobante obtainVoucherFromInvoice(File invoice){
     def voucher= new Comprobante()
-    def invoiceServiceImpl= new InvoiceServiceImpl()
+
     def xml = new XmlSlurper().parseText(invoice.getText()).declareNamespace(
       cfdi:"http://www.sat.gob.mx/cfd/3",
       xsi:"http://www.w3.org/2001/XMLSchema-instance")
@@ -26,7 +27,7 @@ class InvoiceServiceImpl implements InvoiceService{
           if(attributeVoucher.key.equalsIgnoreCase("fecha")){
             voucher[attributeVoucher.key]=Date.parse("yyyy-MM-dd'T'HH:mm:ss", attributeXML.value)
           }
-          else if(["total","subTotal","descuento","tipoCambio"]*.toLowerCase().contains(attributeVoucher.key.toLowerCase())){ 
+          else if(["total","subTotal","descuento","tipoCambio"]*.toLowerCase().contains(attributeVoucher.key.toLowerCase())){
             voucher[attributeVoucher.key]=new BigDecimal(attributeXML.value)
           }
           else{
@@ -35,12 +36,12 @@ class InvoiceServiceImpl implements InvoiceService{
         }
       }
     }
-    voucher.emisor = invoiceServiceImpl.obtainTransmitterFromInvoice(invoice)
-    voucher.receptor = invoiceServiceImpl.obtainReceiverFromInvoice(invoice)
-    voucher.conceptos = invoiceServiceImpl.obtainConceptsFromInvoice(invoice)
-    voucher.impuesto = invoiceServiceImpl.obtainTaxesFromInvoice(invoice)
-    voucher.timbreFiscalDigital = invoiceServiceImpl.obtainDigitalTaxStampFromInvoice(invoice)
-    voucher.addenda = invoiceServiceImpl.obtainAddendaFromInvoice(invoice)
+    voucher.emisor = obtainTransmitterFromInvoice(invoice)
+    voucher.receptor = obtainReceiverFromInvoice(invoice)
+    voucher.conceptos = obtainConceptsFromInvoice(invoice)
+    voucher.impuesto = obtainTaxesFromInvoice(invoice)
+    voucher.timbreFiscalDigital = obtainDigitalTaxStampFromInvoice(invoice)
+    voucher.addenda = obtainAddendaFromInvoice(invoice)
     voucher
   }
 
@@ -49,7 +50,7 @@ class InvoiceServiceImpl implements InvoiceService{
     def domicilioFiscal=new Direccion()
     def lugarExpedicion=new Direccion()
     def regimenFiscal=new RegimenFiscal()
-    
+
     def xml = new XmlSlurper().parseText(invoice.getText()).declareNamespace(
       cfdi:"http://www.sat.gob.mx/cfd/3",
       xsi:"http://www.w3.org/2001/XMLSchema-instance")
@@ -121,7 +122,7 @@ class InvoiceServiceImpl implements InvoiceService{
       concepto.noIdentificacion=atributo.@noIdentificacion
       concepto.descripcion=atributo.@descripcion
       concepto.valorUnitario=new BigDecimal(atributo.@valorUnitario.toString())
-      concepto.importe=new BigDecimal(atributo.@importe.toString()) 
+      concepto.importe=new BigDecimal(atributo.@importe.toString())
       conceptos.add(concepto)
     }
     conceptos
@@ -189,5 +190,5 @@ class InvoiceServiceImpl implements InvoiceService{
     }
     addenda
   }
-  
+
 }

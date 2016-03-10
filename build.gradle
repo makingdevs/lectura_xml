@@ -11,11 +11,6 @@ subprojects{
 }
 
 project(":services:api"){
-
-  dependencies{
-    compile 'org.apache.poi:poi-ooxml:3.13'
-  }
-
 }
 
 project(":services:core"){
