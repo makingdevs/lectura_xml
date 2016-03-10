@@ -27,6 +27,7 @@ project(":services:core"){
 project(":app"){
   dependencies {
     compile project(":services:core")
+    compile 'org.fusesource.jansi:jansi:1.11'
   }
   apply plugin: 'application'
   mainClassName = "com.makingdevs.App"
