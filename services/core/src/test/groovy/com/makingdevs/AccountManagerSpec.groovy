@@ -4,11 +4,11 @@ import java.lang.Void as Should
 import com.makingdevs.service.impl.InvoiceServiceImpl
 import com.makingdevs.Comprobante
 
-class InvoiceServiceSpec extends Specification{
-  InvoiceServiceImpl invoiceServiceImpl
-  
+class AccountManagerSpec extends Specification{
+  AccountManagerImpl accountManagerImpl
+
   def setup (){
-    invoiceServiceImpl=new InvoiceServiceImpl()
+    accountManagerImpl = new AccountManagerImpl()
   }
 
   Should "Get the voucher information from file"(){

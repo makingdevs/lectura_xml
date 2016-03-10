@@ -7,7 +7,7 @@ import com.makingdevs.Impuesto
 import com.makingdevs.TimbreFiscalDigital
 import com.makingdevs.Addenda
 
-interface InvoiceService{
+interface AccountManager{
 
   Comprobante obtainVoucherFromInvoice(File invoice)
 
