@@ -65,7 +65,7 @@ class ExcelServiceImpl implements ExcelService{
 
   XSSFWorkbook generateWorkbookWithAllInvoices(List<Comprobante> invoices){
     XSSFWorkbook workbook = generateExcelWorkbook()
-    addHeadersToWorkbook(workbook)
+    addHeadersToWorkbook(workbook,getHeadersForDetailReport())
 
     invoices.each{ invoice ->
       addInvoiceDetailToWorkbook(invoice,workbook)
@@ -77,19 +77,37 @@ class ExcelServiceImpl implements ExcelService{
     workbook
   }
 
-  XSSFWorkbook generateFileExcelWithAddendaInvoice(Comprobante invoice){
-
-  }
-
-  private void addHeadersToWorkbook(XSSFWorkbook workbook){
+  XSSFWorkbook generateWorkbookWithAddendaInvoice(Comprobante invoice){
+    XSSFWorkbook workbook = generateExcelWorkbook()
+    addHeadersToWorkbook(workbook,getHeadersForAddendaReport())
     XSSFSheet sheet = workbook.getSheetAt(0)
 
-    def headers = ["Fecha","Subtotal","Descuento","Impuesto","Total",
-                   "Emisor","Receptor","No.Certificado","Sello",
-                   "Folio","FormaDePago","Addenda","LugarExpedicion",
-                   "TimbreFiscalDigital","TipoDeComprobante","TipoDeCambio",
-                   "Serie","Moneda","NumCtaPago","Conceptos",
-                   "Certificado","MetodoDePago"]
+    def fields = [invoice.serie,invoice.fecha,invoice.subTotal,
+                  invoice.descuento,invoice.impuesto.totalImpuestosTrasladado,
+                  invoice.total,invoice.addenda.estadoDeCuentaBancario.periodo,
+                  invoice.addenda.estadoDeCuentaBancario.sucursal,
+                  invoice.addenda.estadoDeCuentaBancario.numeroCuenta,
+                  invoice.addenda.estadoDeCuentaBancario.nombreCliente,
+                  invoice.addenda.estadoDeCuentaBancario.version]
+
+
+    addRecordToWorkbook(workbook,fields)
+
+    def headers = invoice.addenda.estadoDeCuentaBancario.movimientoECB.first().class.declaredFields.findAll{ !it.synthetic }*.name.collect{ it.capitalize() }
+    addHeadersToWorkbook(workbook,headers)
+
+    invoice.addenda.estadoDeCuentaBancario.movimientoECB.each{ movement ->
+      addRecordToWorkbook(workbook,[movement.fecha,movement.referencia,
+                                    movement.descripcion,movement.importe,
+                                    movement.moneda,movement.saldoInicial,
+                                    movement.saldoAlCorte])
+    }
+
+    workbook
+  }
+
+  private void addHeadersToWorkbook(XSSFWorkbook workbook,headers){
+    XSSFSheet sheet = workbook.getSheetAt(0)
 
     Row headerRow = sheet.createRow(sheet.getPhysicalNumberOfRows())
     XSSFCellStyle headerStyle = workbook.createCellStyle()
@@ -101,6 +119,40 @@ class ExcelServiceImpl implements ExcelService{
       headerCell.cellStyle = headerStyle
       headerCell.cellValue = header
     }
+  }
+
+  private def addRecordToWorkbook(workbook,fields){
+    XSSFSheet sheet = workbook.getSheetAt(0)
+    Row row = sheet.createRow(sheet.getPhysicalNumberOfRows())
+    Cell cell = row.createCell(row.lastCellNum+1)
+    CreationHelper createHelper = workbook.getCreationHelper()
+    XSSFCellStyle dateStyle = workbook.createCellStyle()
+    dateStyle.dataFormat = createHelper.createDataFormat().getFormat("dd-MM-YYYY HH:mm")
+
+    fields.each{ field ->
+      if(field?.class?.simpleName == BigDecimal.class.simpleName)
+        cell.cellType = XSSFCell.CELL_TYPE_NUMERIC
+      else if(field?.class?.simpleName == Date.class.simpleName)
+        cell.cellStyle = dateStyle
+
+      cell.cellValue = field
+      cell = row.createCell(row.lastCellNum)
+    }
+  }
+
+  private def getHeadersForDetailReport(){
+    ["Fecha","Subtotal","Descuento","Impuesto","Total",
+     "Emisor","Receptor","No.Certificado","Sello",
+     "Folio","FormaDePago","Addenda","LugarExpedicion",
+     "TimbreFiscalDigital","TipoDeComprobante","TipoDeCambio",
+     "Serie","Moneda","NumCtaPago","Conceptos",
+     "Certificado","MetodoDePago"]
+  }
+
+  private def getHeadersForAddendaReport(){
+    ["Serie","Fecha","Subtotal","Descuento","Impuesto",
+     "Total","Addenda periodo","Sucursal","NumeroCuenta",
+     "NombreCliente","Version"]
   }
 
 }
