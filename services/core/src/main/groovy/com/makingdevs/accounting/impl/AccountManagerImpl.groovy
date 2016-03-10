@@ -135,7 +135,6 @@ class AccountManagerImpl implements AccountManager{
       cfdi:"http://www.sat.gob.mx/cfd/3",
       xsi:"http://www.w3.org/2001/XMLSchema-instance")
     xml.Impuestos.each{atributo->
-      println ">" + atributo.@totalImpuestosTrasladado.toString() + "<"
       impuesto.totalImpuestosTrasladado=new BigDecimal(atributo.@totalImpuestosTrasladados.toString() ?: 0)
     }
     xml.Impuestos.Traslados.Traslado.each{atributo->
