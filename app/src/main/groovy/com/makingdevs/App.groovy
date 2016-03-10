@@ -8,7 +8,7 @@ import com.makingdevs.accounting.*
 
 class App {
 
-  static InvoiceFileOperation invoiceFileOperation = new InvoiceFileOperationImpl()
+  InvoiceFileOperation invoiceFileOperation = new InvoiceFileOperationImpl()
 
   static void main(String[] args){
     def initialPath = System.getProperty("user.dir");
