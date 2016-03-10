@@ -1,16 +1,17 @@
 import com.makingdevs.accounting.impl.AccountManagerImpl
 import com.makingdevs.accounting.AccountManager
 import com.makingdevs.Comprobante
+import com.makingdevs.InvoiceParser
 
 def method = request.method
-File file= new File("invoice.xml")
-InputStream inputStream=request.inputStream
-OutputStream outputStream = new FileOutputStream(file)
-while ((byteInput = inputStream.read()) != -1){
-  outputStream.write(byteInput)
+if (method.toLowerCase()=="post"){
+  InvoiceParser invoiceParser =new InvoiceParser()
+  File file=invoiceParser.getFileFromInputStream(request.inputStream)
+  AccountManager invoiceService = new AccountManagerImpl()
+  Comprobante comprobante=invoiceService.obtainVoucherFromInvoice(file)
+  println "Valores:. "+comprobante.total
+  response.contentType='application/json'
+  json{
+    comprobante
+  }
 }
-
-AccountManager invoiceService = new AccountManagerImpl()
-Comprobante comprobante=invoiceService.obtainVoucherFromInvoice(file)
-
-println "Valores:. "+comprobante.total
