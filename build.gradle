@@ -29,6 +29,14 @@ project(":services:core"){
   }
 }
 
+project(":app"){
+  dependencies {
+    compile project(":services:core")
+  }
+  apply plugin: 'application'
+  mainClassName = "com.makingdevs.App"
+}
+
 project(":webservices"){
 
 }
@@ -36,7 +44,3 @@ project(":webservices"){
 project(":web"){
 
 }
-
-
-
-
