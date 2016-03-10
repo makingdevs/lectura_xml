@@ -1,4 +1,5 @@
-import com.makingdevs.service.impl.InvoiceServiceImpl
+import com.makingdevs.accounting.impl.AccountManagerImpl
+import com.makingdevs.accounting.AccountManager
 import com.makingdevs.Comprobante
 
 def method = request.method
@@ -9,7 +10,7 @@ while ((byteInput = inputStream.read()) != -1){
   outputStream.write(byteInput)
 }
 
-InvoiceServiceImpl invoiceService = new InvoiceServiceImpl()
+AccountManager invoiceService = new AccountManagerImpl()
 Comprobante comprobante=invoiceService.obtainVoucherFromInvoice(file)
 
 println "Valores:. "+comprobante.total
