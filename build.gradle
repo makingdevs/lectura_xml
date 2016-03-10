@@ -35,6 +35,8 @@ project(":webservices"){
 
   dependencies{
     providedCompile "javax.servlet:servlet-api:2.5"
+    compile project(":services:api")
+    compile project(":services:core")
   }
   httpPort = 1234
 }
