@@ -11,7 +11,7 @@ class App {
   static InvoiceFileOperation invoiceFileOperation = new InvoiceFileOperationImpl()
 
   static void main(String[] args){
-    def initialPath = System.getProperty("user.dir")
+    def initialPath = System.getProperty("user.home")
     JFileChooser fc = new JFileChooser(initialPath)
     fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY)
     int result = fc.showOpenDialog( null )
