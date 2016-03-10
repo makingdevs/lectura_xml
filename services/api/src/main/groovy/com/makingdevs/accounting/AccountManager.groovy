@@ -1,4 +1,4 @@
-package com.makingdevs.service
+package com.makingdevs.accounting
 import com.makingdevs.Comprobante
 import com.makingdevs.Emisor
 import com.makingdevs.Receptor

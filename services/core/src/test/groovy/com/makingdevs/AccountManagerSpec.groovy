@@ -1,10 +1,11 @@
 package com.makingdevs
 import spock.lang.Specification
 import java.lang.Void as Should
-import com.makingdevs.service.impl.InvoiceServiceImpl
+import com.makingdevs.accounting.impl.AccountManagerImpl
 import com.makingdevs.Comprobante
 
 class AccountManagerSpec extends Specification{
+
   AccountManagerImpl accountManagerImpl
 
   def setup (){
@@ -15,7 +16,7 @@ class AccountManagerSpec extends Specification{
     given:
       File invoice = new File(this.class.classLoader.getResource("factura.xml").getFile())
     when:
-      Comprobante voucher=invoiceServiceImpl.obtainVoucherFromInvoice(invoice)
+      Comprobante voucher=accountManagerImpl.obtainVoucherFromInvoice(invoice)
     then:
       voucher
       voucher.serie
@@ -45,7 +46,7 @@ class AccountManagerSpec extends Specification{
     given:
       File invoice = new File(this.class.classLoader.getResource("factura.xml").getFile())
     when:
-      Emisor emisor=invoiceServiceImpl.obtainTransmitterFromInvoice(invoice)
+      Emisor emisor=accountManagerImpl.obtainTransmitterFromInvoice(invoice)
     then:
       emisor
   }
@@ -54,7 +55,7 @@ class AccountManagerSpec extends Specification{
     given:
       File invoice = new File(this.class.classLoader.getResource("factura.xml").getFile())
     when:
-      Receptor receptor=invoiceServiceImpl.obtainReceiverFromInvoice(invoice)
+      Receptor receptor=accountManagerImpl.obtainReceiverFromInvoice(invoice)
     then:
       receptor
       receptor.direccionReceptor.calle=="CALZADA ERMITA IZTAPALAPA"
@@ -64,7 +65,7 @@ class AccountManagerSpec extends Specification{
     given:
       File invoice = new File(this.class.classLoader.getResource("factura.xml").getFile())
     when:
-      List<Concepto> conceptos=invoiceServiceImpl.obtainConceptsFromInvoice(invoice)
+      List<Concepto> conceptos=accountManagerImpl.obtainConceptsFromInvoice(invoice)
     then:
       conceptos.size > 0
   }
@@ -73,7 +74,7 @@ class AccountManagerSpec extends Specification{
     given:
       File invoice = new File(this.class.classLoader.getResource("factura.xml").getFile())
     when:
-      Impuesto impuesto=invoiceServiceImpl.obtainTaxesFromInvoice(invoice)
+      Impuesto impuesto=accountManagerImpl.obtainTaxesFromInvoice(invoice)
     then:
       impuesto
       impuesto.totalImpuestosTrasladado==197.420000
@@ -84,7 +85,7 @@ class AccountManagerSpec extends Specification{
     given:
       File invoice = new File(this.class.classLoader.getResource("factura.xml").getFile())
     when:
-      TimbreFiscalDigital timbreFiscalDigital=invoiceServiceImpl.obtainDigitalTaxStampFromInvoice(invoice)
+      TimbreFiscalDigital timbreFiscalDigital=accountManagerImpl.obtainDigitalTaxStampFromInvoice(invoice)
     then:
       timbreFiscalDigital
       timbreFiscalDigital.uuid=="4004340f-e1ea-4df6-9c97-30d701b01b47"
@@ -94,7 +95,7 @@ class AccountManagerSpec extends Specification{
     given:
       File invoice = new File(this.class.classLoader.getResource("factura-addenda.xml").getFile())
     when:
-      Addenda addenda=invoiceServiceImpl.obtainAddendaFromInvoice(invoice)
+      Addenda addenda=accountManagerImpl.obtainAddendaFromInvoice(invoice)
     then:
       addenda
       addenda.estadoDeCuentaBancario.periodo =="DEL 2015/11/13 AL 2015/12/13"
