@@ -38,12 +38,11 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     workbook
   }
 
-  void addInvoiceDetailToWorkbook(Comprobante invoice,XSSFWorkbook workbook){
-    CreationHelper createHelper = workbook.getCreationHelper()
-    XSSFSheet sheet = workbook.getSheetAt(0)
-    XSSFCellStyle dateStyle = workbook.createCellStyle()
-    dateStyle.dataFormat = createHelper.createDataFormat().getFormat("dd-MM-YYYY HH:mm")
+  void addCompleteInvoiceDetailToWorkbook(Comprobante Invoice,XSSFWorkbook workbook){
 
+  }
+
+  void addInvoiceDetailToWorkbook(Comprobante invoice,XSSFWorkbook workbook){
     def fields = [invoice.fecha,
                   invoice.subTotal,
                   invoice.descuento,
@@ -67,18 +66,7 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
                   invoice.certificado,
                   invoice.metodoDePago]
 
-    Row invoiceRow = sheet.createRow(sheet.getPhysicalNumberOfRows())
-    Cell invoiceCell = invoiceRow.createCell(invoiceRow.lastCellNum+1)
-
-    fields.each{ field ->
-      if(field?.class?.simpleName == BigDecimal.class.simpleName)
-        invoiceCell.cellType = XSSFCell.CELL_TYPE_NUMERIC
-      else if(field?.class?.simpleName == Date.class.simpleName)
-        invoiceCell.cellStyle = dateStyle
-
-      invoiceCell.cellValue = field
-      invoiceCell = invoiceRow.createCell(invoiceRow.lastCellNum)
-    }
+    addRecordToWorkbook(workbook,fields)
   }
 
   XSSFWorkbook generateWorkbookWithAllInvoices(List<Comprobante> invoices){
