@@ -78,6 +78,17 @@ class InvoiceFileOperationSpec extends Specification{
       invoicesFile.delete()
   }
 
+  Should "create an excel file with the invoice complete detail"(){
+    given:
+      String filePath = "${System.getProperty('user.home')}/Workspace/facturas/12_Diciembre/151006.AERL.0000014.MAMR750818DF3.MDE130712JA6.xml"
+    when:
+      def invoiceFile = invoiceFileOperationImpl.createInvoiceCompleteDetailFile(filePath)
+    then:
+      invoiceFile.length()
+    cleanup:
+      invoiceFile.delete()
+  }
+
   private Comprobante createInvoice(){
     def emisor = new Emisor(rfc:"JIGE930831RZ1",
                             nombre:"Gamaliel Jiménez",
