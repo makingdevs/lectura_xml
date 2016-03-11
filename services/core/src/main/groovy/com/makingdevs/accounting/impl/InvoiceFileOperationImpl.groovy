@@ -32,41 +32,14 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     invoicesFile
   }
 
+  File createInvoiceCompleteDetailFile(String filePath){
+    Comprobante comprobante = accountManager.obtainVoucherFromInvoice(new File(filePath))
+  }
+
   XSSFWorkbook generateExcelWorkbook(){
     XSSFWorkbook workbook = new XSSFWorkbook()
     XSSFSheet sheet=workbook.createSheet("Página_1")
     workbook
-  }
-
-  void addCompleteInvoiceDetailToWorkbook(Comprobante Invoice,XSSFWorkbook workbook){
-
-  }
-
-  void addInvoiceDetailToWorkbook(Comprobante invoice,XSSFWorkbook workbook){
-    def fields = [invoice.fecha,
-                  invoice.subTotal,
-                  invoice.descuento,
-                  invoice.impuesto.totalImpuestosTrasladado,
-                  invoice.total,
-                  invoice.emisor.nombre,
-                  invoice.receptor.nombre,
-                  invoice.noCertificado,
-                  invoice.sello,
-                  invoice.folio,
-                  invoice.formaDePago,
-                  invoice.addenda.toString(),
-                  invoice.lugarExpedicion,
-                  invoice.timbreFiscalDigital.uuid,
-                  invoice.tipoDeComprobante,
-                  invoice.tipoCambio,
-                  invoice.serie,
-                  invoice.moneda,
-                  invoice.numCtaPago,
-                  invoice.conceptos.toString(),
-                  invoice.certificado,
-                  invoice.metodoDePago]
-
-    addRecordToWorkbook(workbook,fields)
   }
 
   XSSFWorkbook generateWorkbookWithAllInvoices(List<Comprobante> invoices){
@@ -77,10 +50,11 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
       addInvoiceDetailToWorkbook(invoice,workbook)
     }
 
-    FileOutputStream out = new FileOutputStream(new File("Test_Excel.xlsx"))
-    workbook.write(out)
-    out.close()
     workbook
+  }
+
+  XSSFWorkbook generateWorkbookWithInvoiceCompleteDetail(Comprobante invoice){
+
   }
 
   XSSFWorkbook generateWorkbookWithAddendaInvoice(Comprobante invoice){
@@ -110,6 +84,47 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     }
 
     workbook
+  }
+
+  void addCompleteInvoiceDetailToWorkbook(Comprobante invoice,XSSFWorkbook workbook){
+    def fields = [invoice.fecha,invoice.serie,invoice.folio,
+                  invoice.formaDePago,invoice.subTotal,invoice.descuento,
+                  invoice.total,invoice.tipoCambio,invoice.moneda,
+                  invoice.metodoDePago,invoice.tipoDeComprobante,invoice.lugarExpedicion,
+                  invoice.numCtaPago,invoice.noCertificado,invoice.certificado,
+                  invoice.sello,invoice.total]
+
+    addRecordToWorkbook(workbook,fields)
+    FileOutputStream out = new FileOutputStream(new File("Test_Excel.xlsx"))
+    workbook.write(out)
+    out.close()
+  }
+
+  void addInvoiceDetailToWorkbook(Comprobante invoice,XSSFWorkbook workbook){
+    def fields = [invoice.fecha,
+                  invoice.subTotal,
+                  invoice.descuento,
+                  invoice.impuesto.totalImpuestosTrasladado,
+                  invoice.total,
+                  invoice.emisor.nombre,
+                  invoice.receptor.nombre,
+                  invoice.noCertificado,
+                  invoice.sello,
+                  invoice.folio,
+                  invoice.formaDePago,
+                  invoice.addenda.toString(),
+                  invoice.lugarExpedicion,
+                  invoice.timbreFiscalDigital.uuid,
+                  invoice.tipoDeComprobante,
+                  invoice.tipoCambio,
+                  invoice.serie,
+                  invoice.moneda,
+                  invoice.numCtaPago,
+                  invoice.conceptos*.descripcion.join(","),
+                  invoice.certificado,
+                  invoice.metodoDePago]
+
+    addRecordToWorkbook(workbook,fields)
   }
 
   private void addHeadersToWorkbook(XSSFWorkbook workbook,headers){
@@ -146,10 +161,17 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     }
   }
 
+  private def getHeadersForCompleteDetailReport(){
+    ["Fecha","Serie","Folio","Forma de Pago","SubTotal","Descuento",
+     "Total","Tipo de Cambio","Moneda","Método de Pago","Tipo De Comprobante",
+     "Lugar de Expedición","Num.Cta Pago","No.Certificado","Certificado",
+     "Sello","Total"]
+  }
+
   private def getHeadersForDetailReport(){
     ["Fecha","Subtotal","Descuento","Impuesto","Total",
      "Emisor","Receptor","No.Certificado","Sello",
-     "Folio","FormaDePago","Addenda","LugarExpedicion",
+     "Folio","Forma de Pago","Addenda","LugarExpedicion",
      "TimbreFiscalDigital","TipoDeComprobante","TipoDeCambio",
      "Serie","Moneda","NumCtaPago","Conceptos",
      "Certificado","MetodoDePago"]
