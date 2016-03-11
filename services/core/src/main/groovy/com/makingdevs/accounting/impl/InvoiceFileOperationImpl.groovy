@@ -11,13 +11,14 @@ import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.xssf.usermodel.XSSFCell
 import com.makingdevs.Comprobante
 import com.makingdevs.accounting.InvoiceFileOperation
+import com.makingdevs.accounting.AccountManager
 
 class InvoiceFileOperationImpl implements InvoiceFileOperation{
 
   File createInvoicesFile(String path){
     def fileNames = new FileNameByRegexFinder().getFileNames(path, /.*\.xml/)
     def invoices = []
-    def accountManager = new AccountManagerImpl()
+    AccountManager accountManager = new AccountManagerImpl()
 
     fileNames.each{ fileName ->
       invoices << accountManager.obtainVoucherFromInvoice(new File(fileName))
@@ -33,7 +34,14 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
   }
 
   File createInvoiceCompleteDetailFile(String filePath){
-    Comprobante comprobante = accountManager.obtainVoucherFromInvoice(new File(filePath))
+    AccountManager accountManager = new AccountManagerImpl()
+    Comprobante invoice = accountManager.obtainVoucherFromInvoice(new File(filePath))
+    XSSFWorkbook workbook = generateWorkbookWithInvoiceCompleteDetail(invoice)
+    def invoiceFile = new File("Invoices.xlsx")
+    FileOutputStream out = new FileOutputStream(invoicesFile)
+    workbook.write(out)
+    out.close()
+    invoiceFile
   }
 
   XSSFWorkbook generateExcelWorkbook(){
@@ -54,7 +62,10 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
   }
 
   XSSFWorkbook generateWorkbookWithInvoiceCompleteDetail(Comprobante invoice){
-
+    XSSFWorkbook workbook = generateExcelWorkbook()
+    addHeadersToWorkbook(workbook,getHeadersForCompleteDetailReport())
+    addCompleteInvoiceDetailToWorkbook(invoice,workbook)
+    workbook
   }
 
   XSSFWorkbook generateWorkbookWithAddendaInvoice(Comprobante invoice){
@@ -95,9 +106,6 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
                   invoice.sello,invoice.total]
 
     addRecordToWorkbook(workbook,fields)
-    FileOutputStream out = new FileOutputStream(new File("Test_Excel.xlsx"))
-    workbook.write(out)
-    out.close()
   }
 
   void addInvoiceDetailToWorkbook(Comprobante invoice,XSSFWorkbook workbook){

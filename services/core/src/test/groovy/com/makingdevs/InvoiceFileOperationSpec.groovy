@@ -80,7 +80,7 @@ class InvoiceFileOperationSpec extends Specification{
 
   Should "create an excel file with the invoice complete detail"(){
     given:
-      String filePath = "${System.getProperty('user.home')}/Workspace/facturas/12_Diciembre/151006.AERL.0000014.MAMR750818DF3.MDE130712JA6.xml"
+      String filePath = "${System.getProperty('user.home')}/Workspace/facturas/12_Diciembre/report_20151027075945120.xml"
     when:
       def invoiceFile = invoiceFileOperationImpl.createInvoiceCompleteDetailFile(filePath)
     then:
