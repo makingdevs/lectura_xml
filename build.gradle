@@ -1,12 +1,12 @@
 subprojects{
   apply plugin:'groovy'
-
+  
   repositories{
     jcenter()
   }
 
   dependencies{
-  	compile 'org.codehaus.groovy:groovy-all:2.4.5'
+  	compile 'org.codehaus.groovy:groovy-all:2.4.4'
   }
 }
 
@@ -33,8 +33,17 @@ project(":app"){
 }
 
 project(":webservices"){
+  apply plugin: 'war'
+  apply plugin: 'jetty'
 
+  dependencies{
+    providedCompile "javax.servlet:servlet-api:2.5"
+    compile project(":services:api")
+    compile project(":services:core")
+  }
+  httpPort = 1234
 }
+
 
 project(":web"){
 
