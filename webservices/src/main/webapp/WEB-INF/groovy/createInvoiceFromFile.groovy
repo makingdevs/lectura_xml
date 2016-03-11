@@ -8,10 +8,8 @@ if (method.toLowerCase()=="post"){
   InvoiceParser invoiceParser =new InvoiceParser()
   File file=invoiceParser.getFileFromInputStream(request.inputStream)
   AccountManager invoiceService = new AccountManagerImpl()
-  Comprobante comprobante=invoiceService.obtainVoucherFromInvoice(file)
-  println "Valores:. "+comprobante.total
+  Comprobante invoice=invoiceService.obtainVoucherFromInvoice(file)
+
   response.contentType='application/json'
-  json{
-    comprobante
-  }
+  json(invoice)
 }
