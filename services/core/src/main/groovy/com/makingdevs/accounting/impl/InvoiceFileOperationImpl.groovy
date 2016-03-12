@@ -36,9 +36,10 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
   File createInvoiceCompleteDetailFile(String filePath){
     AccountManager accountManager = new AccountManagerImpl()
     Comprobante invoice = accountManager.obtainVoucherFromInvoice(new File(filePath))
+
     XSSFWorkbook workbook = generateWorkbookWithInvoiceCompleteDetail(invoice)
     def invoiceFile = new File("Invoices.xlsx")
-    FileOutputStream out = new FileOutputStream(invoicesFile)
+    FileOutputStream out = new FileOutputStream(invoiceFile)
     workbook.write(out)
     out.close()
     invoiceFile
