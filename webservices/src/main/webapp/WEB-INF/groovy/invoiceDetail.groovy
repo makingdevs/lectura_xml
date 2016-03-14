@@ -4,7 +4,19 @@ import com.makingdevs.Comprobante
 import com.makingdevs.InvoiceParser
 import javax.servlet.http.HttpServletResponse
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
+
+Logger log = LoggerFactory.getLogger(getClass())
+
+log.debug "*"*80
+log.debug request.properties.toString()
+log.error "Errorz"
+log.warn "Warning"
+
 def method = request.method
+
 try{
 
   def contentType = headers.find{ k,v -> k.toLowerCase() == 'content-type' }?.value
@@ -17,9 +29,11 @@ try{
     File file=invoiceParser.getFileFromInputStream(request.inputStream)
     AccountManager invoiceService = new AccountManagerImpl()
     Comprobante invoice=invoiceService.obtainVoucherFromInvoice(file)
-
     response.contentType = 'application/json'
     json(invoice)
+  }
+  if(method.toLowerCase()=="get"){
+    json([status:"OK"])
   }
 
 }
