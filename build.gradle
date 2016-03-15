@@ -43,6 +43,10 @@ project(":webservices"){
     compile project(":services:core")
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
     compile 'com.github.groovy-wslite:groovy-wslite:1.1.2'
+    testCompile 'org.eclipse.jetty:jetty-server:8.1.19.v20160209'
+    testCompile 'org.eclipse.jetty:jetty-servlet:8.1.19.v20160209'
+
+
   }
   httpPort = 1234
 }
