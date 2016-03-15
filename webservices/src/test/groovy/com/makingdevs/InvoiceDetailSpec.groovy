@@ -1,8 +1,9 @@
 package com.makingdevs
+
 import spock.lang.Specification
+import spock.lang.Shared
 import java.lang.Void as Should
 import wslite.rest.*
-import com.makingdevs.*
 import groovy.json.JsonSlurper
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.servlet.*
@@ -11,9 +12,24 @@ import groovy.servlet.*
 import static org.eclipse.jetty.servlet.ServletContextHandler.*
 
 class InvoiceDetailSpec extends Specification{
+
+  @Shared server = new Server(1234)
+
   def setup() {
-    startJetty()
+    def context = new ServletContextHandler(server, "/", SESSIONS)
+    context.resourceBase = "/webservices"
+    context.setContextPath("/webservices/src/main/webapp/com/WEB-INF/groovy")
+    context.addServlet(GroovyServlet, "*.groovy")
+    server.start()
+    println "*"*80
+    println server.dump()
+    println "*"*80
   }
+
+  def cleanup(){
+    server.stop()
+  }
+
   Should "Verify what response to be POST with Wslite retrieve JSON"(){
     given:
       //startJetty()
@@ -24,15 +40,15 @@ class InvoiceDetailSpec extends Specification{
                                               "Content-Type":"application/octet-stream",
                                               "Accept":"application/json"
                                               ]) {
-                                                  type ContentType.BINARY  
+                                                  type ContentType.BINARY
                                                   bytes invoice.bytes
                                                 }
-      
+
     then:
       responsePOST.contentAsString
       //println responsePOST.contentAsString
   }
-  
+
   Should "Verify what response to be GET with Wslite retrieve STATUS=OK"(){
     given:
       //startJetty()
@@ -46,15 +62,6 @@ class InvoiceDetailSpec extends Specification{
       def statusWebService = slurperJson.parseText(responseGET.contentAsString)
     then:
       statusWebService.status=="OK"
-  }
-
-  def startJetty() {
-    def server = new Server(1234)
-    def context = new ServletContextHandler(server, "/", SESSIONS)
-    context.resourceBase = "/webservices"
-    context.setContextPath("/webservices/src/main/webapp/com/WEB-INF/groovy")
-    context.addServlet(GroovyServlet, "*.groovy")
-    server.start()
   }
 
 }
