@@ -17,8 +17,8 @@ class InvoiceDetailSpec extends Specification{
 
   def setup() {
     def context = new ServletContextHandler(server, "/", SESSIONS)
-    context.resourceBase = "/webservices"
-    context.setContextPath("/webservices/src/main/webapp/com/WEB-INF/groovy")
+    context.resourceBase = "${new File(".").canonicalPath}/src/main/webapp/WEB-INF/groovy"
+    context.setContextPath("/")
     context.addServlet(GroovyServlet, "*.groovy")
     server.start()
     println "*"*80
@@ -32,9 +32,8 @@ class InvoiceDetailSpec extends Specification{
 
   Should "Verify what response to be POST with Wslite retrieve JSON"(){
     given:
-      //startJetty()
       File invoice = new File(this.class.classLoader.getResource("factura.xml").getFile())
-      def client = new RESTClient("http://localhost:1234/webservices/invoiceDetail.groovy")
+      def client = new RESTClient("http://localhost:1234/invoiceDetail.groovy")
     when:
       def responsePOST = client.post(headers:[
                                               "Content-Type":"application/octet-stream",
@@ -46,14 +45,12 @@ class InvoiceDetailSpec extends Specification{
 
     then:
       responsePOST.contentAsString
-      //println responsePOST.contentAsString
   }
 
   Should "Verify what response to be GET with Wslite retrieve STATUS=OK"(){
     given:
-      //startJetty()
       def slurperJson = new JsonSlurper()
-      def client = new RESTClient("http://localhost:1234/webservices/invoiceDetail.groovy")
+      def client = new RESTClient("http://localhost:1234/invoiceDetail.groovy")
     when:
       def responseGET = client.get(headers:[
                                             "Content-Type":"application/octet-stream",
