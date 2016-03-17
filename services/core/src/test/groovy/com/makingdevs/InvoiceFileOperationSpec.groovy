@@ -69,7 +69,7 @@ class InvoiceFileOperationSpec extends Specification{
 
   Should "create an excel file with the invoices info"(){
     given:"the files path"
-      String path = "${System.getProperty('user.home')}/Workspace/facturas"
+      String path = "${System.getProperty('user.home')}/workspace/facturas"
     when:
       def invoicesFile = invoiceFileOperationImpl.createInvoicesFile(path)
     then:
@@ -80,7 +80,7 @@ class InvoiceFileOperationSpec extends Specification{
 
   Should "create an excel file with the invoice complete detail"(){
     given:
-      String filePath = "${System.getProperty('user.home')}/Workspace/facturas/Invoice.xml"
+      String filePath = "${System.getProperty('user.home')}/workspace/facturas/Invoice.xml"
     when:
       def invoiceFile = invoiceFileOperationImpl.createInvoiceCompleteDetailFile(filePath)
     then:
