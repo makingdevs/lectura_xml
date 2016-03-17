@@ -1,6 +1,7 @@
 subprojects{
   apply plugin:'groovy'
-  
+  apply plugin: 'java'
+
   repositories{
     jcenter()
   }
@@ -8,6 +9,10 @@ subprojects{
   dependencies{
   	compile 'org.codehaus.groovy:groovy-all:2.4.4'
     compile 'ch.qos.logback:logback-classic:1.1.6'
+  }
+
+  compileJava {
+    targetCompatibility = 1.7
   }
 }
 
@@ -36,7 +41,7 @@ project(":app"){
 project(":webservices"){
   apply plugin: 'war'
   apply plugin: 'jetty'
-
+  
   dependencies{
     compile project(":services:api")
     compile project(":services:core")
@@ -46,9 +51,7 @@ project(":webservices"){
 
   }
   httpPort = 1234
-  compileJava {
-    targetCompatibility = 1.7
-  }
+  
 }
 
 
