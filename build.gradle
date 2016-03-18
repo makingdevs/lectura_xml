@@ -1,6 +1,5 @@
 subprojects{
   apply plugin:'groovy'
-  apply plugin: 'java'
 
   repositories{
     jcenter()
@@ -11,7 +10,11 @@ subprojects{
     compile 'ch.qos.logback:logback-classic:1.1.6'
   }
 
-  compileJava {
+  sourceCompatibility = 1.7
+  targetCompatibility = 1.7
+  
+  compileGroovy {
+    sourceCompatibility = 1.7
     targetCompatibility = 1.7
   }
 }
