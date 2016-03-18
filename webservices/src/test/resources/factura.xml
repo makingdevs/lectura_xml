@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xsi:schemaLocation="http://www.sat.gob.mx/cfd/3 http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv32.xsd" version="3.2" serie="AAH" folio="1164771" fecha="2015-12-15T12:55:27" sello="niegkB7nDQopnX5u/dmbumuJTlKqjNT1KULUvuDNz//5SDV3c+u2p4nI8vHPOS1c9ZsfRKCtDm2FoEZCHJUNGwedxj556WFtLYGTW7aAynqNqNtf2S+1hNWbeCnHC+/Ay6hXrAxVUmGts6H9oj6lBph8ybJI9ZSQd4zkzXZWjOo=" formaDePago="PAGO EN UNA SOLA EXHIBICION" noCertificado="00001000000202584887" certificado="MIIEozCCA4ugAwIBAgIUMDAwMDEwMDAwMDAyMDI1ODQ4ODcwDQYJKoZIhvcNAQEFBQAwggGVMTgwNgYDVQQDDC9BLkMuIGRlbCBTZXJ2aWNpbyBkZSBBZG1pbmlzdHJhY2nDs24gVHJpYnV0YXJpYTEvMC0GA1UECgwmU2VydmljaW8gZGUgQWRtaW5pc3RyYWNpw7NuIFRyaWJ1dGFyaWExODA2BgNVBAsML0FkbWluaXN0cmFjacOzbiBkZSBTZWd1cmlkYWQgZGUgbGEgSW5mb3JtYWNpw7NuMSEwHwYJKoZIhvcNAQkBFhJhc2lzbmV0QHNhdC5nb2IubXgxJjAkBgNVBAkMHUF2LiBIaWRhbGdvIDc3LCBDb2wuIEd1ZXJyZXJvMQ4wDAYDVQQRDAUwNjMwMDELMAkGA1UEBhMCTVgxGTAXBgNVBAgMEERpc3RyaXRvIEZlZGVyYWwxFDASBgNVBAcMC0N1YXVodMOpbW9jMRUwEwYDVQQtEwxTQVQ5NzA3MDFOTjMxPjA8BgkqhkiG9w0BCQIML1Jlc3BvbnNhYmxlOiBDZWNpbGlhIEd1aWxsZXJtaW5hIEdhcmPDrWEgR3VlcnJhMB4XDTEyMTIxMjE4MTQzNVoXDTE2MTIxMjE4MTQzNVowgeQxKDAmBgNVBAMTH1NFQVJTIE9QRVJBRE9SQSBNRVhJQ08gU0EgREUgQ1YxKDAmBgNVBCkTH1NFQVJTIE9QRVJBRE9SQSBNRVhJQ08gU0EgREUgQ1YxKDAmBgNVBAoTH1NFQVJTIE9QRVJBRE9SQSBNRVhJQ08gU0EgREUgQ1YxJTAjBgNVBC0THFNPTTEwMTEyNVVFQSAvIFJPR0w2NDA0MDVLVzMxHjAcBgNVBAUTFSAvIFJPR0w2NDA0MDVIREZTTVMwODEdMBsGA1UECxMUQ0VSVElGSUNBRE9TIEdFTkVSQUwwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBALbiiXDOkSDO9PFqapvJOzni1bbVTDLVEZFo8cyZ/Z1WICXaBgFRphgRt/iInD9JZDzRUraxeaJQwAOwLFdb8ui5Q8RLS2qYGR7AfabFiU9HGu0wEE4OS/DpLx9tXrGL3PMKRqHbaYQ/f3Z2xB5tx5AH92MMgtbfSm2sC9sV3NQ9AgMBAAGjHTAbMAwGA1UdEwEB/wQCMAAwCwYDVR0PBAQDAgbAMA0GCSqGSIb3DQEBBQUAA4IBAQAclNsddTFrxJxjX8cowlFkGI8mvxFJeM4+NUwZwNTQyuRyUVpdZaUfR83WkuSBxE8X0mvzVDgX5Gd8bSyYJiJTK+RCwTHEYf0B4R00/k9N4GhJu1MLLFffPH2nB4RNVTRncY3b8So8WoK8ssAwNmrjYjz7onc+qqnGXPNMGo6D19CqHGTGo6rEi7XzggLHdmzIcDm+DBEvlu38RlWDWs+nq4L+kA2led2rpp7IKiBi2dCIhM3AcsGXpmmTaZ0iJ9QQnbdujA4721F2AtQQ7J/bg4jFkJ6BXmuQcNQg8afcwfqBUy5zxqF2N/Hk98z0AtDvO3VUUtEcmE915oEEZd6N" subTotal="1233.880000" descuento="0.000000" Moneda="MXN" total="1431.300000" tipoDeComprobante="ingreso" metodoDePago="TARJETA DE CREDITO" LugarExpedicion="UNIVERSIDAD" NumCtaPago="6602" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cfdi="http://www.sat.gob.mx/cfd/3">
+  <cfdi:Emisor rfc="SOM101125UEA" nombre="SEARS OPERADORA MEXICO, S.A. DE C.V.">
+    <cfdi:DomicilioFiscal calle="LAGO ZURICH" noExterior="245" noInterior="EDIFICIO PRESA FALCON, PISO 7" colonia="GRANADA AMPLIACION" municipio="MIGUEL HIDALGO" estado="DISTRITO FEDERAL" pais="MEXICO" codigoPostal="11529" />
+    <cfdi:ExpedidoEn calle="UNIVERSIDAD" noExterior="1000" colonia="GENERAL ANAYA" municipio="MEXICO" estado="D.F." pais="MEXICO" codigoPostal="3540" />
+    <cfdi:RegimenFiscal Regimen="REGIMEN GENERAL DE LAS PERSONAS MORALES" />
+  </cfdi:Emisor>
+  <cfdi:Receptor rfc="MDE130712JA6" nombre="MAKING DEVS SC">
+    <cfdi:Domicilio calle="CALZADA ERMITA IZTAPALAPA" noExterior="278" noInterior="DEPTO 501" colonia="SINATEL" municipio="IZTAPALAPA" estado="DISTRITO FEDERAL" pais="MEXICO" codigoPostal="09470" />
+  </cfdi:Receptor>
+  <cfdi:Conceptos>
+    <cfdi:Concepto cantidad="1" unidad="PIEZAS" noIdentificacion="16559889" descripcion="CORBATA BRUNO MAGNANI CORBATAMAR001" valorUnitario="171.550000" importe="171.550000" />
+    <cfdi:Concepto cantidad="1" unidad="PIEZAS" noIdentificacion="25776118" descripcion="CALC. ALG. PARA DIABETES ROMBOS CAR" valorUnitario="30.260000" importe="30.260000" />
+    <cfdi:Concepto cantidad="1" unidad="PIEZAS" noIdentificacion="49718574" descripcion="CALCETIN POLO CLUB G40785-410" valorUnitario="33.620000" importe="33.620000" />
+    <cfdi:Concepto cantidad="1" unidad="PIEZAS" noIdentificacion="51108853" descripcion="CALCETIN POLO CLUB G40785-310" valorUnitario="33.620000" importe="33.620000" />
+    <cfdi:Concepto cantidad="1" unidad="PIEZAS" noIdentificacion="53390553" descripcion="CAMISA JOHN HENRY SLIM FIT MODELO J" valorUnitario="526.810000" importe="526.810000" />
+    <cfdi:Concepto cantidad="1" unidad="PIEZAS" noIdentificacion="55402769" descripcion="CAMISA LISA ULTRA SLIM FIT COLOR VI" valorUnitario="387.160000" importe="387.160000" />
+    <cfdi:Concepto cantidad="1" unidad="PIEZAS" noIdentificacion="55528795" descripcion="CALCETIN MERCERIZADO FANTASIA JOSEP" valorUnitario="50.860000" importe="50.860000" />
+  </cfdi:Conceptos>
+  <cfdi:Impuestos totalImpuestosRetenidos="0.000000" totalImpuestosTrasladados="197.420000">
+    <cfdi:Traslados>
+      <cfdi:Traslado impuesto="IVA" tasa="16.000000" importe="197.420000" />
+    </cfdi:Traslados>
+  </cfdi:Impuestos>
+  <cfdi:Complemento xsi:schemaLocation="">
+    <tfd:TimbreFiscalDigital version="1.0" UUID="4004340f-e1ea-4df6-9c97-30d701b01b47" FechaTimbrado="2015-12-15T12:55:42" selloCFD="niegkB7nDQopnX5u/dmbumuJTlKqjNT1KULUvuDNz//5SDV3c+u2p4nI8vHPOS1c9ZsfRKCtDm2FoEZCHJUNGwedxj556WFtLYGTW7aAynqNqNtf2S+1hNWbeCnHC+/Ay6hXrAxVUmGts6H9oj6lBph8ybJI9ZSQd4zkzXZWjOo=" noCertificadoSAT="00001000000203092957" selloSAT="cIJ8H5/dsr1IuobEOqnq2EkyOCt+wwGm7Qv6yrbIWyJz7zeDPnlvyeO4a0G0lEBj7vnMnU1Y7BhhazsqEvwsjoELqr8xeOcAqDpTPHG24UH22YQwVxH0sirXrFKEtGmS1gNb8rnluUZlrlPILNzOa7lpudbS+YtTkbn72l/cRic=" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/TimbreFiscalDigital/TimbreFiscalDigital.xsd" xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" />
+  </cfdi:Complemento>
+  <cfdi:Addenda xmlns:fa="http://admin.sanborns.com.mx/cfdi/v1" xsi:schemaLocation="http://admin.sanborns.com.mx/cfdi/v1 http://admin.sanborns.com.mx/cfdi/v1/GpoSnb.xsd">
+    <fa:Datos version="1.0" folio="1164771" tipoDocumento="FACTURA" subdocumento="0103000101870212-2015-1246722" mail="atencionclientes@sanborns.com.mx" moneda="MXN" tipoCambio="1" cantidadConLetra="(* UN  MIL CUATROCIENTOS TREINTA Y UNO PESOS 30/100 M.N. *)" status="1" IvaMx="197.42" totalMx="1431.3" subtotalSinDescuentos="1233.88" subTotalMX="1233.88" dia="15" anio="2015" hora="12:55 p. m." EtiquetaIdentificador="SCN" IdentificadorArea="0103000101870212-2015-1246722" Nota="Se expide la presente a peticion del interesado, ya que su importe se incluye dentro de la factura global diaria que se formula de acuerdo al articulo 37 del reglamento del codigo fiscal de la Federacion" tienda="103" EtiExpedidoEn="EXPEDIDO EN SUCURSAL UNIVERSIDAD" EtiqCol1="Division" EtiqCol2="Clave" EtiqCol3="Cantidad" EtiqCol4="Descripcion" EtiqCol5="Unidad de Medida" EtiqCol6="Precio Unitario" EtiqCol7="Importe Neto" EtiTasaIVA="EL IVA SE TRASLADA A LA TASA 16%" EtiObservaciones="Observaciones" Observaciones="0103,3333,187,02/12/2015" NoCia="24" EtiqtipoDocumento="FACTURA" descTotal="0">
+      <fa:CadenaOriginal>
+      </fa:CadenaOriginal>
+      <fa:CadenaOriginalTFD>|1.0|4004340f-e1ea-4df6-9c97-30d701b01b47|2015-12-15T12:55:42|niegkB7nDQopnX5u/dmbumuJTlKqjNT1KULUvuDNz//5SDV3c+u2p4nI8vHPOS1c9ZsfRKCtDm2FoEZCHJUNGwedxj556WFtLYGTW7aAynqNqNtf2S+1hNWbeCnHC+/Ay6hXrAxVUmGts6H9oj6lBph8ybJI9ZSQd4zkzXZWjOo=|00001000000203092957</fa:CadenaOriginalTFD>
+      <fa:AddendaComercial>
+        <fa:EntregadoEn />
+        <fa:Totales subtotalSinDescuentos="1233.88" subtotalConDescuentosSinIva="1233.88" totalMx="1431.3" cantidadConLetra="(* UN  MIL CUATROCIENTOS TREINTA Y UNO PESOS 30/100 M.N. *)" />
+        <fa:Subtotales>
+          <fa:Subtotal Impuesto="IVA" Tasa="16" Ley="SUB-TOTAL VENTA" Importe="1233.88" />
+        </fa:Subtotales>
+        <fa:Detalles>
+          <fa:Detalle descripcion="CORBATA BRUNO MAGNANI CORBATAMAR001" cantidad="1" valorUnitario="171.55" importe="171.55" clave="16559889" division="33" unidad="PIEZAS" />
+          <fa:Detalle descripcion="CALC. ALG. PARA DIABETES ROMBOS CAR" cantidad="1" valorUnitario="30.26" importe="30.26" clave="25776118" division="72" unidad="PIEZAS" />
+          <fa:Detalle descripcion="CALCETIN POLO CLUB G40785-410" cantidad="1" valorUnitario="33.62" importe="33.62" clave="49718574" division="33" unidad="PIEZAS" />
+          <fa:Detalle descripcion="CALCETIN POLO CLUB G40785-310" cantidad="1" valorUnitario="33.62" importe="33.62" clave="51108853" division="33" unidad="PIEZAS" />
+          <fa:Detalle descripcion="CAMISA JOHN HENRY SLIM FIT MODELO J" cantidad="1" valorUnitario="526.81" importe="526.81" clave="53390553" division="33" unidad="PIEZAS" />
+          <fa:Detalle descripcion="CAMISA LISA ULTRA SLIM FIT COLOR VI" cantidad="1" valorUnitario="387.16" importe="387.16" clave="55402769" division="33" unidad="PIEZAS" />
+          <fa:Detalle descripcion="CALCETIN MERCERIZADO FANTASIA JOSEP" cantidad="1" valorUnitario="50.86" importe="50.86" clave="55528795" division="33" unidad="PIEZAS" />
+        </fa:Detalles>
+      </fa:AddendaComercial>
+    </fa:Datos>
+  </cfdi:Addenda>
+</cfdi:Comprobante>
