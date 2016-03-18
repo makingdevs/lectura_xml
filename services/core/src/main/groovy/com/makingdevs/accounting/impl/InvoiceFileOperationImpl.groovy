@@ -116,6 +116,7 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
                   invoice.impuesto.totalImpuestosTrasladado,
                   invoice.total,
                   invoice.emisor.nombre,
+                  invoice.emisor.rfc,
                   invoice.receptor.nombre,
                   invoice.receptor.rfc,
                   invoice.noCertificado,
@@ -180,7 +181,7 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
 
   private def getHeadersForDetailReport(){
     ["Fecha","Subtotal","Descuento","Impuesto","Total",
-     "Emisor","Receptor","Receptor RFC","No.Certificado","Sello",
+     "Emisor","Emisor RFC","Receptor","Receptor RFC","No.Certificado","Sello",
      "Folio","Forma de Pago","Addenda","LugarExpedicion",
      "TimbreFiscalDigital","TipoDeComprobante","TipoDeCambio",
      "Serie","Moneda","NumCtaPago","Conceptos",
