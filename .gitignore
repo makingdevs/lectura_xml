@@ -5,7 +5,7 @@ build/
 src/main/groovy/com/makingdevs/com/
 web/bower_components/**
 web/node_modules/**
-#*.xml
+*.xml
 
 # Ignore Gradle GUI config
 gradle-app.setting
