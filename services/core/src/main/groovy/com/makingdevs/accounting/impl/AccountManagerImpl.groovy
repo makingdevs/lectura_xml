@@ -191,4 +191,19 @@ class AccountManagerImpl implements AccountManager{
     addenda
   }
 
+  def obtainAddenda(File invoice){
+    def xml = new XmlSlurper().parseText(invoice.getText()).declareNamespace(
+      cfdi:"http://www.sat.gob.mx/cfd/3",
+      xsi:"http://www.w3.org/2001/XMLSchema-instance",
+      bfa3:"http://www.buzonfiscal.com/ns/addenda/bf/3")
+    xml.Addenda.children().each{root->
+    print ("Root: "+root.name())
+    println (root.attributes())
+      root.children().each{nodo->
+        print "Nodo: "+nodo.name()
+        println "\t "+nodo.attributes()
+      }
+    }
+  }
+
 }
