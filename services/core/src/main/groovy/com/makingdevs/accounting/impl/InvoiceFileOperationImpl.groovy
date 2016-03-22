@@ -71,8 +71,10 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
 
   XSSFWorkbook generateWorkbookWithAddenda(Comprobante invoice){
     XSSFWorkbook workbook = generateExcelWorkbook()
-    addHeadersToWorkbook(workbook,getHeadersForAddendaReport())
+    addRecordToWorkbook(workbook.getHeadersForAddenda(invoice))
     XSSFSheet sheet = workbook.getSheetAt(0)
+    
+    workbook
   }
 
   XSSFWorkbook generateWorkbookWithAddendaInvoice(Comprobante invoice){
@@ -198,6 +200,18 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     ["Serie","Fecha","Subtotal","Descuento","Impuesto",
      "Total","Addenda periodo","Sucursal","NumeroCuenta",
      "NombreCliente","Version"]
+  }
+
+  private def getHeadersForAddenda(Comprobante invoice){
+    AccountManager accountManager = new AccountManagerImpl()
+    def fields=[]
+    def listOfHeaders=accountManager.obtainAddenda(invoice)
+    listOfHeaders.each{nodo->
+      nodo.collect{header->
+        fields<< header.key
+      }
+    }
+    fields
   }
 
 }
