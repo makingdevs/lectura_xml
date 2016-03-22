@@ -11,13 +11,16 @@ import com.makingdevs.EstadoDeCuentaBancario
 import com.makingdevs.MovimientoECB
 import com.makingdevs.accounting.impl.InvoiceFileOperationImpl
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
+import com.makingdevs.accounting.impl.AccountManagerImpl
 
 class InvoiceFileOperationSpec extends Specification{
 
   InvoiceFileOperationImpl invoiceFileOperationImpl
+  AccountManagerImpl accountManagerImpl
 
   def setup(){
     invoiceFileOperationImpl = new InvoiceFileOperationImpl()
+    accountManagerImpl = new AccountManagerImpl()
   }
 
   Should "create an excel workbook with the invoice info"(){
@@ -77,6 +80,15 @@ class InvoiceFileOperationSpec extends Specification{
 
   }
 */
+  Should "check that has addenda"(){
+    given:"the invoice"
+      File invoice = new File(this.class.classLoader.getResource("factura-addenda.xml").getFile())
+    when:
+      def invoiceWithAddenda = accountManagerImpl.obtainAddenda(invoice)
+    then:
+      invoiceWithAddenda.size > 0
+  }
+
   Should "create an excel file with the invoices info"(){
     given:"the files path"
       String path = "${new File(".").canonicalPath}/src/test/resources/"
