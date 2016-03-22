@@ -69,6 +69,12 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     workbook
   }
 
+  XSSFWorkbook generateWorkbookWithAddenda(Comprobante invoice){
+    XSSFWorkbook workbook = generateExcelWorkbook()
+    addHeadersToWorkbook(workbook,getHeadersForAddendaReport())
+    XSSFSheet sheet = workbook.getSheetAt(0)
+  }
+
   XSSFWorkbook generateWorkbookWithAddendaInvoice(Comprobante invoice){
     XSSFWorkbook workbook = generateExcelWorkbook()
     addHeadersToWorkbook(workbook,getHeadersForAddendaReport())
