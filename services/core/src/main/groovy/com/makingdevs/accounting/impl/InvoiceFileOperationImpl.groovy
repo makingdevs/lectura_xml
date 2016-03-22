@@ -226,4 +226,22 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     fields
   }
 
+  def getDetailValuesForAddenda(File invoice){
+    AccountManager accountManager = new AccountManagerImpl()
+    def listAttribute=[]
+    def listValues=[]
+    def listDetail=accountManager.obtainAddenda(invoice)
+    listDetail.each{nodo->
+      nodo.collect{key,value->
+          value.collect{attributeAddenda,valueAddenda->
+            //println key+"*"*5+attributeAddenda+"*"*5+valueAddenda
+            listAttribute << attributeAddenda
+            listValues << valueAddenda
+        }
+      }
+    }
+    [listAttribute,listValues]
+  }
+
+  
 }
