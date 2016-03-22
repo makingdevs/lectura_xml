@@ -19,17 +19,17 @@ def method = request.method
 try{
 
   def contentType = headers.find{ k,v -> k.toLowerCase() == 'content-type' }?.value
-
+  response.contentType = 'application/json'
   if(method.toLowerCase()=="post"){
     InvoiceParser invoiceParser =new InvoiceParser()
     File file=invoiceParser.getFileFromInputStream(request.inputStream)
     AccountManager invoiceService = new AccountManagerImpl()
     Comprobante invoice=invoiceService.obtainVoucherFromInvoice(file)
-    response.contentType = 'application/json'
+    
     json(invoice)
   }
   if(method.toLowerCase()=="get"){
-    response.contentType = 'application/json'
+    
     json([status:"OK"])
   }
 
