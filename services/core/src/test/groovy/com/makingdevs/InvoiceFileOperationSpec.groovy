@@ -69,17 +69,17 @@ class InvoiceFileOperationSpec extends Specification{
     then:
       invoiceWorkbook
   }
-/*
+
   Should "create an excel workbook with addenda"(){
     given:"the invoice"
-      def invoice = createInvoice()
+      File invoice = new File(this.class.classLoader.getResource("factura-addenda.xml").getFile())
     when:
-      def invoiceWorkbook = invoiceFileOperationImpl.generateWorkbookWithAddenda(invoice)
+      def addendaWorkbook = invoiceFileOperationImpl.generateWorkbookWithAddenda(invoice)
     then:
-      invoiceWorkbook
+      addendaWorkbook
 
   }
-*/
+
   Should "check that has addenda"(){
     given:"the invoice"
       File invoice = new File(this.class.classLoader.getResource("factura-addenda.xml").getFile())
