@@ -29,6 +29,7 @@ try{
     json(invoice)
   }
   if(method.toLowerCase()=="get"){
+    response.contentType = 'application/json'
     json([status:"OK"])
   }
 
