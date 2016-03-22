@@ -214,7 +214,7 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
      "NombreCliente","Version"]
   }
 
-  private def getHeadersForAddenda(Comprobante invoice){
+  def getHeadersForAddenda(File invoice){
     AccountManager accountManager = new AccountManagerImpl()
     def fields=[]
     def listOfHeaders=accountManager.obtainAddenda(invoice)
