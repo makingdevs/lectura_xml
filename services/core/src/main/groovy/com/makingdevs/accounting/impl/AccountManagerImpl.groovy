@@ -204,7 +204,7 @@ class AccountManagerImpl implements AccountManager{
     def childrens = parentNode.children()
     if(childrens.size()){
       childrens.each{ children ->
-        println "."*10+children.name()
+        //println "."*10+children.name()
         getAttributesFromXML(children,listAddenda)
       }
     }
