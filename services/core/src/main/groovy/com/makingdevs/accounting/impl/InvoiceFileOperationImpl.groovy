@@ -45,6 +45,18 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     invoiceFile
   }
 
+  File createInvoiceWithAddendaFile(String path){
+    AccountManager accountManager = new AccountManagerImpl()
+    Comprobante invoice = accountManager.obtainAddenda(new File(filePath))
+
+    XSSFWorkbook workbook = generateWorkbookWithAddenda(invoice)
+    def invoiceFile = new File("InvoiceAddenda.xlsx")
+    FileOutputStream out = new FileOutputStream(invoiceFile)
+    workbook.write(out)
+    out.close()
+    invoiceFile
+  }
+
   XSSFWorkbook generateExcelWorkbook(){
     XSSFWorkbook workbook = new XSSFWorkbook()
     XSSFSheet sheet=workbook.createSheet("Página_1")
@@ -73,7 +85,7 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     XSSFWorkbook workbook = generateExcelWorkbook()
     addRecordToWorkbook(workbook.getHeadersForAddenda(invoice))
     XSSFSheet sheet = workbook.getSheetAt(0)
-    
+    addCompleteInvoiceDetailToWorkbook(invoice,workbook)
     workbook
   }
 
