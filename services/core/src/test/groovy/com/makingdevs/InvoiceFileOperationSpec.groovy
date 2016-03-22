@@ -66,7 +66,17 @@ class InvoiceFileOperationSpec extends Specification{
     then:
       invoiceWorkbook
   }
+/*
+  Should "create an excel workbook with addenda"(){
+    given:"the invoice"
+      def invoice = createInvoice()
+    when:
+      def invoiceWorkbook = invoiceFileOperationImpl.generateWorkbookWithAddenda(invoice)
+    then:
+      invoiceWorkbook
 
+  }
+*/
   Should "create an excel file with the invoices info"(){
     given:"the files path"
       String path = "${new File(".").canonicalPath}/src/test/resources/"
