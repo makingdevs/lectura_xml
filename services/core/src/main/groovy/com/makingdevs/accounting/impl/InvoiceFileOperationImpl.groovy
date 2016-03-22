@@ -81,11 +81,18 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     workbook
   }
 
-  XSSFWorkbook generateWorkbookWithAddenda(Comprobante invoice){
+  XSSFWorkbook generateWorkbookWithAddenda(File invoice){
     XSSFWorkbook workbook = generateExcelWorkbook()
-    addRecordToWorkbook(workbook.getHeadersForAddenda(invoice))
+    addHeadersToWorkbook(workbook,getHeadersForAddendaReport())
     XSSFSheet sheet = workbook.getSheetAt(0)
-    addCompleteInvoiceDetailToWorkbook(invoice,workbook)
+
+    def fields = getDetailValuesForAddenda(invoice).get(1)
+
+
+    addRecordToWorkbook(workbook,fields)
+
+    def headers = getHeadersForAddenda(invoice)
+
     workbook
   }
 
@@ -127,6 +134,11 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
                   invoice.sello,invoice.total]
 
     addRecordToWorkbook(workbook,fields)
+  }
+
+  void addAddendaDetailToWorkbook(Comprobante invoice,XSSFWorkbook workbook){
+    def listAttribute=getDetailValuesForAddenda(invoice).get(0)
+    addRecordToWorkbook(workbook,listAttribute)
   }
 
   void addInvoiceDetailToWorkbook(Comprobante invoice,XSSFWorkbook workbook){
