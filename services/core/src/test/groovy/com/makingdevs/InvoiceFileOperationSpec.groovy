@@ -89,6 +89,15 @@ class InvoiceFileOperationSpec extends Specification{
       invoiceWithAddenda.size > 0
   }
 
+  Should "check that retrieve headers from addenda"(){
+    given:"the invoice"
+      File invoice = new File(this.class.classLoader.getResource("factura-addenda.xml").getFile())
+    when:
+      def headersFromAddenda = invoiceFileOperationImpl.getHeadersForAddenda(invoice)   
+    then:
+      headersFromAddenda.size == 25
+  }
+
   Should "create an excel file with the invoices info"(){
     given:"the files path"
       String path = "${new File(".").canonicalPath}/src/test/resources/"
