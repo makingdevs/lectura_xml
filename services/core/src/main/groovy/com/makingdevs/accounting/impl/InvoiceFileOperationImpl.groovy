@@ -184,7 +184,7 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     Cell cell = row.createCell(row.lastCellNum+1)
     CreationHelper createHelper = workbook.getCreationHelper()
     XSSFCellStyle dateStyle = workbook.createCellStyle()
-    dateStyle.dataFormat = createHelper.createDataFormat().getFormat("dd-MM-YYYY HH:mm")
+    dateStyle.dataFormat = createHelper.createDataFormat().getFormat("dd-MM-yyyy HH:mm")
 
     fields.each{ field ->
       if(field?.class?.simpleName == BigDecimal.class.simpleName)
