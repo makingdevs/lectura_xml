@@ -22,7 +22,7 @@ class App {
         File file = fc.selectedFile
         def path =  fc.currentDirectory.absolutePath
         File excelFile = invoiceFileOperation.createInvoiceWithAddendaFile(file)
-        excelFile.renameTo(new File("${file.canonicalPath}.xlsx"))
+        excelFile.renameTo(new File("${file.getCanonicalPath().split(".xml").join()}.xlsx"))
       break
       case JFileChooser.CANCEL_OPTION:
       case JFileChooser.ERROR_OPTION:
