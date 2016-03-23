@@ -19,8 +19,11 @@ class App {
       case JFileChooser.APPROVE_OPTION:
         File file = fc.selectedFile
         def path =  fc.currentDirectory.absolutePath
-        File excelFile = invoiceFileOperation.createFilesAddenda(file.canonicalPath)
-        excelFile.renameTo(new File(file.canonicalPath, excelFile.name))
+        List<File> listExcelFile = invoiceFileOperation.createFilesAddenda(file.canonicalPath)
+        listExcelFile.each{excelFile->
+          excelFile.renameTo(new File(file.canonicalPath, excelFile.name))
+        }
+        
       break
       case JFileChooser.CANCEL_OPTION:
       case JFileChooser.ERROR_OPTION:
