@@ -45,6 +45,15 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     invoiceFile
   }
 
+  File createInvoiceWithAddendaFile(File file){
+    XSSFWorkbook workbook = generateWorkbookWithAddenda(file)
+    def invoiceFile = new File("InvoiceAddenda.xlsx")
+    FileOutputStream out = new FileOutputStream(invoiceFile)
+    workbook.write(out)
+    out.close()
+    invoiceFile
+  }
+
   XSSFWorkbook generateExcelWorkbook(){
     XSSFWorkbook workbook = new XSSFWorkbook()
     XSSFSheet sheet=workbook.createSheet("Página_1")
@@ -66,6 +75,22 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     XSSFWorkbook workbook = generateExcelWorkbook()
     addHeadersToWorkbook(workbook,getHeadersForCompleteDetailReport())
     addCompleteInvoiceDetailToWorkbook(invoice,workbook)
+    workbook
+  }
+
+  XSSFWorkbook generateWorkbookWithAddenda(File invoice){
+    XSSFWorkbook workbook = generateExcelWorkbook()
+    def headers=getDetailAddenda(invoice)
+    XSSFSheet sheet = workbook.getSheetAt(0)
+    def detail = getDetailValuesForAddenda(invoice)
+    
+    addHeadersToWorkbook(workbook,headers.keySet()*.toString())
+    addRecordToWorkbook(workbook,headers.values())
+    
+    addHeadersToWorkbook(workbook,detail.first().keySet()*.toString())
+    detail.each{ row ->
+      addRecordToWorkbook(workbook,row.values())
+    }
     workbook
   }
 
@@ -194,4 +219,46 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
      "NombreCliente","Version"]
   }
 
+  def getHeadersForAddenda(File invoice){
+    AccountManager accountManager = new AccountManagerImpl()
+    def fields=[]
+    def listOfHeaders=accountManager.obtainAddenda(invoice)
+    listOfHeaders.each{nodo->
+      nodo.each{header->
+        fields<< header.key
+      }
+    }
+    fields
+  }
+
+  def getDetailValuesForAddenda(File invoice){
+    AccountManager accountManager = new AccountManagerImpl()
+    def mapDetail=[:]
+    def listDetail=[]
+    def listAllInfo=accountManager.obtainAddenda(invoice)
+    listAllInfo.each{nodo->
+      nodo.each{key,value->
+        value.each{attributeAddenda,valueAddenda->
+          mapDetail << [(attributeAddenda):valueAddenda]
+        }
+        listDetail << mapDetail
+        mapDetail=[:]
+      }
+    }
+    listDetail
+  }
+
+  def getDetailAddenda(File invoice){
+    def xml = new XmlSlurper().parseText(invoice.getText()).declareNamespace(
+      cfdi:"http://www.sat.gob.mx/cfd/3",
+      xsi:"http://www.w3.org/2001/XMLSchema-instance",
+      bfa3:"http://www.buzonfiscal.com/ns/addenda/bf/3")
+    def mapAddenda=[:]
+    xml.Addenda.children().each{attribute->
+      mapAddenda << attribute.attributes()
+    }
+    mapAddenda
+  }
+
+  
 }

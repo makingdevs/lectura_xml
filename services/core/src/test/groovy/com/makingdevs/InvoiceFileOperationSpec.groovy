@@ -11,13 +11,16 @@ import com.makingdevs.EstadoDeCuentaBancario
 import com.makingdevs.MovimientoECB
 import com.makingdevs.accounting.impl.InvoiceFileOperationImpl
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
+import com.makingdevs.accounting.impl.AccountManagerImpl
 
 class InvoiceFileOperationSpec extends Specification{
 
   InvoiceFileOperationImpl invoiceFileOperationImpl
+  AccountManagerImpl accountManagerImpl
 
   def setup(){
     invoiceFileOperationImpl = new InvoiceFileOperationImpl()
+    accountManagerImpl = new AccountManagerImpl()
   }
 
   Should "create an excel workbook with the invoice info"(){
@@ -65,6 +68,45 @@ class InvoiceFileOperationSpec extends Specification{
       def invoiceWorkbook = invoiceFileOperationImpl.generateWorkbookWithAddendaInvoice(invoice)
     then:
       invoiceWorkbook
+  }
+
+  Should "create an excel workbook with addenda"(){
+    given:"the invoice"
+      File invoice = new File(this.class.classLoader.getResource("factura-addenda.xml").getFile())
+    when:
+      def addendaWorkbook = invoiceFileOperationImpl.generateWorkbookWithAddenda(invoice)
+    then:
+      addendaWorkbook
+
+  }
+
+  Should "check that has addenda"(){
+    given:"the invoice"
+      File invoice = new File(this.class.classLoader.getResource("factura-addenda.xml").getFile())
+    when:
+      def invoiceWithAddenda = accountManagerImpl.obtainAddenda(invoice)
+    then:
+      invoiceWithAddenda.size > 0
+  }
+
+  Should "check that retrieve headers from addenda"(){
+    given:"the invoice"
+      File invoice = new File(this.class.classLoader.getResource("factura-addenda.xml").getFile())
+    when:
+      def headersFromAddenda = invoiceFileOperationImpl.getHeadersForAddenda(invoice)   
+    then:
+      headersFromAddenda.size == 25
+  }
+
+  Should "create an excel file with addenda"(){
+    given:"the files path"
+      File invoice = new File(this.class.classLoader.getResource("factura-addenda.xml").getFile())
+    when:
+      def invoicesFile = invoiceFileOperationImpl.createInvoiceWithAddendaFile(invoice)
+    then:
+      invoicesFile.length()
+    //cleanup:
+      //invoicesFile.delete()
   }
 
   Should "create an excel file with the invoices info"(){
