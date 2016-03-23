@@ -54,16 +54,17 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     invoiceFile
   }
 
-  File createFilesAddenda(String path){
+  List<File> createFilesAddenda(String path){
     def fileNames = new FileNameByRegexFinder().getFileNames(path, /.*\.xml/)
     def invoices = []
     AccountManager accountManager = new AccountManagerImpl()
     
     fileNames.each{ fileName ->
-      //invoices << accountManager.obtainVoucherFromInvoice(new File(fileName))
+      invoices << createInvoiceWithAddendaFile(new File(fileName))
       println "val: "+fileName
-      createInvoiceWithAddendaFile(new File(fileName))
+      
     }
+    invoices
   }
 
   XSSFWorkbook generateExcelWorkbook(){
