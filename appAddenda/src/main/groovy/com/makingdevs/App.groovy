@@ -13,16 +13,14 @@ class App {
   static void main(String[] args){
     def initialPath = System.getProperty("user.dir")
     JFileChooser fc = new JFileChooser(initialPath)
-    FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos XML", "xml")
-    fc.setFileFilter(filter)
-    fc.setFileSelectionMode(JFileChooser.FILES_ONLY)
+    fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY)
     int result = fc.showOpenDialog( null )
     switch ( result ) {
       case JFileChooser.APPROVE_OPTION:
         File file = fc.selectedFile
         def path =  fc.currentDirectory.absolutePath
-        File excelFile = invoiceFileOperation.createInvoiceWithAddendaFile(file)
-        excelFile.renameTo(new File("${file.getCanonicalPath().split(".xml").join()}.xlsx"))
+        File excelFile = invoiceFileOperation.createFilesAddenda(file.canonicalPath)
+        excelFile.renameTo(new File(file.canonicalPath, excelFile.name))
       break
       case JFileChooser.CANCEL_OPTION:
       case JFileChooser.ERROR_OPTION:
