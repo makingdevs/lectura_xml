@@ -45,11 +45,8 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     invoiceFile
   }
 
-  File createInvoiceWithAddendaFile(String path){
-    AccountManager accountManager = new AccountManagerImpl()
-    Comprobante invoice = accountManager.obtainAddenda(new File(filePath))
-
-    XSSFWorkbook workbook = generateWorkbookWithAddenda(invoice)
+  File createInvoiceWithAddendaFile(File file){
+    XSSFWorkbook workbook = generateWorkbookWithAddenda(file)
     def invoiceFile = new File("InvoiceAddenda.xlsx")
     FileOutputStream out = new FileOutputStream(invoiceFile)
     workbook.write(out)
@@ -83,16 +80,15 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
 
   XSSFWorkbook generateWorkbookWithAddenda(File invoice){
     XSSFWorkbook workbook = generateExcelWorkbook()
-    addHeadersToWorkbook(workbook,getHeadersForAddendaReport())
+    def headers=getHeadersForAddenda(invoice)
+    addHeadersToWorkbook(workbook,headers.first())
+    println headers
     XSSFSheet sheet = workbook.getSheetAt(0)
-
-    def fields = getDetailValuesForAddenda(invoice).get(1)
-
-
-    addRecordToWorkbook(workbook,fields)
-
-    def headers = getHeadersForAddenda(invoice)
-
+    def detail = getDetailValuesForAddenda(invoice)
+    addHeadersToWorkbook(workbook,detail.first().keySet()*.toString())
+    detail.each{ row ->
+      addRecordToWorkbook(workbook,row.values())
+    }
     workbook
   }
 
@@ -134,11 +130,6 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
                   invoice.sello,invoice.total]
 
     addRecordToWorkbook(workbook,fields)
-  }
-
-  void addAddendaDetailToWorkbook(Comprobante invoice,XSSFWorkbook workbook){
-    def listAttribute=getDetailValuesForAddenda(invoice).get(0)
-    addRecordToWorkbook(workbook,listAttribute)
   }
 
   void addInvoiceDetailToWorkbook(Comprobante invoice,XSSFWorkbook workbook){
@@ -231,7 +222,7 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     def fields=[]
     def listOfHeaders=accountManager.obtainAddenda(invoice)
     listOfHeaders.each{nodo->
-      nodo.collect{header->
+      nodo.each{header->
         fields<< header.key
       }
     }
@@ -240,19 +231,19 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
 
   def getDetailValuesForAddenda(File invoice){
     AccountManager accountManager = new AccountManagerImpl()
-    def listAttribute=[]
-    def listValues=[]
-    def listDetail=accountManager.obtainAddenda(invoice)
-    listDetail.each{nodo->
-      nodo.collect{key,value->
-          value.collect{attributeAddenda,valueAddenda->
-            //println key+"*"*5+attributeAddenda+"*"*5+valueAddenda
-            listAttribute << attributeAddenda
-            listValues << valueAddenda
+    def mapDetail=[:]
+    def listDetail=[]
+    def listAllInfo=accountManager.obtainAddenda(invoice)
+    listAllInfo.each{nodo->
+      nodo.each{key,value->
+        value.each{attributeAddenda,valueAddenda->
+          mapDetail << [(attributeAddenda):valueAddenda]
         }
+        listDetail << mapDetail
+        mapDetail=[:]
       }
     }
-    [listAttribute,listValues]
+    listDetail
   }
 
   
