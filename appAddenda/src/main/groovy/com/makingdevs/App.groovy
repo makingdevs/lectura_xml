@@ -21,7 +21,7 @@ class App {
       case JFileChooser.APPROVE_OPTION:
         File file = fc.selectedFile
         def path =  fc.currentDirectory.absolutePath
-        File excelFile = invoiceFileOperation.createInvoiceWithAddendaFile(file.canonicalPath)
+        File excelFile = invoiceFileOperation.createInvoiceWithAddendaFile(file)
         excelFile.renameTo(new File(file.canonicalPath, excelFile.name))
       break
       case JFileChooser.CANCEL_OPTION:
