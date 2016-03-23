@@ -209,7 +209,7 @@ class AccountManagerImpl implements AccountManager{
       }
     }
     else{
-      println "*"*10+parentNode.name()+parentNode.attributes()
+      //println "*"*10+parentNode.name()+parentNode.attributes()
       listAddenda<<[(parentNode.name()):parentNode.attributes()]
     }
     listAddenda
