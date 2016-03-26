@@ -47,7 +47,7 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
 
   File createInvoiceWithAddendaFile(File file){
     XSSFWorkbook workbook = generateWorkbookWithAddenda(file)
-    def invoiceFile = new File("InvoiceAddenda.xlsx")
+    def invoiceFile = new File("${file.getCanonicalPath().split(".xml").join()}.xlsx")
     FileOutputStream out = new FileOutputStream(invoiceFile)
     workbook.write(out)
     out.close()
@@ -61,8 +61,6 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     
     fileNames.each{ fileName ->
       invoices << createInvoiceWithAddendaFile(new File(fileName))
-      println "val: "+fileName
-      
     }
     invoices
   }
