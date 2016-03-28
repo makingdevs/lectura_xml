@@ -90,6 +90,8 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     addCompleteInvoiceDetailToWorkbookEmisor(invoice,workbook)
     addHeadersToWorkbook(workbook,getHeadersForCompleteDetailReportReceptor())
     addCompleteInvoiceDetailToWorkbookReceptor(invoice,workbook)
+    addHeadersToWorkbook(workbook,getHeadersForCompleteDetailReportConceptos())
+    addCompleteInvoiceDetailToWorkbookConceptos(invoice,workbook)
     workbook
   }
 
@@ -173,6 +175,15 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     addRecordToWorkbook(workbook,fields)
   }
 
+  void addCompleteInvoiceDetailToWorkbookConceptos(Comprobante invoice,XSSFWorkbook workbook){
+    invoice.conceptos.eachWithIndex{ conceptos, index ->
+      def fields = [conceptos.cantidad,conceptos.unidad,
+                    conceptos.noIdentificacion,conceptos.descripcion,
+                    conceptos.valorUnitario,conceptos.importe]
+      addRecordToWorkbook(workbook,fields)
+    }
+  }
+
   void addInvoiceDetailToWorkbook(Comprobante invoice,XSSFWorkbook workbook){
     def fields = [invoice.fecha,
                   invoice.subTotal,
@@ -253,6 +264,11 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
   private def getHeadersForCompleteDetailReportReceptor(){
     ["Receptor rfc","nombre",
     "domicilio","calle","municipio","estado","pais","codigoPostal","noExterior","noInterior","colonia"
+    ]
+  }
+
+  private def getHeadersForCompleteDetailReportConceptos(){
+    ["cantidad","unidad","noIdentificacion","descripcion","valorUnitario","importe"
     ]
   }
 
