@@ -290,15 +290,15 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
   }
 
   private def getHeadersForCompleteDetailReportConceptos(){
-    ["cantidad","unidad","noIdentificacion","descripcion","valorUnitario","importe"]
+    ["Conceptos cantidad","unidad","noIdentificacion","descripcion","valorUnitario","importe"]
   }
 
   private def getHeadersForCompleteDetailReportImpuestos(){
-    ["totalImpuestosTrasladado","traslado","impuesto","tasa","importe"]
+    ["Impuestos totalImpuestosTrasladado","traslado","impuesto","tasa","importe"]
   }
 
   private def getHeadersForCompleteDetailReportTimbreFiscal(){
-    ["fechaTimbrado","uuid","noCertificadoSAT","selloCFD","selloSAT","version"]
+    ["Timbre Fiscal fechaTimbrado","uuid","noCertificadoSAT","selloCFD","selloSAT","version"]
   }
 
   private def getHeadersForDetailReport(){
