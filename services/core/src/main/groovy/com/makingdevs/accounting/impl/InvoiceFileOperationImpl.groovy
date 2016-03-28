@@ -86,6 +86,7 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     XSSFWorkbook workbook = generateExcelWorkbook()
     addHeadersToWorkbook(workbook,getHeadersForCompleteDetailReport())
     addCompleteInvoiceDetailToWorkbook(invoice,workbook)
+    addHeadersToWorkbook(workbook,getHeadersForCompleteDetailReportEmisor())
     workbook
   }
 
@@ -140,7 +141,7 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
                   invoice.total,invoice.tipoCambio,invoice.moneda,
                   invoice.metodoDePago,invoice.tipoDeComprobante,invoice.lugarExpedicion,
                   invoice.numCtaPago,invoice.noCertificado,invoice.certificado,
-                  invoice.sello,invoice.total]
+                  invoice.sello]
 
     addRecordToWorkbook(workbook,fields)
   }
@@ -212,7 +213,13 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     ["Fecha","Serie","Folio","Forma de Pago","SubTotal","Descuento",
      "Total","Tipo de Cambio","Moneda","Método de Pago","Tipo De Comprobante",
      "Lugar de Expedición","Num.Cta Pago","No.Certificado","Certificado",
-     "Sello","Total"]
+     "Sello"]
+  }
+  private def getHeadersForCompleteDetailReportEmisor(){
+    ["rfc","nombre",
+    "domicilioFiscal","calle","municipio","estado","pais","codigoPostal","noExterior","noInterior","colonia",
+    "lugarExpedicion","calle","municipio","estado","pais","codigoPostal","noExterior","noInterior","colonia",
+    "regimen"]
   }
 
   private def getHeadersForDetailReport(){
