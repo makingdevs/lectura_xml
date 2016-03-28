@@ -87,6 +87,7 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     addHeadersToWorkbook(workbook,getHeadersForCompleteDetailReport())
     addCompleteInvoiceDetailToWorkbook(invoice,workbook)
     addHeadersToWorkbook(workbook,getHeadersForCompleteDetailReportEmisor())
+    addCompleteInvoiceDetailToWorkbookEmisor(invoice,workbook)
     workbook
   }
 
@@ -142,6 +143,20 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
                   invoice.metodoDePago,invoice.tipoDeComprobante,invoice.lugarExpedicion,
                   invoice.numCtaPago,invoice.noCertificado,invoice.certificado,
                   invoice.sello]
+
+    addRecordToWorkbook(workbook,fields)
+  }
+
+  void addCompleteInvoiceDetailToWorkbookEmisor(Comprobante invoice,XSSFWorkbook workbook){
+    def fields = [invoice.emisor.rfc,invoice.emisor.nombre,
+                  "domicilioFiscal",invoice.emisor.domicilioFiscal.calle,
+                  invoice.emisor.domicilioFiscal.municipio,invoice.emisor.domicilioFiscal.estado,invoice.emisor.domicilioFiscal.pais,
+                  invoice.emisor.domicilioFiscal.codigoPostal,invoice.emisor.domicilioFiscal.noExterior,invoice.emisor.domicilioFiscal.noInterior,invoice.emisor.domicilioFiscal.colonia,
+                  "lugarExpedicion",invoice.emisor.lugarExpedicion.calle,
+                  invoice.emisor.lugarExpedicion.municipio,invoice.emisor.lugarExpedicion.estado,invoice.emisor.lugarExpedicion.pais,
+                  invoice.emisor.lugarExpedicion.codigoPostal,invoice.emisor.lugarExpedicion.noExterior,invoice.emisor.lugarExpedicion.noInterior,invoice.emisor.lugarExpedicion.colonia,
+                  invoice.emisor.regimen.regimen
+                  ]
 
     addRecordToWorkbook(workbook,fields)
   }
@@ -216,7 +231,7 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
      "Sello"]
   }
   private def getHeadersForCompleteDetailReportEmisor(){
-    ["rfc","nombre",
+    ["Emisor rfc","nombre",
     "domicilioFiscal","calle","municipio","estado","pais","codigoPostal","noExterior","noInterior","colonia",
     "lugarExpedicion","calle","municipio","estado","pais","codigoPostal","noExterior","noInterior","colonia",
     "regimen"]
