@@ -94,6 +94,8 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     addCompleteInvoiceDetailToWorkbookConceptos(invoice,workbook)
     addHeadersToWorkbook(workbook,getHeadersForCompleteDetailReportImpuestos())
     addCompleteInvoiceDetailToWorkbookImpuestos(invoice,workbook)
+    addHeadersToWorkbook(workbook,getHeadersForCompleteDetailReportTimbreFiscal())
+    addCompleteInvoiceDetailToWorkbookTimbreFiscal(invoice,workbook)
     workbook
   }
 
@@ -196,6 +198,14 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     addRecordToWorkbook(workbook,fields)
   }
 
+  void addCompleteInvoiceDetailToWorkbookTimbreFiscal(Comprobante invoice,XSSFWorkbook workbook){
+    def fields = [invoice.timbreFiscalDigital.fechaTimbrado,invoice.timbreFiscalDigital.uuid,
+                  invoice.timbreFiscalDigital.noCertificadoSAT,invoice.timbreFiscalDigital.selloCFD,
+                  invoice.timbreFiscalDigital.selloSAT,invoice.timbreFiscalDigital.version
+                  ]
+    addRecordToWorkbook(workbook,fields)
+  }
+
   void addInvoiceDetailToWorkbook(Comprobante invoice,XSSFWorkbook workbook){
     def fields = [invoice.fecha,
                   invoice.subTotal,
@@ -285,6 +295,10 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
 
   private def getHeadersForCompleteDetailReportImpuestos(){
     ["totalImpuestosTrasladado","traslado","impuesto","tasa","importe"]
+  }
+
+  private def getHeadersForCompleteDetailReportTimbreFiscal(){
+    ["fechaTimbrado","uuid","noCertificadoSAT","selloCFD","selloSAT","version"]
   }
 
   private def getHeadersForDetailReport(){
