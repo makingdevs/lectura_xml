@@ -60,7 +60,7 @@ class AccountManagerImpl implements AccountManager{
       regimenFiscal.regimen=atributo.RegimenFiscal.@Regimen
       emisor.regimen=regimenFiscal
     }
-    xml.ExpedidoEn.each{atributo->
+    xml.Emisor.ExpedidoEn.each{atributo->
       lugarExpedicion.calle=atributo.@calle
       lugarExpedicion.noExterior=atributo.@noExterior
       lugarExpedicion.colonia=atributo.@colonia
