@@ -88,6 +88,8 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     addCompleteInvoiceDetailToWorkbook(invoice,workbook)
     addHeadersToWorkbook(workbook,getHeadersForCompleteDetailReportEmisor())
     addCompleteInvoiceDetailToWorkbookEmisor(invoice,workbook)
+    addHeadersToWorkbook(workbook,getHeadersForCompleteDetailReportReceptor())
+    addCompleteInvoiceDetailToWorkbookReceptor(invoice,workbook)
     workbook
   }
 
@@ -156,6 +158,16 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
                   invoice.emisor.lugarExpedicion.municipio,invoice.emisor.lugarExpedicion.estado,invoice.emisor.lugarExpedicion.pais,
                   invoice.emisor.lugarExpedicion.codigoPostal,invoice.emisor.lugarExpedicion.noExterior,invoice.emisor.lugarExpedicion.noInterior,invoice.emisor.lugarExpedicion.colonia,
                   invoice.emisor.regimen.regimen
+                  ]
+
+    addRecordToWorkbook(workbook,fields)
+  }
+
+  void addCompleteInvoiceDetailToWorkbookReceptor(Comprobante invoice,XSSFWorkbook workbook){
+    def fields = [invoice.receptor.rfc,invoice.receptor.nombre,
+                  "domicilio",invoice.receptor.direccionReceptor.calle,
+                  invoice.receptor.direccionReceptor.municipio,invoice.receptor.direccionReceptor.estado,invoice.receptor.direccionReceptor.pais,
+                  invoice.receptor.direccionReceptor.codigoPostal,invoice.receptor.direccionReceptor.noExterior,invoice.receptor.direccionReceptor.noInterior,invoice.receptor.direccionReceptor.colonia
                   ]
 
     addRecordToWorkbook(workbook,fields)
@@ -230,11 +242,18 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
      "Lugar de Expedición","Num.Cta Pago","No.Certificado","Certificado",
      "Sello"]
   }
+
   private def getHeadersForCompleteDetailReportEmisor(){
     ["Emisor rfc","nombre",
     "domicilioFiscal","calle","municipio","estado","pais","codigoPostal","noExterior","noInterior","colonia",
     "lugarExpedicion","calle","municipio","estado","pais","codigoPostal","noExterior","noInterior","colonia",
     "regimen"]
+  }
+
+  private def getHeadersForCompleteDetailReportReceptor(){
+    ["Receptor rfc","nombre",
+    "domicilio","calle","municipio","estado","pais","codigoPostal","noExterior","noInterior","colonia"
+    ]
   }
 
   private def getHeadersForDetailReport(){
