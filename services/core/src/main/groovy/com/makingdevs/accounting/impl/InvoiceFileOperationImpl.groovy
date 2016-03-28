@@ -92,6 +92,8 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     addCompleteInvoiceDetailToWorkbookReceptor(invoice,workbook)
     addHeadersToWorkbook(workbook,getHeadersForCompleteDetailReportConceptos())
     addCompleteInvoiceDetailToWorkbookConceptos(invoice,workbook)
+    addHeadersToWorkbook(workbook,getHeadersForCompleteDetailReportImpuestos())
+    addCompleteInvoiceDetailToWorkbookImpuestos(invoice,workbook)
     workbook
   }
 
@@ -184,6 +186,16 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     }
   }
 
+  void addCompleteInvoiceDetailToWorkbookImpuestos(Comprobante invoice,XSSFWorkbook workbook){
+    def fields = [invoice.impuesto.totalImpuestosTrasladado,
+                  "traslado",  
+                  invoice.impuesto.traslado.impuesto,
+                  invoice.impuesto.traslado.tasa,
+                  invoice.impuesto.traslado.importe[0]
+                  ]
+    addRecordToWorkbook(workbook,fields)
+  }
+
   void addInvoiceDetailToWorkbook(Comprobante invoice,XSSFWorkbook workbook){
     def fields = [invoice.fecha,
                   invoice.subTotal,
@@ -268,8 +280,11 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
   }
 
   private def getHeadersForCompleteDetailReportConceptos(){
-    ["cantidad","unidad","noIdentificacion","descripcion","valorUnitario","importe"
-    ]
+    ["cantidad","unidad","noIdentificacion","descripcion","valorUnitario","importe"]
+  }
+
+  private def getHeadersForCompleteDetailReportImpuestos(){
+    ["totalImpuestosTrasladado","traslado","impuesto","tasa","importe"]
   }
 
   private def getHeadersForDetailReport(){
