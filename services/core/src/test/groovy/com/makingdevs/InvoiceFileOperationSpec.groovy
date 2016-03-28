@@ -127,8 +127,8 @@ class InvoiceFileOperationSpec extends Specification{
       def invoiceFile = invoiceFileOperationImpl.createInvoiceCompleteDetailFile(filePath)
     then:
       invoiceFile.length()
-    cleanup:
-      invoiceFile.delete()
+    //cleanup:
+      //invoiceFile.delete()
   }
 
   private Comprobante createInvoice(){
