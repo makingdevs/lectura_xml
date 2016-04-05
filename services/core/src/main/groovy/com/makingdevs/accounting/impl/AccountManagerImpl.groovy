@@ -165,12 +165,11 @@ class AccountManagerImpl implements AccountManager{
 
   Addenda obtainAddendaFromInvoice(File invoice){
     def addenda=new Addenda()
-    def estadoDeCuentaBancario=new EstadoDeCuentaBancario()
-    def movimientoECB=new MovimientoECB()
     def xml = new XmlSlurper().parseText(invoice.getText()).declareNamespace(
       cfdi:"http://www.sat.gob.mx/cfd/3",
       xsi:"http://www.w3.org/2001/XMLSchema-instance")
     xml.Addenda.EstadoDeCuentaBancario.each{atributo->
+      def estadoDeCuentaBancario=new EstadoDeCuentaBancario()
       estadoDeCuentaBancario.version=atributo.@version
       estadoDeCuentaBancario.numeroCuenta=atributo.@numeroCuenta
       estadoDeCuentaBancario.nombreCliente=atributo.@nombreCliente
@@ -179,6 +178,7 @@ class AccountManagerImpl implements AccountManager{
       addenda.estadoDeCuentaBancario=estadoDeCuentaBancario
     }
     xml.Addenda.EstadoDeCuentaBancario.Movimientos.MovimientoECBFiscal.each{atributo->
+      def movimientoECB=new MovimientoECB()
       movimientoECB.fecha=Date.parse("yyyy-MM-dd'T'HH:mm:ss", atributo.@fecha.toString())
       movimientoECB.referencia=atributo.@referencia
       movimientoECB.descripcion=atributo.@descripcion
