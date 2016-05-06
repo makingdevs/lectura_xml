@@ -28,7 +28,7 @@ class AccountManagerImpl implements AccountManager{
             voucher[attributeVoucher.key]=Date.parse("yyyy-MM-dd'T'HH:mm:ss", attributeXML.value)
           }
           else if(["total","subTotal","descuento","tipoCambio"]*.toLowerCase().contains(attributeVoucher.key.toLowerCase())){
-            voucher[attributeVoucher.key]=new BigDecimal(attributeXML.value)
+            voucher[attributeVoucher.key]=new BigDecimal(attributeXML.value.trim())
           }
           else{
             voucher[attributeVoucher.key]=attributeXML.value
