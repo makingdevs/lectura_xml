@@ -10,5 +10,6 @@ interface ReconciliationManager {
 
   List<Factura> readInvoicesFromAFile(String filePath)
   List<Pago> readPaymentsFromAFile(String filePath)
+  List<Factura> searchForPayedInvoices(List<Factura> facturas, List<Pago> pagos)
 
 }

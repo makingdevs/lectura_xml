@@ -31,4 +31,22 @@ class ReconciliationManagerSpec extends Specification {
     payments
   }
 
+  Should "find payed invoices"(){
+    given:
+    String invoicesPath = "./src/test/resources/facturas.xlsx"
+    String paymentsFile = "./src/test/resources/pagos.xlsx"
+    def invoices = manager.readInvoicesFromAFile(invoicesPath)
+    def payments = manager.readPaymentsFromAFile(paymentsFile)
+    when:
+    def payedInvoices = manager.searchForPayedInvoices(invoices, payments)
+    invoices.each { i ->
+      println """\
+        ${i.folio} ${i.payed} \t ${i.fecha.format('dd/MM/yy')} \t ${i.monto} \t ${i.emisor}
+        \t ${i.payments*.descripcion}
+      """
+    }
+    then:
+    payedInvoices
+  }
+
 }
