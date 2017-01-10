@@ -1,3 +1,13 @@
+buildscript {
+  repositories {
+    jcenter()
+  }
+
+  dependencies {
+    classpath 'org.akhikhl.gretty:gretty:+'
+  }
+}
+
 subprojects{
   apply plugin:'groovy'
 
@@ -12,7 +22,7 @@ subprojects{
 
   sourceCompatibility = 1.7
   targetCompatibility = 1.7
-  
+
   compileGroovy {
     sourceCompatibility = 1.7
     targetCompatibility = 1.7
@@ -51,8 +61,8 @@ project(":appAddenda"){
 
 project(":webservices"){
   apply plugin: 'war'
-  apply plugin: 'jetty'
-  
+  apply plugin: 'org.akhikhl.gretty'
+
   dependencies{
     compile project(":services:api")
     compile project(":services:core")
@@ -61,8 +71,7 @@ project(":webservices"){
     testCompile 'org.eclipse.jetty.aggregate:jetty-all-server:8.1.19.v20160209'
 
   }
-  httpPort = 1234
-  
+
 }
 
 
