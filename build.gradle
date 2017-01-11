@@ -59,6 +59,14 @@ project(":appAddenda"){
   mainClassName = "com.makingdevs.App"
 }
 
+project(":appReconciliation"){
+  dependencies {
+    compile project(":services:core")
+  }
+  apply plugin: 'application'
+  mainClassName = "com.makingdevs.App"
+}
+
 project(":webservices"){
   apply plugin: 'war'
   apply plugin: 'org.akhikhl.gretty'
