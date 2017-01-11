@@ -39,14 +39,9 @@ class ReconciliationManagerSpec extends Specification {
     def payments = manager.readPaymentsFromAFile(paymentsFile)
     when:
     def payedInvoices = manager.searchForPayedInvoices(invoices, payments)
-    invoices.each { i ->
-      println """\
-        ${i.folio} ${i.payed} \t ${i.fecha.format('dd/MM/yy')} \t ${i.monto} \t ${i.emisor}
-        \t ${i.payments*.descripcion}
-      """
-    }
     then:
     payedInvoices
+    payedInvoices.any { i -> i.payed }
   }
 
 }
