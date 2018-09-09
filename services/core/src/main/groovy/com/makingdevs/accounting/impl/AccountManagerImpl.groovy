@@ -61,25 +61,25 @@ class AccountManagerImpl implements AccountManager{
       emisor.regimen=regimenFiscal
     }
     xml.Emisor.ExpedidoEn.each{atributo->
-      lugarExpedicion.calle=atributo.@calle
-      lugarExpedicion.noExterior=atributo.@noExterior
-      lugarExpedicion.colonia=atributo.@colonia
-      lugarExpedicion.municipio=atributo.@municipio
-      lugarExpedicion.estado=atributo.@estado
-      lugarExpedicion.pais=atributo.@pais
-      lugarExpedicion.codigoPostal=atributo.@codigoPostal
-      emisor.lugarExpedicion=lugarExpedicion
+      lugarExpedicion.calle = atributo.@calle
+      lugarExpedicion.noExterior = atributo.@noExterior
+      lugarExpedicion.colonia = atributo.@colonia
+      lugarExpedicion.municipio = atributo.@municipio
+      lugarExpedicion.estado = atributo.@estado
+      lugarExpedicion.pais = atributo.@pais
+      lugarExpedicion.codigoPostal = atributo.@codigoPostal
+      emisor.lugarExpedicion = lugarExpedicion
     }
     xml.Emisor.DomicilioFiscal.each{atributo->
-      domicilioFiscal.calle=atributo.@calle
-      domicilioFiscal.noExterior=atributo.@noExterior
-      domicilioFiscal.noInterior=atributo.@noInterior
-      domicilioFiscal.colonia=atributo.@colonia
-      domicilioFiscal.municipio=atributo.@municipio
-      domicilioFiscal.estado=atributo.@estado
-      domicilioFiscal.pais=atributo.@pais
-      domicilioFiscal.codigoPostal=atributo.@codigoPostal
-      emisor.domicilioFiscal=domicilioFiscal
+      domicilioFiscal.calle = atributo.@calle
+      domicilioFiscal.noExterior = atributo.@noExterior
+      domicilioFiscal.noInterior = atributo.@noInterior
+      domicilioFiscal.colonia = atributo.@colonia
+      domicilioFiscal.municipio = atributo.@municipio
+      domicilioFiscal.estado = atributo.@estado
+      domicilioFiscal.pais = atributo.@pais
+      domicilioFiscal.codigoPostal = atributo.@codigoPostal
+      emisor.domicilioFiscal = domicilioFiscal
     }
     emisor
   }
@@ -96,15 +96,15 @@ class AccountManagerImpl implements AccountManager{
       receptor.nombre=atributo.@nombre
     }
     xml.Receptor.Domicilio.each{atributo->
-      direccionReceptor.calle=atributo.@calle
-      direccionReceptor.noExterior=atributo.@noExterior
-      direccionReceptor.noInterior=atributo.@noInterior
-      direccionReceptor.colonia=atributo.@colonia
-      direccionReceptor.municipio=atributo.@municipio
-      direccionReceptor.estado=atributo.@estado
-      direccionReceptor.pais=atributo.@pais
-      direccionReceptor.codigoPostal=atributo.@codigoPostal
-      receptor.direccionReceptor=direccionReceptor
+      direccionReceptor.calle = atributo.@calle
+      direccionReceptor.noExterior = atributo.@noExterior
+      direccionReceptor.noInterior = atributo.@noInterior
+      direccionReceptor.colonia = atributo.@colonia
+      direccionReceptor.municipio = atributo.@municipio
+      direccionReceptor.estado = atributo.@estado
+      direccionReceptor.pais = atributo.@pais
+      direccionReceptor.codigoPostal = atributo.@codigoPostal
+      receptor.direccionReceptor = direccionReceptor
     }
     receptor
   }
@@ -117,12 +117,12 @@ class AccountManagerImpl implements AccountManager{
       xsi:"http://www.w3.org/2001/XMLSchema-instance")
     xml.Conceptos.Concepto.each{atributo->
       concepto = new Concepto()
-      concepto.cantidad=Float.parseFloat(atributo.@cantidad.toString())
-      concepto.unidad=atributo.@unidad
-      concepto.noIdentificacion=atributo.@noIdentificacion
-      concepto.descripcion=atributo.@descripcion
-      concepto.valorUnitario=new BigDecimal(atributo.@valorUnitario.toString())
-      concepto.importe=new BigDecimal(atributo.@importe.toString())
+      concepto.cantidad = Float.parseFloat(atributo.@cantidad.toString())
+      concepto.unidad = atributo.@unidad
+      concepto.noIdentificacion = atributo.@noIdentificacion
+      concepto.descripcion = atributo.@descripcion
+      concepto.valorUnitario = new BigDecimal(atributo.@valorUnitario.toString())
+      concepto.importe = new BigDecimal(atributo.@importe.toString())
       conceptos.add(concepto)
     }
     conceptos
@@ -138,54 +138,54 @@ class AccountManagerImpl implements AccountManager{
       impuesto.totalImpuestosTrasladado=new BigDecimal(atributo.@totalImpuestosTrasladados.toString() ?: 0)
     }
     xml.Impuestos.Traslados.Traslado.each{atributo->
-      traslado=new Traslado()
-      traslado.impuesto=atributo.@impuesto
-      traslado.tasa=Float.parseFloat(atributo.@tasa.toString())
-      traslado.importe=new BigDecimal(atributo.@importe.toString())
+      traslado = new Traslado()
+      traslado.impuesto = atributo.@impuesto
+      traslado.tasa = Float.parseFloat(atributo.@tasa.toString())
+      traslado.importe = new BigDecimal(atributo.@importe.toString())
       impuesto.traslado.add(traslado)
     }
     impuesto
   }
 
   TimbreFiscalDigital obtainDigitalTaxStampFromInvoice(File invoice){
-    def timbreFiscalDigital=new TimbreFiscalDigital()
+    def timbreFiscalDigital = new TimbreFiscalDigital()
     def xml = new XmlSlurper().parseText(invoice.getText()).declareNamespace(
       cfdi:"http://www.sat.gob.mx/cfd/3",
       xsi:"http://www.w3.org/2001/XMLSchema-instance")
     xml.Complemento.TimbreFiscalDigital.each{atributo->
-      timbreFiscalDigital.fechaTimbrado=Date.parse("yyyy-MM-dd'T'HH:mm:ss",atributo.@FechaTimbrado.toString())
-      timbreFiscalDigital.uuid=atributo.@UUID
-      timbreFiscalDigital.noCertificadoSAT=atributo.@noCertificadoSAT
-      timbreFiscalDigital.selloCFD=atributo.@selloCFD
-      timbreFiscalDigital.selloSAT=atributo.@selloSAT
-      timbreFiscalDigital.version=atributo.@version
+      timbreFiscalDigital.fechaTimbrado = Date.parse("yyyy-MM-dd'T'HH:mm:ss",atributo.@FechaTimbrado.toString())
+      timbreFiscalDigital.uuid = atributo.@UUID
+      timbreFiscalDigital.noCertificadoSAT = atributo.@noCertificadoSAT
+      timbreFiscalDigital.selloCFD = atributo.@selloCFD
+      timbreFiscalDigital.selloSAT = atributo.@selloSAT
+      timbreFiscalDigital.version = atributo.@version
     }
     timbreFiscalDigital
   }
 
   Addenda obtainAddendaFromInvoice(File invoice){
-    def addenda=new Addenda()
-    def xml = new XmlSlurper().parseText(invoice.getText()).declareNamespace(
+    def addenda = new Addenda()
+    def xml  =  new XmlSlurper().parseText(invoice.getText()).declareNamespace(
       cfdi:"http://www.sat.gob.mx/cfd/3",
       xsi:"http://www.w3.org/2001/XMLSchema-instance")
     xml.Addenda.EstadoDeCuentaBancario.each{atributo->
-      def estadoDeCuentaBancario=new EstadoDeCuentaBancario()
-      estadoDeCuentaBancario.version=atributo.@version
-      estadoDeCuentaBancario.numeroCuenta=atributo.@numeroCuenta
-      estadoDeCuentaBancario.nombreCliente=atributo.@nombreCliente
-      estadoDeCuentaBancario.periodo=atributo.@periodo
-      estadoDeCuentaBancario.sucursal=atributo.@sucursal
-      addenda.estadoDeCuentaBancario=estadoDeCuentaBancario
+      def estadoDeCuentaBancario = new EstadoDeCuentaBancario()
+      estadoDeCuentaBancario.version = atributo.@version
+      estadoDeCuentaBancario.numeroCuenta = atributo.@numeroCuenta
+      estadoDeCuentaBancario.nombreCliente = atributo.@nombreCliente
+      estadoDeCuentaBancario.periodo = atributo.@periodo
+      estadoDeCuentaBancario.sucursal = atributo.@sucursal
+      addenda.estadoDeCuentaBancario = estadoDeCuentaBancario
     }
     xml.Addenda.EstadoDeCuentaBancario.Movimientos.MovimientoECBFiscal.each{atributo->
-      def movimientoECB=new MovimientoECB()
-      movimientoECB.fecha=Date.parse("yyyy-MM-dd'T'HH:mm:ss", atributo.@fecha.toString())
-      movimientoECB.referencia=atributo.@referencia
-      movimientoECB.descripcion=atributo.@descripcion
-      movimientoECB.importe=new BigDecimal(atributo.@importe.toString())
-      movimientoECB.moneda=atributo.@moneda
-      movimientoECB.saldoInicial=new BigDecimal(atributo.@saldoInicial.toString())
-      movimientoECB.saldoAlCorte=new BigDecimal(atributo.@saldoAlCorte.toString())
+      def movimientoECB = new MovimientoECB()
+      movimientoECB.fecha = Date.parse("yyyy-MM-dd'T'HH:mm:ss", atributo.@fecha.toString())
+      movimientoECB.referencia = atributo.@referencia
+      movimientoECB.descripcion = atributo.@descripcion
+      movimientoECB.importe = new BigDecimal(atributo.@importe.toString())
+      movimientoECB.moneda = atributo.@moneda
+      movimientoECB.saldoInicial = new BigDecimal(atributo.@saldoInicial.toString())
+      movimientoECB.saldoAlCorte = new BigDecimal(atributo.@saldoAlCorte.toString())
       addenda.estadoDeCuentaBancario.movimientoECB.add(movimientoECB)
     }
     addenda
@@ -196,7 +196,7 @@ class AccountManagerImpl implements AccountManager{
       cfdi:"http://www.sat.gob.mx/cfd/3",
       xsi:"http://www.w3.org/2001/XMLSchema-instance",
       bfa3:"http://www.buzonfiscal.com/ns/addenda/bf/3")
-    def listWithAddenda=[]
+    def listWithAddenda = []
     getAttributesFromXML(xml.Addenda,listWithAddenda)
   }
 
@@ -204,13 +204,11 @@ class AccountManagerImpl implements AccountManager{
     def childrens = parentNode.children()
     if(childrens.size()){
       childrens.each{ children ->
-        //println "."*10+children.name()
         getAttributesFromXML(children,listAddenda)
       }
     }
     else{
-      //println "*"*10+parentNode.name()+parentNode.attributes()
-      listAddenda<<[(parentNode.name()):parentNode.attributes()]
+      listAddenda << [(parentNode.name()):parentNode.attributes()]
     }
     listAddenda
   }
