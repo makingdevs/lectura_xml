@@ -34,7 +34,7 @@ class AccountManagerSpec_2018 extends Specification{
       voucher.noCertificado
       voucher.certificado
       voucher.sello
-      voucher.emisor.rfc=="SOM101125UEA"
+      voucher.emisor.rfc=="PMU940317114"
       voucher.receptor.rfc=="MDE130712JA6"
       voucher.impuesto
       voucher.conceptos
@@ -58,7 +58,6 @@ class AccountManagerSpec_2018 extends Specification{
       Receptor receptor=accountManagerImpl.obtainReceiverFromInvoice(invoice)
     then:
       receptor
-      receptor.direccionReceptor.calle=="CALZADA ERMITA IZTAPALAPA"
   }
 
   Should "Get conceptos from voucher" (){
@@ -77,7 +76,7 @@ class AccountManagerSpec_2018 extends Specification{
       Impuesto impuesto=accountManagerImpl.obtainTaxesFromInvoice(invoice)
     then:
       impuesto
-      impuesto.totalImpuestosTrasladado==197.420000
+      impuesto.totalImpuestosTrasladado==303.31
       impuesto.traslado.size>0
   }
 
@@ -88,16 +87,7 @@ class AccountManagerSpec_2018 extends Specification{
       TimbreFiscalDigital timbreFiscalDigital=accountManagerImpl.obtainDigitalTaxStampFromInvoice(invoice)
     then:
       timbreFiscalDigital
-      timbreFiscalDigital.uuid=="4004340f-e1ea-4df6-9c97-30d701b01b47"
+      timbreFiscalDigital.uuid=="00651edb-ed72-46ad-8e57-2385205eb4ff"
   }
 
-  Should "Get addenda from voucher" (){
-    given:
-      File invoice = new File(this.class.classLoader.getResource("factura-addenda.xml").getFile())
-    when:
-      Addenda addenda=accountManagerImpl.obtainAddendaFromInvoice(invoice)
-    then:
-      addenda
-      addenda.estadoDeCuentaBancario.periodo =="DEL 2015/11/13 AL 2015/12/13"
-  }
 }
