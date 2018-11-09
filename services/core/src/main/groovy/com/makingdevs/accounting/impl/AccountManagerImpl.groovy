@@ -117,12 +117,12 @@ class AccountManagerImpl implements AccountManager{
       xsi:"http://www.w3.org/2001/XMLSchema-instance")
     xml.Conceptos.Concepto.each{atributo->
       concepto = new Concepto()
-      concepto.cantidad=Float.parseFloat(atributo.@cantidad.toString())
+      concepto.cantidad=Float.parseFloat(atributo.@cantidad.toString() ?: "0")
       concepto.unidad=atributo.@unidad
       concepto.noIdentificacion=atributo.@noIdentificacion
       concepto.descripcion=atributo.@descripcion
-      concepto.valorUnitario=new BigDecimal(atributo.@valorUnitario.toString())
-      concepto.importe=new BigDecimal(atributo.@importe.toString())
+      concepto.valorUnitario=new BigDecimal(atributo.@valorUnitario.toString() ?: "0")
+      concepto.importe=new BigDecimal(atributo.@importe.toString() ?: "0")
       conceptos.add(concepto)
     }
     conceptos
@@ -140,8 +140,8 @@ class AccountManagerImpl implements AccountManager{
     xml.Impuestos.Traslados.Traslado.each{atributo->
       traslado=new Traslado()
       traslado.impuesto=atributo.@impuesto
-      traslado.tasa=Float.parseFloat(atributo.@tasa.toString())
-      traslado.importe=new BigDecimal(atributo.@importe.toString())
+      traslado.tasa=Float.parseFloat(atributo.@tasa.toString() ?: "0")
+      traslado.importe=new BigDecimal(atributo.@importe.toString() ?: "0")
       impuesto.traslado.add(traslado)
     }
     impuesto
