@@ -21,17 +21,17 @@ class AccountManagerImpl implements AccountManager{
     def xml = new XmlSlurper().parseText(invoice.getText()).declareNamespace(
       cfdi:"http://www.sat.gob.mx/cfd/3",
       xsi:"http://www.w3.org/2001/XMLSchema-instance")
-    xml.attributes().each{attributeXML->
-      voucher.getProperties().each{attributeVoucher->
+    xml.attributes().each { attributeXML ->
+      voucher.getProperties().each { attributeVoucher ->
         if(attributeXML.key.equalsIgnoreCase(attributeVoucher.key)){
           if(attributeVoucher.key.equalsIgnoreCase("fecha")){
-            voucher[attributeVoucher.key]=Date.parse("yyyy-MM-dd'T'HH:mm:ss", attributeXML.value)
+            voucher[attributeVoucher.key] = Date.parse("yyyy-MM-dd'T'HH:mm:ss", attributeXML.value)
           }
           else if(["total","subTotal","descuento","tipoCambio"]*.toLowerCase().contains(attributeVoucher.key.toLowerCase())){
-            voucher[attributeVoucher.key]=new BigDecimal(attributeXML.value.trim())
+            voucher[attributeVoucher.key] = new BigDecimal(attributeXML.value.trim())
           }
           else{
-            voucher[attributeVoucher.key]=attributeXML.value
+            voucher[attributeVoucher.key] = attributeXML.value
           }
         }
       }
@@ -42,69 +42,69 @@ class AccountManagerImpl implements AccountManager{
     voucher.impuesto = obtainTaxesFromInvoice(invoice)
     voucher.timbreFiscalDigital = obtainDigitalTaxStampFromInvoice(invoice)
     voucher.addenda = obtainAddendaFromInvoice(invoice)
+    voucher.formaDePago = xml.@formaDePago.text() ?: xml.@FormaPago.text() ?: "Sin datos"
+    voucher.metodoDePago = xml.@metodoDePago.text() ?: xml.@MetodoPago.text() ?: "Sin datos"
+    voucher.numCtaPago = xml.@numCtaPago.text() ?: xml.@NumCtaPago.text() ?: "Sin datos"
     voucher
   }
 
   Emisor obtainTransmitterFromInvoice(File invoice){
-    def emisor=new Emisor()
-    def domicilioFiscal=new Direccion()
-    def lugarExpedicion=new Direccion()
-    def regimenFiscal=new RegimenFiscal()
+    def emisor = new Emisor()
+    def domicilioFiscal = new Direccion()
+    def lugarExpedicion = new Direccion()
+    def regimenFiscal = new RegimenFiscal()
 
     def xml = new XmlSlurper().parseText(invoice.getText()).declareNamespace(
       cfdi:"http://www.sat.gob.mx/cfd/3",
       xsi:"http://www.w3.org/2001/XMLSchema-instance")
-    xml.Emisor.each{atributo->
-      emisor.rfc=atributo.@rfc
-      emisor.nombre=atributo.@nombre
-      regimenFiscal.regimen=atributo.RegimenFiscal.@Regimen
-      emisor.regimen=regimenFiscal
+    def emisorNode = xml.'cfdi:Emisor'
+    emisor.rfc = emisorNode.@rfc.text() ?: emisorNode.@Rfc.text() ?: "Sin datos"
+    emisor.nombre = emisorNode.@nombre.text() ?: emisorNode.@Nombre.text() ?: "Sin datos"
+    regimenFiscal.regimen = emisorNode.RegimenFiscal.@regimen.text() ?: emisorNode.RegimenFiscal.@Regimen.text() ?: "Sin datos"
+    emisor.regimen = regimenFiscal
+    xml.'cfdi:Emisor'.'cfdi:ExpedidoEn'.each { atributo->
+      lugarExpedicion.calle = atributo.@calle.text() ?: atributo.@Calle.text() ?: "Sin datos"
+      lugarExpedicion.noExterior = atributo.@noExterior.text() ?: atributo.@NoExterior.text() ?: "Sin datos"
+      lugarExpedicion.colonia = atributo.@colonia.text() ?: atributo.@Colonia.text() ?: "Sin datos"
+      lugarExpedicion.municipio = atributo.@municipio.text() ?: atributo.@Municipio.text() ?: "Sin datos"
+      lugarExpedicion.estado = atributo.@estado.text() ?: atributo.@Estado.text() ?: "Sin datos"
+      lugarExpedicion.pais = atributo.@pais.text() ?: atributo.@Pais.text() ?: "Sin datos"
+      lugarExpedicion.codigoPostal = atributo.@codigoPostal.text() ?: atributo.@CodigoPostal.text() ?: "Sin datos"
+      emisor.lugarExpedicion = lugarExpedicion
     }
-    xml.Emisor.ExpedidoEn.each{atributo->
-      lugarExpedicion.calle=atributo.@calle
-      lugarExpedicion.noExterior=atributo.@noExterior
-      lugarExpedicion.colonia=atributo.@colonia
-      lugarExpedicion.municipio=atributo.@municipio
-      lugarExpedicion.estado=atributo.@estado
-      lugarExpedicion.pais=atributo.@pais
-      lugarExpedicion.codigoPostal=atributo.@codigoPostal
-      emisor.lugarExpedicion=lugarExpedicion
-    }
-    xml.Emisor.DomicilioFiscal.each{atributo->
-      domicilioFiscal.calle=atributo.@calle
-      domicilioFiscal.noExterior=atributo.@noExterior
-      domicilioFiscal.noInterior=atributo.@noInterior
-      domicilioFiscal.colonia=atributo.@colonia
-      domicilioFiscal.municipio=atributo.@municipio
-      domicilioFiscal.estado=atributo.@estado
-      domicilioFiscal.pais=atributo.@pais
-      domicilioFiscal.codigoPostal=atributo.@codigoPostal
-      emisor.domicilioFiscal=domicilioFiscal
+    xml.'cfdi:Emisor'.'cfdi:DomicilioFiscal'.each { atributo->
+      domicilioFiscal.calle = atributo.@calle.text() ?: atributo.@Calle.text() ?: "Sin datos"
+      domicilioFiscal.noExterior = atributo.@noExterior.text() ?: atributo.@NoExterior.text() ?: "Sin datos"
+      domicilioFiscal.noInterior = atributo.@noInterior.text() ?: atributo.@NoInterior.text() ?: "Sin datos"
+      domicilioFiscal.colonia = atributo.@colonia.text() ?: atributo.@Colonia.text() ?: "Sin datos"
+      domicilioFiscal.municipio = atributo.@municipio.text() ?: atributo.@Municipio.text() ?: "Sin datos"
+      domicilioFiscal.estado = atributo.@estado.text() ?: atributo.@Estado.text() ?: "Sin datos"
+      domicilioFiscal.pais = atributo.@pais.text() ?: atributo.@Pais.text() ?: "Sin datos"
+      domicilioFiscal.codigoPostal = atributo.@codigoPostal.text() ?: atributo.@CodigoPostal.text() ?: "Sin datos"
+      emisor.domicilioFiscal = domicilioFiscal
     }
     emisor
   }
 
   Receptor obtainReceiverFromInvoice(File invoice){
-    def receptor=new Receptor()
-    def direccionReceptor=new Direccion()
+    def receptor = new Receptor()
+    def direccionReceptor = new Direccion()
 
     def xml = new XmlSlurper().parseText(invoice.getText()).declareNamespace(
       cfdi:"http://www.sat.gob.mx/cfd/3",
       xsi:"http://www.w3.org/2001/XMLSchema-instance")
-    xml.Receptor.each{atributo->
-      receptor.rfc=atributo.@rfc
-      receptor.nombre=atributo.@nombre
-    }
-    xml.Receptor.Domicilio.each{atributo->
-      direccionReceptor.calle=atributo.@calle
-      direccionReceptor.noExterior=atributo.@noExterior
-      direccionReceptor.noInterior=atributo.@noInterior
-      direccionReceptor.colonia=atributo.@colonia
-      direccionReceptor.municipio=atributo.@municipio
-      direccionReceptor.estado=atributo.@estado
-      direccionReceptor.pais=atributo.@pais
-      direccionReceptor.codigoPostal=atributo.@codigoPostal
-      receptor.direccionReceptor=direccionReceptor
+    receptor.rfc = xml.'cfdi:Receptor'.@rfc.text() ?: xml.'cfdi:Receptor'.@Rfc.text() ?: "Sin datos"
+    receptor.nombre = xml.'cfdi:Receptor'.@nombre.text() ?: xml.'cfdi:Receptor'.@Nombre.text() ?: "Sin datos"
+    xml.'cfdi:Receptor'.'cfdi:Domicilio'.each { atributo->
+      direccionReceptor.calle = atributo.@calle.text() ?: atributo.@Calle.text() ?: "Sin datos"
+      direccionReceptor.noExterior = atributo.@noExterior.text() ?: atributo.@NoExterior.text() ?: "Sin datos"
+      direccionReceptor.noInterior = atributo.@noInterior.text() ?: atributo.@NoInterior.text() ?: "Sin datos"
+      direccionReceptor.colonia = atributo.@colonia.text() ?: atributo.@Colonia.text() ?: "Sin datos"
+      direccionReceptor.municipio = atributo.@municipio.text() ?: atributo.@Municipio.text() ?: "Sin datos"
+      direccionReceptor.estado = atributo.@estado.text() ?: atributo.@Estado.text() ?: "Sin datos"
+      direccionReceptor.pais = atributo.@pais.text() ?: atributo.@Pais.text() ?: "Sin datos"
+      direccionReceptor.codigoPostal = atributo.@codigoPostal.text() ?: atributo.@CodigoPostal.text() ?: "Sin datos"
+      receptor.direccionReceptor = direccionReceptor
     }
     receptor
   }
@@ -115,14 +115,14 @@ class AccountManagerImpl implements AccountManager{
     def xml = new XmlSlurper().parseText(invoice.getText()).declareNamespace(
       cfdi:"http://www.sat.gob.mx/cfd/3",
       xsi:"http://www.w3.org/2001/XMLSchema-instance")
-    xml.Conceptos.Concepto.each{atributo->
+    xml.'cfdi:Conceptos'.'cfdi:Concepto'.each { atributo->
       concepto = new Concepto()
-      concepto.cantidad=Float.parseFloat(atributo.@cantidad.toString())
-      concepto.unidad=atributo.@unidad
-      concepto.noIdentificacion=atributo.@noIdentificacion
-      concepto.descripcion=atributo.@descripcion
-      concepto.valorUnitario=new BigDecimal(atributo.@valorUnitario.toString())
-      concepto.importe=new BigDecimal(atributo.@importe.toString())
+      concepto.cantidad = Float.parseFloat(atributo.@cantidad.text() ?: atributo.@Cantidad.text())
+      concepto.unidad = atributo.@unidad.text() ?: atributo.@Unidad.text()
+      concepto.noIdentificacion = atributo.@noIdentificacion.text() ?: atributo.@NoIdentificacion.text()
+      concepto.descripcion = atributo.@descripcion.text() ?: atributo.@Descripcion.text()
+      concepto.valorUnitario = new BigDecimal(atributo.@valorUnitario.text() ?: atributo.@ValorUnitario.text())
+      concepto.importe = new BigDecimal(atributo.@importe.text() ?: atributo.@Importe.text())
       conceptos.add(concepto)
     }
     conceptos
@@ -134,58 +134,58 @@ class AccountManagerImpl implements AccountManager{
     def xml = new XmlSlurper().parseText(invoice.getText()).declareNamespace(
       cfdi:"http://www.sat.gob.mx/cfd/3",
       xsi:"http://www.w3.org/2001/XMLSchema-instance")
-    xml.Impuestos.each{atributo->
-      impuesto.totalImpuestosTrasladado=new BigDecimal(atributo.@totalImpuestosTrasladados.toString() ?: 0)
+    xml.'cfdi:Impuestos'.each { atributo->
+      impuesto.totalImpuestosTrasladado = new BigDecimal((atributo.@totalImpuestosTrasladados.text() ?: atributo.@TotalImpuestosTrasladados.text()) ?: 0)
     }
-    xml.Impuestos.Traslados.Traslado.each{atributo->
-      traslado=new Traslado()
-      traslado.impuesto=atributo.@impuesto
-      traslado.tasa=Float.parseFloat(atributo.@tasa.toString())
-      traslado.importe=new BigDecimal(atributo.@importe.toString())
+    xml.'cfdi:Impuestos'.'cfdi:Traslados'.'cfdi:Traslado'.each { atributo->
+      traslado = new Traslado()
+      traslado.impuesto = atributo.@impuesto.text() ?: atributo.@Impuesto.text()
+      traslado.tasa = Float.parseFloat((atributo.@tasa.text() ?: atributo.@TasaOCuota.text()))
+      traslado.importe = new BigDecimal((atributo.@importe.text() ?: atributo.@Importe.text()))
       impuesto.traslado.add(traslado)
     }
     impuesto
   }
 
   TimbreFiscalDigital obtainDigitalTaxStampFromInvoice(File invoice){
-    def timbreFiscalDigital=new TimbreFiscalDigital()
+    def timbreFiscalDigital = new TimbreFiscalDigital()
     def xml = new XmlSlurper().parseText(invoice.getText()).declareNamespace(
       cfdi:"http://www.sat.gob.mx/cfd/3",
-      xsi:"http://www.w3.org/2001/XMLSchema-instance")
-    xml.Complemento.TimbreFiscalDigital.each{atributo->
-      timbreFiscalDigital.fechaTimbrado=Date.parse("yyyy-MM-dd'T'HH:mm:ss",atributo.@FechaTimbrado.toString())
-      timbreFiscalDigital.uuid=atributo.@UUID
-      timbreFiscalDigital.noCertificadoSAT=atributo.@noCertificadoSAT
-      timbreFiscalDigital.selloCFD=atributo.@selloCFD
-      timbreFiscalDigital.selloSAT=atributo.@selloSAT
-      timbreFiscalDigital.version=atributo.@version
+      xsi:"http://www.w3.org/2001/XMLSchema-instance", tfd:"http://www.sat.gob.mx/TimbreFiscalDigital")
+    xml.'cfdi:Complemento'.TimbreFiscalDigital.each { atributo->
+      timbreFiscalDigital.fechaTimbrado = Date.parse("yyyy-MM-dd'T'HH:mm:ss", (atributo.@fechaTimbrado.text() ?: atributo.@FechaTimbrado.text()))
+      timbreFiscalDigital.uuid = atributo.@UUID.text()
+      timbreFiscalDigital.noCertificadoSAT = atributo.@noCertificadoSAT.text() ?: atributo.@NoCertificadoSAT.text()
+      timbreFiscalDigital.selloCFD = atributo.@selloCFD.text() ?: atributo.@SelloCFD.text()
+      timbreFiscalDigital.selloSAT = atributo.@selloSAT.text() ?: atributo.@SelloSAT.text()
+      timbreFiscalDigital.version = atributo.@version.text() ?: atributo.@Version.text()
     }
     timbreFiscalDigital
   }
 
   Addenda obtainAddendaFromInvoice(File invoice){
-    def addenda=new Addenda()
-    def xml = new XmlSlurper().parseText(invoice.getText()).declareNamespace(
+    def addenda = new Addenda()
+    def xml  =  new XmlSlurper().parseText(invoice.getText()).declareNamespace(
       cfdi:"http://www.sat.gob.mx/cfd/3",
       xsi:"http://www.w3.org/2001/XMLSchema-instance")
-    xml.Addenda.EstadoDeCuentaBancario.each{atributo->
-      def estadoDeCuentaBancario=new EstadoDeCuentaBancario()
-      estadoDeCuentaBancario.version=atributo.@version
-      estadoDeCuentaBancario.numeroCuenta=atributo.@numeroCuenta
-      estadoDeCuentaBancario.nombreCliente=atributo.@nombreCliente
-      estadoDeCuentaBancario.periodo=atributo.@periodo
-      estadoDeCuentaBancario.sucursal=atributo.@sucursal
-      addenda.estadoDeCuentaBancario=estadoDeCuentaBancario
+    xml.'cfdi:Addenda'.EstadoDeCuentaBancario.each { atributo->
+      def estadoDeCuentaBancario = new EstadoDeCuentaBancario()
+      estadoDeCuentaBancario.version = atributo.@version.text() ?: atributo.@Version.text()
+      estadoDeCuentaBancario.numeroCuenta = atributo.@numeroCuenta.text() ?: atributo.@NumeroCuenta.text()
+      estadoDeCuentaBancario.nombreCliente = atributo.@nombreCliente.text() ?: atributo.@NombreCliente.text()
+      estadoDeCuentaBancario.periodo = atributo.@periodo.text() ?: atributo.@Periodo.text()
+      estadoDeCuentaBancario.sucursal = atributo.@sucursal.text() ?: atributo.@Sucursal.text()
+      addenda.estadoDeCuentaBancario = estadoDeCuentaBancario
     }
-    xml.Addenda.EstadoDeCuentaBancario.Movimientos.MovimientoECBFiscal.each{atributo->
-      def movimientoECB=new MovimientoECB()
-      movimientoECB.fecha=Date.parse("yyyy-MM-dd'T'HH:mm:ss", atributo.@fecha.toString())
-      movimientoECB.referencia=atributo.@referencia
-      movimientoECB.descripcion=atributo.@descripcion
-      movimientoECB.importe=new BigDecimal(atributo.@importe.toString())
-      movimientoECB.moneda=atributo.@moneda
-      movimientoECB.saldoInicial=new BigDecimal(atributo.@saldoInicial.toString())
-      movimientoECB.saldoAlCorte=new BigDecimal(atributo.@saldoAlCorte.toString())
+    xml.'cfdi:Addenda'.'cfdi:EstadoDeCuentaBancario'.'cfdi:Movimientos'.'cfdi:MovimientoECBFiscal'.each { atributo->
+      def movimientoECB = new MovimientoECB()
+      movimientoECB.fecha = Date.parse("yyyy-MM-dd'T'HH:mm:ss", (atributo.@fecha.text() ?: atributo.@Fecha.text()))
+      movimientoECB.referencia = atributo.@referencia.text() ?: atributo.@Referencia.text()
+      movimientoECB.descripcion = atributo.@descripcion.text() ?: atributo.@Descripcion.text()
+      movimientoECB.importe = new BigDecimal(atributo.@importe.text() ?: atributo.@Importe.text())
+      movimientoECB.moneda = atributo.@moneda.text() ?: atributo.@Moneda.text()
+      movimientoECB.saldoInicial = new BigDecimal((atributo.@saldoInicial.text() ?: atributo.@SaldoInicial.text()))
+      movimientoECB.saldoAlCorte = new BigDecimal((atributo.@saldoAlCorte.text() ?: atributo.@SaldoAlCorte.text()))
       addenda.estadoDeCuentaBancario.movimientoECB.add(movimientoECB)
     }
     addenda
@@ -196,7 +196,7 @@ class AccountManagerImpl implements AccountManager{
       cfdi:"http://www.sat.gob.mx/cfd/3",
       xsi:"http://www.w3.org/2001/XMLSchema-instance",
       bfa3:"http://www.buzonfiscal.com/ns/addenda/bf/3")
-    def listWithAddenda=[]
+    def listWithAddenda = []
     getAttributesFromXML(xml.Addenda,listWithAddenda)
   }
 
@@ -204,13 +204,11 @@ class AccountManagerImpl implements AccountManager{
     def childrens = parentNode.children()
     if(childrens.size()){
       childrens.each{ children ->
-        //println "."*10+children.name()
         getAttributesFromXML(children,listAddenda)
       }
     }
     else{
-      //println "*"*10+parentNode.name()+parentNode.attributes()
-      listAddenda<<[(parentNode.name()):parentNode.attributes()]
+      listAddenda << [(parentNode.name()):parentNode.attributes()]
     }
     listAddenda
   }
