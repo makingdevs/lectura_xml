@@ -117,12 +117,12 @@ class AccountManagerImpl implements AccountManager{
       xsi:"http://www.w3.org/2001/XMLSchema-instance")
     xml.'cfdi:Conceptos'.'cfdi:Concepto'.each { atributo->
       concepto = new Concepto()
-      concepto.cantidad = Float.parseFloat(atributo.@cantidad.text() ?: atributo.@Cantidad.text())
-      concepto.unidad = atributo.@unidad.text() ?: atributo.@Unidad.text()
-      concepto.noIdentificacion = atributo.@noIdentificacion.text() ?: atributo.@NoIdentificacion.text()
-      concepto.descripcion = atributo.@descripcion.text() ?: atributo.@Descripcion.text()
-      concepto.valorUnitario = new BigDecimal(atributo.@valorUnitario.text() ?: atributo.@ValorUnitario.text())
-      concepto.importe = new BigDecimal(atributo.@importe.text() ?: atributo.@Importe.text())
+      concepto.cantidad=Float.parseFloat(atributo.@cantidad.toString() ?: "0")
+      concepto.unidad=atributo.@unidad
+      concepto.noIdentificacion=atributo.@noIdentificacion
+      concepto.descripcion=atributo.@descripcion
+      concepto.valorUnitario=new BigDecimal(atributo.@valorUnitario.toString() ?: "0")
+      concepto.importe=new BigDecimal(atributo.@importe.toString() ?: "0")
       conceptos.add(concepto)
     }
     conceptos
@@ -137,11 +137,11 @@ class AccountManagerImpl implements AccountManager{
     xml.'cfdi:Impuestos'.each { atributo->
       impuesto.totalImpuestosTrasladado = new BigDecimal((atributo.@totalImpuestosTrasladados.text() ?: atributo.@TotalImpuestosTrasladados.text()) ?: 0)
     }
-    xml.'cfdi:Impuestos'.'cfdi:Traslados'.'cfdi:Traslado'.each { atributo->
-      traslado = new Traslado()
-      traslado.impuesto = atributo.@impuesto.text() ?: atributo.@Impuesto.text()
-      traslado.tasa = Float.parseFloat((atributo.@tasa.text() ?: atributo.@TasaOCuota.text()))
-      traslado.importe = new BigDecimal((atributo.@importe.text() ?: atributo.@Importe.text()))
+    xml.Impuestos.Traslados.Traslado.each{atributo->
+      traslado=new Traslado()
+      traslado.impuesto=atributo.@impuesto
+      traslado.tasa=Float.parseFloat(atributo.@tasa.toString() ?: "0")
+      traslado.importe=new BigDecimal(atributo.@importe.toString() ?: "0")
       impuesto.traslado.add(traslado)
     }
     impuesto
