@@ -115,17 +115,32 @@ class AccountManagerImpl implements AccountManager{
     def xml = new XmlSlurper().parseText(invoice.getText()).declareNamespace(
       cfdi:"http://www.sat.gob.mx/cfd/3",
       xsi:"http://www.w3.org/2001/XMLSchema-instance")
-    xml.'cfdi:Conceptos'.'cfdi:Concepto'.each { atributo->
+    xml.Conceptos.Concepto.each{atributo ->
       concepto = new Concepto()
-      concepto.cantidad=Float.parseFloat(atributo.@cantidad.toString() ?: "0")
-      concepto.unidad=atributo.@unidad
-      concepto.noIdentificacion=atributo.@noIdentificacion
-      concepto.descripcion=atributo.@descripcion
-      concepto.valorUnitario=new BigDecimal(atributo.@valorUnitario.toString() ?: "0")
-      concepto.importe=new BigDecimal(atributo.@importe.toString() ?: "0")
+      concepto.cantidad=Float.parseFloat((atributo.@Cantidad.toString() ?: atributo.@cantidad.toString()) ?: "0")
+      concepto.unidad=atributo.@Unidad
+      concepto.noIdentificacion=atributo.@NoIdentificacion
+      concepto.descripcion=atributo.@Descripcion
+      concepto.valorUnitario= convertUnitaryValueIfMayusOrLetter(atributo)
+      concepto.importe=new BigDecimal((atributo.@Importe.toString() ?: atributo.@importe.toString()) ?: "0")
       conceptos.add(concepto)
     }
     conceptos
+  }
+
+  BigDecimal convertUnitaryValueIfMayusOrLetter(def attribute){
+    def number = attribute.@ValorUnitario ?: attribute.@valorUnitario 
+    convertNumber(number)
+  }
+
+  Float convertAmount(def attribute){
+    def number = attribute.@cantidad ?: attribute.@Cantidad
+    Float.parseFloat(number) 
+  }
+
+  BigDecimal convertNumber(def number){
+    number = number.toString().replace(" ", "")
+    number ? new BigDecimal(number) : new BigDecimal("0") 
   }
 
   Impuesto obtainTaxesFromInvoice(File invoice){
@@ -139,9 +154,9 @@ class AccountManagerImpl implements AccountManager{
     }
     xml.Impuestos.Traslados.Traslado.each{atributo->
       traslado=new Traslado()
-      traslado.impuesto=atributo.@impuesto
-      traslado.tasa=Float.parseFloat(atributo.@tasa.toString() ?: "0")
-      traslado.importe=new BigDecimal(atributo.@importe.toString() ?: "0")
+      traslado.impuesto=atributo.@Impuesto
+      traslado.tasa=Float.parseFloat((atributo.@TasaOCuota.toString()?:atributo.@tasaOCuota.toString())?: "0")
+      traslado.importe=new BigDecimal((atributo.@Importe.toString()?:atributo.@importe.toString())?: "0")
       impuesto.traslado.add(traslado)
     }
     impuesto
@@ -151,14 +166,14 @@ class AccountManagerImpl implements AccountManager{
     def timbreFiscalDigital = new TimbreFiscalDigital()
     def xml = new XmlSlurper().parseText(invoice.getText()).declareNamespace(
       cfdi:"http://www.sat.gob.mx/cfd/3",
-      xsi:"http://www.w3.org/2001/XMLSchema-instance", tfd:"http://www.sat.gob.mx/TimbreFiscalDigital")
-    xml.'cfdi:Complemento'.TimbreFiscalDigital.each { atributo->
-      timbreFiscalDigital.fechaTimbrado = Date.parse("yyyy-MM-dd'T'HH:mm:ss", (atributo.@fechaTimbrado.text() ?: atributo.@FechaTimbrado.text()))
-      timbreFiscalDigital.uuid = atributo.@UUID.text()
-      timbreFiscalDigital.noCertificadoSAT = atributo.@noCertificadoSAT.text() ?: atributo.@NoCertificadoSAT.text()
-      timbreFiscalDigital.selloCFD = atributo.@selloCFD.text() ?: atributo.@SelloCFD.text()
-      timbreFiscalDigital.selloSAT = atributo.@selloSAT.text() ?: atributo.@SelloSAT.text()
-      timbreFiscalDigital.version = atributo.@version.text() ?: atributo.@Version.text()
+      xsi:"http://www.w3.org/2001/XMLSchema-instance")
+    xml.Complemento.TimbreFiscalDigital.each{atributo->
+      timbreFiscalDigital.fechaTimbrado=Date.parse("yyyy-MM-dd'T'HH:mm:ss",atributo.@FechaTimbrado.toString())
+      timbreFiscalDigital.uuid=atributo.@UUID
+      timbreFiscalDigital.noCertificadoSAT=atributo.@NoCertificadoSAT
+      timbreFiscalDigital.selloCFD=atributo.@SelloCFD
+      timbreFiscalDigital.selloSAT=atributo.@SelloSAT
+      timbreFiscalDigital.version=atributo.@Version
     }
     timbreFiscalDigital
   }
