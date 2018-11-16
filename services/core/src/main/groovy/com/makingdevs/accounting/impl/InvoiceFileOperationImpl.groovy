@@ -68,12 +68,14 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
   XSSFWorkbook generateExcelWorkbook(){
     XSSFWorkbook workbook = new XSSFWorkbook()
     XSSFSheet sheet=workbook.createSheet("Página_1")
+    XSSFSheet sheet2=workbook.createSheet("Página_2")
     workbook
   }
 
   XSSFWorkbook generateWorkbookWithAllInvoices(List<Comprobante> invoices){
     XSSFWorkbook workbook = generateExcelWorkbook()
     addHeadersToWorkbook(workbook,getHeadersForDetailReport())
+    addHeadersToWorkbook2(workbook,getHeadersForDetailReport2())
 
     invoices.each{ invoice ->
       addInvoiceDetailToWorkbook(invoice,workbook)
@@ -235,6 +237,36 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     addRecordToWorkbook(workbook,fields)
   }
 
+/*void addInvoiceDetailToWorkbook2(Comprobante invoice,XSSFWorkbook workbook){
+    def fields = [invoice.fecha,
+                  invoice.subTotal,
+                  invoice.descuento,
+                  invoice.impuesto.totalImpuestosTrasladado,
+                  invoice.total,
+                  invoice.emisor.nombre,
+                  invoice.emisor.rfc,
+                  invoice.receptor.nombre,
+                  invoice.receptor.rfc,
+                  invoice.noCertificado,
+                  invoice.sello,
+                  invoice.folio,
+                  invoice.formaDePago,
+                  invoice.addenda.toString(),
+                  invoice.lugarExpedicion,
+                  invoice.timbreFiscalDigital.uuid,
+                  invoice.tipoDeComprobante,
+                  invoice.tipoCambio,
+                  invoice.serie,
+                  invoice.moneda,
+                  invoice.numCtaPago,
+                  invoice.conceptos,
+                  invoice.cuenta,
+                  invoice.certificado,
+                  invoice.metodoDePago]
+
+    addRecordToWorkbook(workbook,fields)
+  }*/
+
   private void addHeadersToWorkbook(XSSFWorkbook workbook,headers){
     XSSFSheet sheet = workbook.getSheetAt(0)
 
@@ -250,8 +282,42 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     }
   }
 
+  private void addHeadersToWorkbook2(XSSFWorkbook workbook,headers){
+    XSSFSheet sheet = workbook.getSheetAt(1)
+
+    Row headerRow = sheet.createRow(sheet.getPhysicalNumberOfRows())
+    XSSFCellStyle headerStyle = workbook.createCellStyle()
+    headerStyle.fillForegroundColor = IndexedColors.GREY_25_PERCENT.index
+    headerStyle.fillPattern = CellStyle.SOLID_FOREGROUND
+
+    headers.eachWithIndex{ header,index ->
+      Cell headerCell = headerRow.createCell(index)
+      headerCell.cellStyle = headerStyle
+      headerCell.cellValue = header
+    }
+  }
+
   private def addRecordToWorkbook(workbook,fields){
     XSSFSheet sheet = workbook.getSheetAt(0)
+    Row row = sheet.createRow(sheet.getPhysicalNumberOfRows())
+    Cell cell = row.createCell(row.lastCellNum+1)
+    CreationHelper createHelper = workbook.getCreationHelper()
+    XSSFCellStyle dateStyle = workbook.createCellStyle()
+    dateStyle.dataFormat = createHelper.createDataFormat().getFormat("dd-MM-yyyy HH:mm")
+
+    fields.each{ field ->
+      if(field?.class?.simpleName == BigDecimal.class.simpleName)
+        cell.cellType = XSSFCell.CELL_TYPE_NUMERIC
+      else if(field?.class?.simpleName == Date.class.simpleName)
+        cell.cellStyle = dateStyle
+
+      cell.cellValue = field
+      cell = row.createCell(row.lastCellNum)
+    }
+  }
+
+  private def addRecordToWorkbook2(workbook,fields){
+    XSSFSheet sheet = workbook.getSheetAt(2)
     Row row = sheet.createRow(sheet.getPhysicalNumberOfRows())
     Cell cell = row.createCell(row.lastCellNum+1)
     CreationHelper createHelper = workbook.getCreationHelper()
@@ -307,6 +373,15 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
      "Folio","Forma de Pago","Addenda","LugarExpedicion",
      "TimbreFiscalDigital","TipoDeComprobante","TipoDeCambio",
      "Serie","Moneda","NumCtaPago","Conceptos",
+     "Certificado","MetodoDePago"]
+  }
+
+  private def getHeadersForDetailReport2(){
+    ["Fecha","Subtotal","Descuento","Impuesto","Total",
+     "Emisor","Emisor RFC","Receptor","Receptor RFC","No.Certificado","Sello",
+     "Folio","Forma de Pago","Addenda","LugarExpedicion",
+     "TimbreFiscalDigital","TipoDeComprobante","TipoDeCambio",
+     "Serie","Moneda","NumCtaPago","Conceptos","Cantidad",
      "Certificado","MetodoDePago"]
   }
 
