@@ -75,10 +75,11 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
   XSSFWorkbook generateWorkbookWithAllInvoices(List<Comprobante> invoices){
     XSSFWorkbook workbook = generateExcelWorkbook()
     addHeadersToWorkbook(workbook,getHeadersForDetailReport())
-    addHeadersToWorkbook2(workbook,getHeadersForDetailReport2())
+    addHeadersToSecondPageInWorkbook(workbook,getHeadersForAccountDetailReport())
 
     invoices.each{ invoice ->
       addInvoiceDetailToWorkbook(invoice,workbook)
+      addInvoiceDetailToSecondPageInWorkbook(invoice,workbook)
     }
 
     workbook
@@ -237,8 +238,9 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     addRecordToWorkbook(workbook,fields)
   }
 
-/*void addInvoiceDetailToWorkbook2(Comprobante invoice,XSSFWorkbook workbook){
-    def fields = [invoice.fecha,
+void addInvoiceDetailToSecondPageInWorkbook(Comprobante invoice,XSSFWorkbook workbook){
+    invoice.conceptos.each{
+    addRecordToSecondPageInWorkbook(workbook,[invoice.fecha,
                   invoice.subTotal,
                   invoice.descuento,
                   invoice.impuesto.totalImpuestosTrasladado,
@@ -259,13 +261,12 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
                   invoice.serie,
                   invoice.moneda,
                   invoice.numCtaPago,
-                  invoice.conceptos,
-                  invoice.cuenta,
+                  it.descripcion,
+                  it.cantidad,
                   invoice.certificado,
-                  invoice.metodoDePago]
-
-    addRecordToWorkbook(workbook,fields)
-  }*/
+                  invoice.metodoDePago])
+    }
+  }
 
   private void addHeadersToWorkbook(XSSFWorkbook workbook,headers){
     XSSFSheet sheet = workbook.getSheetAt(0)
@@ -282,7 +283,7 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     }
   }
 
-  private void addHeadersToWorkbook2(XSSFWorkbook workbook,headers){
+  private void addHeadersToSecondPageInWorkbook(XSSFWorkbook workbook,headers){
     XSSFSheet sheet = workbook.getSheetAt(1)
 
     Row headerRow = sheet.createRow(sheet.getPhysicalNumberOfRows())
@@ -316,8 +317,8 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
     }
   }
 
-  private def addRecordToWorkbook2(workbook,fields){
-    XSSFSheet sheet = workbook.getSheetAt(2)
+  private def addRecordToSecondPageInWorkbook(workbook,fields){
+    XSSFSheet sheet = workbook.getSheetAt(1)
     Row row = sheet.createRow(sheet.getPhysicalNumberOfRows())
     Cell cell = row.createCell(row.lastCellNum+1)
     CreationHelper createHelper = workbook.getCreationHelper()
@@ -376,7 +377,7 @@ class InvoiceFileOperationImpl implements InvoiceFileOperation{
      "Certificado","MetodoDePago"]
   }
 
-  private def getHeadersForDetailReport2(){
+  private def getHeadersForAccountDetailReport(){
     ["Fecha","Subtotal","Descuento","Impuesto","Total",
      "Emisor","Emisor RFC","Receptor","Receptor RFC","No.Certificado","Sello",
      "Folio","Forma de Pago","Addenda","LugarExpedicion",
