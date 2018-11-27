@@ -10,6 +10,7 @@ class App {
 
   static InvoiceFileOperation invoiceFileOperation = new InvoiceFileOperationImpl()
 
+  // TODO: Mejorar la UI
   static void main(String[] args){
     def initialPath = System.getProperty("user.dir")
     JFileChooser fc = new JFileChooser(initialPath)
