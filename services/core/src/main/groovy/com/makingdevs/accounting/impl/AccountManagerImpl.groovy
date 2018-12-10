@@ -120,7 +120,7 @@ class AccountManagerImpl implements AccountManager{
       concepto.cantidad=Float.parseFloat((atributo.@Cantidad.toString() ?: atributo.@cantidad.toString()) ?: "0")
       concepto.unidad=atributo.@Unidad
       concepto.noIdentificacion=atributo.@NoIdentificacion
-      concepto.descripcion=atributo.@Descripcion
+      concepto.descripcion=atributo.@Descripcion.text() ?: atributo.@descripcion.text() ?: "Sin datos"
       concepto.valorUnitario= convertUnitaryValueIfMayusOrLetter(atributo)
       concepto.importe=new BigDecimal((atributo.@Importe.toString() ?: atributo.@importe.toString()) ?: "0")
       conceptos.add(concepto)
