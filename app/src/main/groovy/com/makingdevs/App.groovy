@@ -5,6 +5,7 @@ import javax.swing.filechooser.*
 import groovy.swing.SwingBuilder
 import com.makingdevs.accounting.impl.*
 import com.makingdevs.accounting.*
+import javax.swing.JOptionPane;
 
 class App {
 
@@ -26,5 +27,6 @@ class App {
       case JFileChooser.ERROR_OPTION:
       break
     }
+    JOptionPane.showMessageDialog(null, "Su factura ha sido procesada", "Facturas", JOptionPane.INFORMATION_MESSAGE);
   }
 }
