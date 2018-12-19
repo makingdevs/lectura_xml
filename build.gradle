@@ -49,6 +49,14 @@ project(":app"){
   }
   apply plugin: 'application'
   mainClassName = "com.makingdevs.App"
+
+  jar{
+    manifest{
+      attributes(
+        "Main-Class": mainClassName,
+      )
+    }
+  }
 }
 
 project(":appAddenda"){
@@ -81,7 +89,6 @@ project(":webservices"){
   // httpPort = 1234
 
 }
-
 
 project(":web"){
 
