@@ -16,7 +16,7 @@ subprojects{
   }
 
   dependencies{
-  	compile 'org.codehaus.groovy:groovy-all:2.4.4'
+    compile 'org.codehaus.groovy:groovy-all:2.4.4'
     compile 'ch.qos.logback:logback-classic:1.1.6'
   }
 
@@ -49,14 +49,6 @@ project(":app"){
   }
   apply plugin: 'application'
   mainClassName = "com.makingdevs.App"
-
-  jar{
-    manifest{
-      attributes(
-        "Main-Class": mainClassName,
-      )
-    }
-  }
 }
 
 project(":appAddenda"){

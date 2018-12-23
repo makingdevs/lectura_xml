@@ -12,21 +12,26 @@ class App {
   static InvoiceFileOperation invoiceFileOperation = new InvoiceFileOperationImpl()
 
   static void main(String[] args){
-    def initialPath = System.getProperty("user.dir")
-    JFileChooser fc = new JFileChooser(initialPath)
-    fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY)
-    int result = fc.showOpenDialog( null )
-    switch ( result ) {
-      case JFileChooser.APPROVE_OPTION:
-        File file = fc.selectedFile
-        def path =  fc.currentDirectory.absolutePath
-        File excelFile = invoiceFileOperation.createInvoicesFile(file.canonicalPath)
-        excelFile.renameTo(new File(file.canonicalPath, excelFile.name))
-      break
-      case JFileChooser.CANCEL_OPTION:
-      case JFileChooser.ERROR_OPTION:
-      break
+    try {
+      def initialPath = System.getProperty("user.dir")
+      JFileChooser fc = new JFileChooser(initialPath)
+      fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY)
+      int result = fc.showOpenDialog( null )
+      switch ( result ) {
+        case JFileChooser.APPROVE_OPTION:
+          File file = fc.selectedFile
+          def path =  fc.currentDirectory.absolutePath
+          File excelFile = invoiceFileOperation.createInvoicesFile(file.canonicalPath)
+          excelFile.renameTo(new File(file.canonicalPath, excelFile.name))
+        break
+        case JFileChooser.CANCEL_OPTION:
+        case JFileChooser.ERROR_OPTION:
+        break
+      }
+      JOptionPane.showMessageDialog(null, "Su factura ha sido procesada", "Facturas", JOptionPane.INFORMATION_MESSAGE);
     }
-    JOptionPane.showMessageDialog(null, "Su factura ha sido procesada", "Facturas", JOptionPane.INFORMATION_MESSAGE);
+    catch(Exception ex){
+      JOptionPane.showMessageDialog(null, "Su factura no ha sido procesada ${ex}", "Facturas", JOptionPane.INFORMATION_MESSAGE);
+    }
   }
 }
