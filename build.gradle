@@ -2,10 +2,6 @@ buildscript {
   repositories {
     jcenter()
   }
-
-  dependencies {
-    classpath 'org.akhikhl.gretty:gretty:+'
-  }
 }
 
 subprojects{
@@ -78,7 +74,6 @@ project(":webservices"){
     testCompile 'org.eclipse.jetty.aggregate:jetty-all-server:8.1.19.v20160209'
 
   }
-  // httpPort = 1234
 
 }
 
