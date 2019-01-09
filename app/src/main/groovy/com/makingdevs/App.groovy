@@ -31,7 +31,7 @@ class App {
       JOptionPane.showMessageDialog(null, "Su factura ha sido procesada", "Facturas", JOptionPane.INFORMATION_MESSAGE);
     }
     catch(Exception ex){
-      JOptionPane.showMessageDialog(null, "Su factura no ha sido procesada ${ex}", "Facturas", JOptionPane.INFORMATION_MESSAGE);
+      JOptionPane.showMessageDialog(null, "Su factura no ha sido procesada. Ocurrio la siguiente excepción: \n ${ex}", "Facturas", JOptionPane.INFORMATION_MESSAGE);
     }
   }
 }
